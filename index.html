@@ -1,3 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Smart Media Token Creation Wizard</title>
+    <script type="application/javascript" src="util.js"></script>
+    <link rel="stylesheet" type="text/css" href="base.css" media="screen" />
+</head>
+<body>
+
 <form>
 
 <!-- Token creation -->
@@ -120,8 +130,8 @@
 </fieldset>
 
 <!-- Token emissions -->
-<fieldset>
-   <legend>Token emissions</legend>
+<fieldset id="token-emission-template">
+   <legend id="token-emission-legend">Token emissions</legend>
 
    <label for="schedule-time">Schedule time</label>
    <input id="schedule-time" name="schedule_time" type="datetime-local">
@@ -153,7 +163,7 @@
    <label for="rel-amount-denom-bits">Relative denominator bits</label>
    <input id="rel-amount-denom-bits" name="rel_amount_denom_bits" type="number" min="0" max="255">
 
-   <div class="checkbox-container">
+   <div id="token-emission-checkbox" class="checkbox-container">
       <input id="floor-emissions" name="floor_emissions" type="checkbox">
       <label for="floor-emissions">Floor emissions</label>
    </div>
@@ -161,6 +171,9 @@
    <label for="emissions-unit">Emissions unit</label>
    <textarea id="emissions-unit" name="emissions_unit" rows="10" cols="20">Enter your text here...</textarea>
 </fieldset>
+
+<div id="token-emissions"></div>
+<button type="button" name="Submit" onclick="add_token_emission();">Add token emission</button>
 
 <!-- Finalize setup -->
 <fieldset>
@@ -208,3 +221,6 @@
 </fieldset>
 
 </form>
+
+</body>
+</html>
