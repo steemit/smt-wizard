@@ -17,30 +17,65 @@
    <label for="control-account">Control account</label>
    <input id="control-account" type="text" name="control_account" placeholder="@your_username">
 
-   <label for="asset-symbol">Asset symbol</label>
-   <input id="asset-symbol" type="text" name="symbol" placeholder="@@12345678">
-
-   <label for="creation-fee">Fee</label>
-   <input id="creation-fee" type="text" name="smt_creation_fee" placeholder="0.000 STEEM">
-
    <label for="precision">Precision</label>
    <input id="precision" type="number" name="precision" min="0" max="255" value="3">
 
+   <label for="max-supply">Max supply</label>
+   <input id="max-supply" name="max_supply" type="number" min="0" max="9223372036854775807">
+
+   <label for="contribution-begin-time">Contribution begin time</label>
+   <input id="contribution-begin-time" name="contribution_begin_time" type="datetime-local">
+
+   <label for="contribution-end-time">Contribution end time</label>
+   <input id="contribution-end-time" name="contribution_end_time" type="datetime-local">
+
+   <label for="launch-time">Launch time</label>
+   <input id="launch-time" name="launch_time" type="datetime-local">
+
+   <label for="steem-units-min">Steem units minimum</label>
+   <input id="steem-units-min" name="steem_units_min" type="number" min="0" max="9223372036854775807">
+
+   <label for="steem-units-soft-cap">Steem units soft cap</label>
+   <input id="steem-units-soft-cap" name="steem_units_soft_cap" type="number" min="0" max="9223372036854775807">
+
+   <label for="steem-units-hard-cap">Steem units hard cap</label>
+   <input id="steem-units-hard-cap" name="steem_units_hard_cap" type="number" min="0" max="9223372036854775807">
+
+   <!-- Initial generation policy -->
+   <label for="pre-soft-cap-steem-unit">Pre soft cap Steem unit</label>
+   <textarea id="pre-soft-cap-steem-unit" name="pre_soft_cap_steem_unit" rows="10" cols="20">Enter your text here...</textarea>
+
+   <label for="post-soft-cap-token-unit">Pre soft cap token unit</label>
+   <textarea id="post-soft-cap-token-unit" name="post_soft_cap_token_unit" rows="10" cols="20">Enter your text here...</textarea>
+
+   <label for="post-soft-cap-steem-unit">Post soft cap Steem unit</label>
+   <textarea id="post-soft-cap-steem-unit" name="post_soft_cap_steem_unit" rows="10" cols="20">Enter your text here...</textarea>
+
+   <label for="post-soft-cap-token-unit">Post soft cap token unit</label>
+   <textarea id="post-soft-cap-token-unit" name="post_soft_cap_token_unit" rows="10" cols="20">Enter your text here...</textarea>
+
+   <label for="min-unit-ratio">Minimum unit ratio</label>
+   <input id="min-unit-ratio" name="min_unit_ratio" type="number" min="0" max="4294967295">
+
+   <label for="max-unit-ratio">Maximum unit ratio</label>
+   <input id="max-unit-ratio" name="max_unit_ratio" type="number" min="0" max="4294967295">
 </fieldset>
 
-<!-- Token setup parameters -->
+<!-- Token setup and runtime parameters -->
 <fieldset>
-   <legend>Setup parameters</legend>
+   <legend>Setup & runtime parameters</legend>
 
+   <!-- Allow votes -->
    <div class="checkbox-container">
       <input id="allow-voting" type="checkbox" name="allow_voting" value="Yes">
       <label for="allow-voting">Allow voting</label>
    </div>
-</fieldset>
 
-<!-- Token runtime parameters -->
-<fieldset>
-   <legend>Runtime parameters</legend>
+   <!-- Allow downvotes -->
+   <div class="checkbox-container">
+      <input id="allow-downvoting" type="checkbox" name="allow_downvoting" value="Yes">
+      <label for="allow-downvoting">Allow down votes</label>
+   </div>
 
    <!-- Windows -->
    <label for="cashout-window-seconds">Cashout window seconds</label>
@@ -127,6 +162,7 @@
       <label for="curation-reward-curve-convergent-square-root">Convergent square root</label>
       </div>
    </div>
+
 </fieldset>
 
 <!-- Token emissions -->
@@ -174,51 +210,6 @@
 
 <div id="token-emissions"></div>
 <button type="button" name="Submit" onclick="add_token_emission();">Add token emission</button>
-
-<!-- Finalize setup -->
-<fieldset>
-   <legend>Finalize token</legend>
-
-   <label for="max-supply">Max supply</label>
-   <input id="max-supply" name="max_supply" type="number" min="0" max="9223372036854775807">
-
-   <label for="contribution-begin-time">Contribution begin time</label>
-   <input id="contribution-begin-time" name="contribution_begin_time" type="datetime-local">
-
-   <label for="contribution-end-time">Contribution end time</label>
-   <input id="contribution-end-time" name="contribution_end_time" type="datetime-local">
-
-   <label for="launch-time">Launch time</label>
-   <input id="launch-time" name="launch_time" type="datetime-local">
-
-   <label for="steem-units-min">Steem units minimum</label>
-   <input id="steem-units-min" name="steem_units_min" type="number" min="0" max="9223372036854775807">
-
-   <label for="steem-units-soft-cap">Steem units soft cap</label>
-   <input id="steem-units-soft-cap" name="steem_units_soft_cap" type="number" min="0" max="9223372036854775807">
-
-   <label for="steem-units-hard-cap">Steem units hard cap</label>
-   <input id="steem-units-hard-cap" name="steem_units_hard_cap" type="number" min="0" max="9223372036854775807">
-
-   <!-- Initial generation policy -->
-   <label for="pre-soft-cap-steem-unit">Pre soft cap Steem unit</label>
-   <textarea id="pre-soft-cap-steem-unit" name="pre_soft_cap_steem_unit" rows="10" cols="20">Enter your text here...</textarea>
-
-   <label for="post-soft-cap-token-unit">Pre soft cap token unit</label>
-   <textarea id="post-soft-cap-token-unit" name="post_soft_cap_token_unit" rows="10" cols="20">Enter your text here...</textarea>
-
-   <label for="post-soft-cap-steem-unit">Post soft cap Steem unit</label>
-   <textarea id="post-soft-cap-steem-unit" name="post_soft_cap_steem_unit" rows="10" cols="20">Enter your text here...</textarea>
-
-   <label for="post-soft-cap-token-unit">Post soft cap token unit</label>
-   <textarea id="post-soft-cap-token-unit" name="post_soft_cap_token_unit" rows="10" cols="20">Enter your text here...</textarea>
-
-   <label for="min-unit-ratio">Minimum unit ratio</label>
-   <input id="min-unit-ratio" name="min_unit_ratio" type="number" min="0" max="4294967295">
-
-   <label for="max-unit-ratio">Maximum unit ratio</label>
-   <input id="max-unit-ratio" name="max_unit_ratio" type="number" min="0" max="4294967295">
-</fieldset>
 
 </form>
 
