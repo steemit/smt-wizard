@@ -16,7 +16,7 @@ var _token_emission_ctr = 0;
 function add_token_emission() {
     _token_emission_ctr++;
     var template_node = document.getElementById( "token-emission-template" ).cloneNode( true );
-    template_node.id += ( "-" + _token_emission_ctr );
+    template_node.id = "token-emission-" + _token_emission_ctr;
     template_node.querySelector( "#token-emission-legend" ).innerHTML += " " + _token_emission_ctr;
     append_form_elements( template_node.querySelectorAll('*'), _token_emission_ctr );
     document.getElementById( "token-emissions" ).appendChild( template_node );
