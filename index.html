@@ -166,7 +166,7 @@
 
 </fieldset>
 
-<!-- Token emissions -->
+<!-- Token emissions template -->
 <fieldset id="token-emission-template">
    <legend id="token-emission-legend">Token emission</legend>
 
@@ -207,10 +207,12 @@
 
    <label for="emissions-unit">Emissions unit</label>
    <textarea id="emissions-unit" name="emissions_unit" rows="10" cols="20">Enter your text here...</textarea>
+
 </fieldset>
 
 <div id="token-emissions"></div>
-<button type="button" name="Submit" onclick="add_token_emission();">Add token emission</button>
+<button type="button" name="addTokenEmissionButton" onclick="addTokenEmission();">Add token emission</button>
+<button type="button" name="removeTokenEmissionButton" onclick="removeTokenEmission();">Remove token emission</button>
 
 </form>
 

@@ -17,7 +17,7 @@ function initializeSteemJS() {
     });
 }
 
-function append_form_elements( elements, append ) {
+function appendFormElements( elements, append ) {
    for ( i = 0; i < elements.length; i++ ) {
       var e = elements[i];
       if ( e.tagName == "LABEL" ) {
@@ -32,12 +32,20 @@ function append_form_elements( elements, append ) {
 }
 
 var _token_emission_ctr = 0;
-function add_token_emission() {
+function addTokenEmission() {
     _token_emission_ctr++;
-    var template_node = document.getElementById( "token-emission-template" ).cloneNode( true );
-    template_node.id = "token-emission-" + _token_emission_ctr;
-    template_node.querySelector( "#token-emission-legend" ).innerHTML += " " + _token_emission_ctr;
-    append_form_elements( template_node.querySelectorAll('*'), _token_emission_ctr );
-    document.getElementById( "token-emissions" ).appendChild( template_node );
+    var templateNode = document.getElementById( "token-emission-template" ).cloneNode( true );
+    templateNode.id = "token-emission-" + _token_emission_ctr;
+    templateNode.querySelector( "#token-emission-legend" ).innerHTML += " " + _token_emission_ctr;
+    appendFormElements( templateNode.querySelectorAll('*'), _token_emission_ctr );
+    document.getElementById( "token-emissions" ).appendChild( templateNode );
+}
+
+function removeTokenEmission() {
+    if ( _token_emission_ctr == 0 ) return;
+
+    var element = document.getElementById( "token-emission-" + _token_emission_ctr );
+    element.parentNode.removeChild( element );
+    _token_emission_ctr--;
 }
 
