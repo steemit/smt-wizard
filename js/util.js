@@ -1,3 +1,22 @@
+function initializeSteemJS() {
+   steem.api.setOptions({
+      url: 'https://testnet.steemitdev.com',
+      retry: false,
+      address_prefix: 'TST',
+      chain_id: '46d82ab7d8db682eb1959aed0ada039a6d49afa1602491f93dde9cac3e8e6c32',
+      useAppbaseApi: true,
+    });
+    // example to show connectivity in the console:
+    steem.api.getDynamicGlobalProperties(function(err, result) {
+      if(!err) {
+        console.log(result);
+      }
+      else {
+        console.log(err);
+      }
+    });
+}
+
 function append_form_elements( elements, append ) {
    for ( i = 0; i < elements.length; i++ ) {
       var e = elements[i];
