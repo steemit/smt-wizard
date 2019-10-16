@@ -90,7 +90,7 @@ function createToken() {
     };
 
     // Gather one or more emissions for 'smt_setup_emissions_operation'
-    var tokenEmissions = new Array();
+    var tokenEmissions = [];
     for ( i = 1; i <= _token_emission_ctr; i++ ) {
         var tokenEmission = {
             scheduleTime    : document.getElementById( "schedule-time-" + i ).value,
