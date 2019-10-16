@@ -1,9 +1,15 @@
 #token-emission-template { display: none;}
 
 textarea[required]:invalid, input[required]:invalid {
-  border: 1px solid red;
+  border: 2px inset rgba(255, 0, 0, 0.3);
   background: rgba(255, 0, 0, 0.1);
 }
+
+textarea[disabled], input[disabled] {
+  border: 2px inset rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.1);
+}
+
 /*
 input:valid {
   border: 2px solid black;

@@ -68,13 +68,13 @@
 
    <!-- Allow votes -->
    <div class="checkbox-container">
-      <input id="allow-voting" type="checkbox" name="allow_voting" value="Yes">
+      <input id="allow-voting" type="checkbox" name="allow_voting" onclick="onAllowVotingClicked(this);" checked>
       <label for="allow-voting">Allow voting</label>
    </div>
 
    <!-- Allow downvotes -->
    <div class="checkbox-container">
-      <input id="allow-downvoting" type="checkbox" name="allow_downvoting" value="Yes">
+      <input id="allow-downvoting" type="checkbox" name="allow_downvoting">
       <label for="allow-downvoting">Allow down votes</label>
    </div>
 

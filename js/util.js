@@ -42,6 +42,13 @@ function getRadiosValue( elementName ) {
     return null;
 }
 
+function toggleRadios( elementName, disable ) {
+    var radios = document.getElementsByName( elementName );
+    for ( i = 0, length = radios.length; i < length; i++ ) {
+        radios[i].disabled = disable;
+    }
+}
+
 var _token_emission_ctr = 0;
 function addTokenEmission() {
     _token_emission_ctr++;
@@ -58,6 +65,18 @@ function removeTokenEmission() {
     var element = document.getElementById( "token-emission-" + _token_emission_ctr );
     element.parentNode.removeChild( element );
     _token_emission_ctr--;
+}
+
+function onAllowVotingClicked( e ) {
+    document.getElementById( "allow-downvoting" ).disabled = !e.checked;
+    document.getElementById( "cashout-window-seconds" ).disabled = !e.checked;
+    document.getElementById( "reverse-auction-window-seconds" ).disabled = !e.checked;
+    document.getElementById( "vote-regeneration-period-seconds" ).disabled = !e.checked;
+    document.getElementById( "votes-per-regeneration-period" ).disabled = !e.checked;
+    document.getElementById( "content-constant" ).disabled = !e.checked;
+    document.getElementById( "percent-curation-rewards" ).disabled = !e.checked;
+    toggleRadios( "author_reward_curve", !e.checked );
+    toggleRadios( "curation_reward_curve", !e.checked );
 }
 
 function createToken() {
