@@ -31,6 +31,17 @@ function appendFormElements( elements, append ) {
    }
 }
 
+function getRadiosValue( elementName ) {
+    var radios = document.getElementsByName( elementName );
+
+    for ( i = 0, length = radios.length; i < length; i++ ) {
+        if ( radios[i].checked ) {
+            return radios[i].value;
+        }
+    }
+    return null;
+}
+
 var _token_emission_ctr = 0;
 function addTokenEmission() {
     _token_emission_ctr++;
@@ -49,3 +60,76 @@ function removeTokenEmission() {
     _token_emission_ctr--;
 }
 
+function createToken() {
+    // Common values for all operations
+    var controlAccount = document.getElementById( "control-account" ).value;
+    var symbol = "@@1234567";
+
+    // Gather fields for 'smt_create_operation'
+    var createOp = {
+        precision      : document.getElementById( "precision" ).value,
+        smtCreationFee : "",
+    };
+
+    // Gather fields for 'smt_set_setup_parameters_operation'
+    var setSetupParameters = {
+        allowVoting    : document.getElementById( "allow-voting" ).checked
+    };
+
+    // Gather fields for 'smt_set_runtime_parameters_operation'
+    var setRuntimeParameters = {
+        allowDownvoting               : document.getElementById( "allow-downvoting" ).checked,
+        cashoutWindowSeconds          : document.getElementById( "cashout-window-seconds" ).value,
+        reverseAuctionWindowSeconds   : document.getElementById( "reverse-auction-window-seconds" ).value,
+        voteRegenerationPeriodSeconds : document.getElementById( "vote-regeneration-period-seconds" ).value,
+        votesPerRegenerationPeriod    : document.getElementById( "votes-per-regeneration-period" ).value,
+        contentConstant               : document.getElementById( "content-constant" ).value,
+        percentCurationRewards        : document.getElementById( "percent-curation-rewards" ).value,
+        authorRewardCurve             : getRadiosValue( "author_reward_curve" ),
+        curationRewardCurve           : getRadiosValue( "curation_reward_curve" )
+    };
+
+    // Gather one or more emissions for 'smt_setup_emissions_operation'
+    var tokenEmissions = new Array();
+    for ( i = 1; i <= _token_emission_ctr; i++ ) {
+        var tokenEmission = {
+            scheduleTime    : document.getElementById( "schedule-time-" + i ).value,
+            lepTime         : document.getElementById( "lep-time-" + i ).value,
+            repTime         : document.getElementById( "rep-time-" + i ).value,
+            intervalSeconds : document.getElementById( "interval-seconds-" + i ).value,
+            intervalCount   : document.getElementById( "interval-count-" + i ).value,
+            lepAbsAmount    : document.getElementById( "lep-abs-amount-" + i ).value,
+            repAbsAmount    : document.getElementById( "rep-abs-amount-" + i ).value,
+            lepRelNumerator : document.getElementById( "lep-rel-numerator-" + i ).value,
+            repRelNumerator : document.getElementById( "rep-rel-numerator-" + i ).value,
+            relAmtDenomBits : document.getElementById( "rel-amount-denom-bits-" + i ).value,
+            floorEmissions  : document.getElementById( "floor-emissions-" + i ).checked,
+            emissionsUnit   : document.getElementById( "emissions-unit-" + i ).value
+        };
+        tokenEmissions.push( tokenEmission );
+    }
+
+    var setupOp = {
+        maxSupply             : document.getElementById( "max-supply" ).value,
+        contributionBeginTime : document.getElementById( "contribution-begin-time" ).value,
+        contributionEndTime   : document.getElementById( "contribution-end-time" ).value,
+        launchTime            : document.getElementById( "launch-time" ).value,
+        steemUnitsMin         : document.getElementById( "steem-units-min" ).value,
+        steemUnitsSoftCap     : document.getElementById( "steem-units-soft-cap" ).value,
+        steemUnitsHardCap     : document.getElementById( "steem-units-hard-cap" ).value,
+        initialGenerationPolicy : {
+            preSoftCapSteemUnit  : document.getElementById( "pre-soft-cap-steem-unit" ).value,
+            preSoftCapTokenUnit  : document.getElementById( "pre-soft-cap-token-unit" ).value,
+            postSoftCapSteemUnit : document.getElementById( "post-soft-cap-steem-unit" ).value,
+            postSoftCapTokenUnit : document.getElementById( "post-soft-cap-token-unit" ).value,
+            minUnitRatio         : document.getElementById( "min-unit-ratio" ).value,
+            maxUnitRatio         : document.getElementById( "max-unit-ratio" ).value
+        }
+    };
+
+    console.log( createOp );
+    console.log( setSetupParameters );
+    console.log( setRuntimeParameters );
+    console.log( tokenEmissions );
+    console.log( setupOp );
+}
