@@ -1,5 +1,6 @@
 // Global variables
 var _numTokenEmissions = 0;
+var _emissionsUnitWidgets = [];
 
 function initializeSteemJS() {
    steem.api.setOptions({
@@ -27,12 +28,14 @@ function addTokenEmission() {
     templateNode.querySelector("legend").innerHTML += " " + _numTokenEmissions;
     appendFormElements( templateNode.querySelectorAll('*'), _numTokenEmissions );
     document.getElementById( "token_emissions" ).appendChild( templateNode );
+    createEmissionsUnitWidget( document.getElementById( "emissions_unit_" + _numTokenEmissions ) );
 }
 
 function removeTokenEmission() {
     if ( _numTokenEmissions == 0 ) return;
 
     var element = document.getElementById( "token_emission_" + _numTokenEmissions );
+    delete _emissionsUnitWidgets[ "emissions_unit_" + _numTokenEmissions ];
     element.parentNode.removeChild( element );
     _numTokenEmissions--;
 }
@@ -40,11 +43,13 @@ function removeTokenEmission() {
 function appendFormElements( elements, append ) {
    for ( i = 0; i < elements.length; i++ ) {
       var e = elements[i];
+
       if ( e.tagName == "LABEL" ) {
          e.htmlFor += "_" + append;
       } else if ( e.tagName == "INPUT" || e.tagName == "TEXTAREA" ) {
          e.name += "_" + append;
          e.id += "_" + append;
+      } else if ( e.id == "" ) {
       } else {
          e.id += "_" + append;
       }
@@ -81,6 +86,17 @@ function getField(fieldName) {
     var els = document.getElementsByName(fieldName);
     if(els.length > 1) throw "unexpected multiple fields for " + fieldName;
     return els[0]
+}
+
+function getFlatMapValue( elementName ) {
+    var widgetData = _emissionsUnitWidgets[ elementName ].getAllValue(true);
+    console.log(widgetData);
+    var flatMap = [];
+    for ( i = 0; i < widgetData._RowCount; i++ ) {
+        flatMap.push([ widgetData[ 'destination_'+ i ], widgetData[ 'units_' + i ] ]);
+    }
+    console.log(flatMap);
+    return flatMap;
 }
 
 function getValue(elementName) {
@@ -121,6 +137,11 @@ function getValue(elementName) {
     throw "unhandled nodeName " + el.nodeName + " for " + elementName;
 }
 
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 async function asyncGetNaiFromPool() {
     return new Promise( function( resolve, reject ) {
@@ -129,7 +150,7 @@ async function asyncGetNaiFromPool() {
         var payload = '{"jsonrpc":"2.0","method":"database_api.get_nai_pool","params":{},"id":1}';
         http.open('POST', url, true);
 
-        http.setRequestHeader( 'Content-type', 'application/json' );
+        http.setRequestHeader( 'Content-Type', 'application/json' );
 
         http.onreadystatechange = function() {
             if ( http.readyState != 4 ) return;
@@ -137,7 +158,10 @@ async function asyncGetNaiFromPool() {
             if ( http.status == 200 ) {
                 var json = JSON.parse( http.responseText );
                 if ( json.result.nai_pool.length > 0 ) {
-                    resolve( json.result.nai_pool[0] );
+                    // We choose a random NAI to decrease the likelihood of two or 
+                    // more people clashing while trying to claim a NAI
+                    var index = getRandomInt( 0, json.result.nai_pool.length - 1 );
+                    resolve( json.result.nai_pool[ index ] );
                 }
                 else {
                     reject( "No available NAIs!" );
@@ -157,6 +181,7 @@ async function createToken() {
     // Common values for all operations
     var controlAccount = getValue( "control_account" );
     var symbol = await asyncGetNaiFromPool();
+    //var symbol = { nai: "@@1234567", decimals: 0 };
     symbol.decimals = getValue( "precision" );
 
     var transaction = {};
@@ -215,7 +240,7 @@ async function createToken() {
                 'rep_rel_numerator'     : getValue( "rep_rel_numerator_" + i ),
                 'rel_amount_denom_bits' : getValue( "rel_amount_denom_bits_" + i ),
                 'floor_emissions'       : getValue( "floor_emissions_" + i ),
-                'emissions_unit'        : getValue( "emissions_unit_" + i )
+                'emissions_unit'        : getFlatMapValue( "emissions_unit_" + i )
             }
         ]);
     }
@@ -232,10 +257,10 @@ async function createToken() {
             'steem_units_soft_cap'    : getValue( "steem_units_soft_cap" ),
             'steem_units_hard_cap'    : getValue( "steem_units_hard_cap" ),
             'initial_generation_policy' : {
-                'pre_soft_cap_steem_unit'  : getValue( "pre_soft_cap_steem_unit" ),
-                'pre_soft_cap_token_unit'  : getValue( "pre_soft_cap_token_unit" ),
-                'post_soft_cap_steem_unit' : getValue( "post_soft_cap_steem_unit" ),
-                'post_soft_cap_token_unit' : getValue( "post_soft_cap_token_unit" ),
+                'pre_soft_cap_steem_unit'  : getFlatMapValue( "pre_soft_cap_steem_unit" ),
+                'pre_soft_cap_token_unit'  : getFlatMapValue( "pre_soft_cap_token_unit" ),
+                'post_soft_cap_steem_unit' : getFlatMapValue( "post_soft_cap_steem_unit" ),
+                'post_soft_cap_token_unit' : getFlatMapValue( "post_soft_cap_token_unit" ),
                 'min_unit_ratio'           : getValue( "min_unit_ratio" ),
                 'max_unit_ratio'           : getValue( "max_unit_ratio" )
             }
@@ -245,37 +270,42 @@ async function createToken() {
     console.log( transaction );
 }
 
+function createEmissionsUnitWidget( element )
+{
+    _emissionsUnitWidgets[ element.id ] = new AppendGrid({
+        element: element,
+        uiFramework: 'bootstrap4',
+        iconFramework: 'fontawesome5',
+        columns: [{
+            name: 'destination',
+            display: 'Destination',
+            type: 'text'
+        }, {
+            name: 'units',
+            display: 'Units',
+            type: 'number'
+        }],
+        hideButtons: {
+            moveUp: true,
+            moveDown: true,
+            insert: true,
+            remove: true
+        },
+        sectionClasses: {
+            // Add `table-sm` class from Bootstrap that reduce cell padding
+            table: 'table-sm',
+            // Add `btn-group-sm` class from Bootstrap that generate a smaller button groups
+            buttonGroup: 'btn-group-sm',
+            // Add `form-control-sm` class from Bootstrap that reduce the size of input controls
+            control: 'form-control-sm'
+        },
+        hideRowNumColumn: true,
+        initRows: 1
+    });
+    return _emissionsUnitWidgets[ element.id ];
+}
 $(document).ready( function () {
     $( ".flat-map" ).each( function( index, element ) {
-        var myAppendGrid = new AppendGrid({
-            element: element,
-            uiFramework: "bootstrap4",
-            iconFramework: "fontawesome5",
-            columns: [{
-                name: "col-1",
-                display: "Destination",
-                type: "text"
-            }, {
-                name: "col-2",
-                display: "Units",
-                type: "number"
-            }],
-            hideButtons: {
-                moveUp: true,
-                moveDown: true,
-                insert: true,
-                remove: true
-            },
-            sectionClasses: {
-                // Add `table-sm` class from Bootstrap that reduce cell padding
-                table: "table-sm",
-                // Add `btn-group-sm` class from Bootstrap that generate a smaller button groups
-                buttonGroup: "btn-group-sm",
-                // Add `form-control-sm` class from Bootstrap that reduce the size of input controls
-                control: "form-control-sm"
-            },
-            hideRowNumColumn: true,
-            initRows: 1
-        });
+        createEmissionsUnitWidget( element );
     });
 } );
