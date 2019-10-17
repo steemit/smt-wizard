@@ -20,66 +20,107 @@ function initializeSteemJS() {
     });
 }
 
-function appendFormElements( elements, append ) {
-   for ( i = 0; i < elements.length; i++ ) {
-      var e = elements[i];
-      if ( e.tagName == "LABEL" ) {
-         e.htmlFor += "-" + append;
-      } else if ( e.tagName == "INPUT" || e.tagName == "TEXTAREA" ) {
-         e.name += "_" + append;
-         e.id += "-" + append;
-      } else {
-         e.id += "-" + append;
-      }
-   }
-}
-
-function getRadiosValue( elementName ) {
-    var radios = document.getElementsByName( elementName );
-
-    for ( i = 0, length = radios.length; i < length; i++ ) {
-        if ( radios[i].checked ) {
-            return radios[i].value;
-        }
-    }
-    return null;
-}
-
-function toggleRadios( elementName, disable ) {
-    var radios = document.getElementsByName( elementName );
-    for ( i = 0, length = radios.length; i < length; i++ ) {
-        radios[i].disabled = disable;
-    }
-}
-
 function addTokenEmission() {
     _numTokenEmissions++;
-    var templateNode = document.getElementById( "token-emission-template" ).cloneNode( true );
-    templateNode.id = "token-emission-" + _numTokenEmissions;
-    templateNode.querySelector( "#token-emission-legend" ).innerHTML += " " + _numTokenEmissions;
+    var templateNode = document.getElementById( "token_emission_template" ).cloneNode( true );
+    templateNode.id = "token_emission_" + _numTokenEmissions;
+    templateNode.querySelector("legend").innerHTML += " " + _numTokenEmissions;
     appendFormElements( templateNode.querySelectorAll('*'), _numTokenEmissions );
-    document.getElementById( "token-emissions" ).appendChild( templateNode );
+    document.getElementById( "token_emissions" ).appendChild( templateNode );
 }
 
 function removeTokenEmission() {
     if ( _numTokenEmissions == 0 ) return;
 
-    var element = document.getElementById( "token-emission-" + _numTokenEmissions );
+    var element = document.getElementById( "token_emission_" + _numTokenEmissions );
     element.parentNode.removeChild( element );
     _numTokenEmissions--;
 }
 
-function onAllowVotingClicked( e ) {
-    document.getElementById( "allow-downvoting" ).disabled = !e.checked;
-    document.getElementById( "cashout-window-seconds" ).disabled = !e.checked;
-    document.getElementById( "reverse-auction-window-seconds" ).disabled = !e.checked;
-    document.getElementById( "vote-regeneration-period-seconds" ).disabled = !e.checked;
-    document.getElementById( "votes-per-regeneration-period" ).disabled = !e.checked;
-    document.getElementById( "content-constant" ).disabled = !e.checked;
-    document.getElementById( "percent-curation-rewards" ).disabled = !e.checked;
-    toggleRadios( "author_reward_curve", !e.checked );
-    toggleRadios( "curation_reward_curve", !e.checked );
+function appendFormElements( elements, append ) {
+   for ( i = 0; i < elements.length; i++ ) {
+      var e = elements[i];
+      if ( e.tagName == "LABEL" ) {
+         e.htmlFor += "_" + append;
+      } else if ( e.tagName == "INPUT" || e.tagName == "TEXTAREA" ) {
+         e.name += "_" + append;
+         e.id += "_" + append;
+      } else {
+         e.id += "_" + append;
+      }
+   }
 }
+
+function onAllowVotingClicked( e ) {
+    var disabled = !e.checked;
+
+    var voting_options = document.getElementById('voting_options').style;
+    voting_options.display = disabled ? 'none' : 'block';
+    /*
+    getField( "allow_downvoting" ).disabled = disabled;
+    getField( "cashout_window_seconds" ).disabled = disabled;
+    getField( "reverse_auction_window_seconds" ).disabled = disabled;
+    getField( "vote_regeneration_period_seconds" ).disabled = disabled;
+    getField( "votes_per_regeneration_period" ).disabled = disabled;
+    getField( "content_constant" ).disabled = disabled;
+    getField( "percent_curation_rewards" ).disabled = disabled;
+
+    function toggleRadios( elementName, disable ) {
+        var radios = document.getElementsByName( elementName );
+        for ( i = 0, length = radios.length; i < length; i++ ) {
+            radios[i].disabled = disable;
+        }
+    }
+
+    toggleRadios( "author_reward_curve", disabled );
+    toggleRadios( "curation_reward_curve", disabled );
+    */
+}
+
+function getField(fieldName) {
+    var els = document.getElementsByName(fieldName);
+    if(els.length > 1) throw "unexpected multiple fields for " + fieldName;
+    return els[0]
+}
+
+function getValue(elementName) {
+    var els = document.getElementsByName(elementName);
+    if(els.length == 0) {
+        throw "nothing found for " + elementName;
+    }
+    var el = els[0];
+    if(els.length > 1 && el.nodeName !== 'INPUT' && el.type !== 'radio') {
+        throw "unexpected multiple els for " + elementName;
+    }
+
+    switch (el.nodeName) {
+        case 'INPUT':
+            switch (el.type) {
+                case 'text':
+                case 'number':
+                    return el.value;
+                case 'checkbox':
+                    return el.checked;
+                case 'radio':
+                    for ( i = 0, length = els.length; i < length; i++ ) {
+                        if (els[i].checked) return els[i].value;
+                    }
+                    return null;
+                }
+                case 'datetime-local':
+                    console.log(elementName + " = " + el.value);
+                    return el.value;
+                throw "unhandled " + el.type;
+        case 'TEXTAREA':
+            return el.value;
+        case 'SELECT':
+            throw "select value?? " + elementName + " " + el.value;
+        case 'BUTTON':
+            throw "button value??" + elementName + " " + el.value;
+    }
+    throw "unhandled nodeName " + el.nodeName + " for " + elementName;
+}
+
 
 async function asyncGetNaiFromPool() {
     return new Promise( function( resolve, reject ) {
@@ -114,9 +155,9 @@ async function asyncGetNaiFromPool() {
 async function createToken() {
 
     // Common values for all operations
-    var controlAccount = document.getElementById( "control-account" ).value;
+    var controlAccount = getValue( "control_account" );
     var symbol = await asyncGetNaiFromPool();
-    symbol.decimals = document.getElementById( "precision" ).value;
+    symbol.decimals = getValue( "precision" );
 
     var transaction = {};
     transaction.operations = [];
@@ -138,7 +179,7 @@ async function createToken() {
         'smt_set_setup_parameters', {
              'control_account'  : controlAccount,
              'symbol'           : symbol,
-             'allow_voting'     : document.getElementById( "allow-voting" ).checked
+             'allow_voting'     : getValue( "allow_voting" )
         }
     ]);
 
@@ -146,15 +187,15 @@ async function createToken() {
         'smt_set_runtime_parameters', {
             'control_account'                  : controlAccount,
             'symbol'                           : symbol,
-            'allow_downvoting'                 : document.getElementById( "allow-downvoting" ).checked,
-            'cashout_window_seconds'           : document.getElementById( "cashout-window-seconds" ).value,
-            'reverse_auction_window_seconds'   : document.getElementById( "reverse-auction-window-seconds" ).value,
-            'vote_regeneration_period_seconds' : document.getElementById( "vote-regeneration-period-seconds" ).value,
-            'votes_per_regeneration_period'    : document.getElementById( "votes-per-regeneration-period" ).value,
-            'content_constant'                 : document.getElementById( "content-constant" ).value,
-            'percent_curation_rewards'         : document.getElementById( "percent-curation-rewards" ).value,
-            'author_reward_curve'              : getRadiosValue( "author_reward_curve" ),
-            'curation_reward_curve'            : getRadiosValue( "curation_reward_curve" )
+            'allow_downvoting'                 : getValue( "allow_downvoting" ),
+            'cashout_window_seconds'           : getValue( "cashout_window_seconds" ),
+            'reverse_auction_window_seconds'   : getValue( "reverse_auction_window_seconds" ),
+            'vote_regeneration_period_seconds' : getValue( "vote_regeneration_period_seconds" ),
+            'votes_per_regeneration_period'    : getValue( "votes_per_regeneration_period" ),
+            'content_constant'                 : getValue( "content_constant" ),
+            'percent_curation_rewards'         : getValue( "percent_curation_rewards" ),
+            'author_reward_curve'              : getValue( "author_reward_curve" ),
+            'curation_reward_curve'            : getValue( "curation_reward_curve" )
         }
     ]);
 
@@ -163,18 +204,18 @@ async function createToken() {
             'smt_setup_emissions', {
                 'control_account'       : controlAccount,
                 'symbol'                : symbol,
-                'schedule_time'         : document.getElementById( "schedule-time-" + i ).value,
-                'lep_time'              : document.getElementById( "lep-time-" + i ).value,
-                'rep_time'              : document.getElementById( "rep-time-" + i ).value,
-                'interval_seconds'      : document.getElementById( "interval-seconds-" + i ).value,
-                'interval_count'        : document.getElementById( "interval-count-" + i ).value,
-                'lep_abs_amount'        : document.getElementById( "lep-abs-amount-" + i ).value,
-                'rep_abs_amount'        : document.getElementById( "rep-abs-amount-" + i ).value,
-                'lep_rel_numerator'     : document.getElementById( "lep-rel-numerator-" + i ).value,
-                'rep_rel_numerator'     : document.getElementById( "rep-rel-numerator-" + i ).value,
-                'rel_amount_denom_bits' : document.getElementById( "rel-amount-denom-bits-" + i ).value,
-                'floor_emissions'       : document.getElementById( "floor-emissions-" + i ).checked,
-                'emissions_unit'        : document.getElementById( "emissions-unit-" + i ).value
+                'schedule_time'         : getValue( "schedule_time_" + i ),
+                'lep_time'              : getValue( "lep_time_" + i ),
+                'rep_time'              : getValue( "rep_time_" + i ),
+                'interval_seconds'      : getValue( "interval_seconds_" + i ),
+                'interval_count'        : getValue( "interval_count_" + i ),
+                'lep_abs_amount'        : getValue( "lep_abs_amount_" + i ),
+                'rep_abs_amount'        : getValue( "rep_abs_amount_" + i ),
+                'lep_rel_numerator'     : getValue( "lep_rel_numerator_" + i ),
+                'rep_rel_numerator'     : getValue( "rep_rel_numerator_" + i ),
+                'rel_amount_denom_bits' : getValue( "rel_amount_denom_bits_" + i ),
+                'floor_emissions'       : getValue( "floor_emissions_" + i ),
+                'emissions_unit'        : getValue( "emissions_unit_" + i )
             }
         ]);
     }
@@ -183,20 +224,20 @@ async function createToken() {
         'smt_setup', {
             'control_account'         : controlAccount,
             'symbol'                  : symbol,
-            'max_supply'              : document.getElementById( "max-supply" ).value,
-            'contribution_begin_time' : document.getElementById( "contribution-begin-time" ).value,
-            'contribution_end_time'   : document.getElementById( "contribution-end-time" ).value,
-            'launch_time'             : document.getElementById( "launch-time" ).value,
-            'steem_units_min'         : document.getElementById( "steem-units-min" ).value,
-            'steem_units_soft_cap'     : document.getElementById( "steem-units-soft-cap" ).value,
-            'steem_units_hard_cap'     : document.getElementById( "steem-units-hard-cap" ).value,
+            'max_supply'              : getValue( "max_supply" ),
+            'contribution_begin_time' : getValue( "contribution_begin_time" ),
+            'contribution_end_time'   : getValue( "contribution_end_time" ),
+            'launch_time'             : getValue( "launch_time" ),
+            'steem_units_min'         : getValue( "steem_units_min" ),
+            'steem_units_soft_cap'    : getValue( "steem_units_soft_cap" ),
+            'steem_units_hard_cap'    : getValue( "steem_units_hard_cap" ),
             'initial_generation_policy' : {
-                'pre_soft_cap_steem_unit'  : document.getElementById( "pre-soft-cap-steem-unit" ).value,
-                'pre_soft_cap_token_unit'  : document.getElementById( "pre-soft-cap-token-unit" ).value,
-                'post_soft_cap_steem_unit' : document.getElementById( "post-soft-cap-steem-unit" ).value,
-                'post_soft_cap_token_unit' : document.getElementById( "post-soft-cap-token-unit" ).value,
-                'min_unit_ratio'         : document.getElementById( "min-unit-ratio" ).value,
-                'max_unit_ratio'         : document.getElementById( "max-unit-ratio" ).value
+                'pre_soft_cap_steem_unit'  : getValue( "pre_soft_cap_steem_unit" ),
+                'pre_soft_cap_token_unit'  : getValue( "pre_soft_cap_token_unit" ),
+                'post_soft_cap_steem_unit' : getValue( "post_soft_cap_steem_unit" ),
+                'post_soft_cap_token_unit' : getValue( "post_soft_cap_token_unit" ),
+                'min_unit_ratio'           : getValue( "min_unit_ratio" ),
+                'max_unit_ratio'           : getValue( "max_unit_ratio" )
             }
         }
     ]);
