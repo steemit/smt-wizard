@@ -1,223 +1,278 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <title>Smart Media Token Creation Wizard</title>
-    <script type="application/javascript" src="js/util.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/steem/dist/steem.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/base.css" media="screen" />
+   <meta charset="utf-8">
+   <title>Smart Media Token Creation Wizard</title>
+   <script src="https://cdn.jsdelivr.net/npm/steem/dist/steem.min.js"></script>
+   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+           crossorigin="anonymous">
+   </script>
+   <script
+			  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+			  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+           crossorigin="anonymous">
+   </script>
+   <script type="application/javascript" src="js/ui.js"></script>
+   <script type="application/javascript" src="js/util.js"></script>
+   <link rel="stylesheet" type="text/css" href="css/base.css" media="screen" />
 </head>
-<body onload=initializeSteemJS()>
 
-<form onsubmit="createToken(); return false">
+<body onload="initializeSteemJS();"">
 
-<!-- Token creation -->
-<fieldset>
-   <legend>Token creation</legend>
+   <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+         <form id="msform" onsubmit="createToken(); return false">
+            <ul id="progressbar">
+               <li class="active">Token Creation</li>
+               <li>Setup & Runtime Parameters</li>
+               <li>Token Emissions</li>
+            </ul>
 
-   <label for="control-account">Control account</label>
-   <input id="control-account" type="text" name="control_account" placeholder="@your_username" required>
+            <!-- Token creation -->
+            <fieldset>
+               <h2 class="fs-title">Token Creation</h2>
+               <h3 class="fs-subtitle">Tell us something more about you</h3>
 
-   <label for="precision">Precision</label>
-   <input id="precision" type="number" name="precision" min="0" max="255" value="3" required>
+               <label for="control-account">Control account</label>
+               <input id="control-account" type="text" name="control_account" placeholder="@your_username" required>
 
-   <label for="max-supply">Max supply</label>
-   <input id="max-supply" name="max_supply" type="number" min="0" max="9223372036854775807" required>
+               <label for="precision">Precision</label>
+               <input id="precision" type="number" name="precision" min="0" max="255" value="3" required>
 
-   <label for="contribution-begin-time">Contribution begin time</label>
-   <input id="contribution-begin-time" name="contribution_begin_time" type="datetime-local" required>
+               <label for="max-supply">Max supply</label>
+               <input id="max-supply" name="max_supply" type="number" min="0" max="9223372036854775807" required>
 
-   <label for="contribution-end-time">Contribution end time</label>
-   <input id="contribution-end-time" name="contribution_end_time" type="datetime-local" required>
+               <label for="contribution-begin-time">Contribution begin time</label>
+               <input id="contribution-begin-time" name="contribution_begin_time" type="datetime-local" required>
 
-   <label for="launch-time">Launch time</label>
-   <input id="launch-time" name="launch_time" type="datetime-local" required>
+               <label for="contribution-end-time">Contribution end time</label>
+               <input id="contribution-end-time" name="contribution_end_time" type="datetime-local" required>
 
-   <label for="steem-units-min">Steem units minimum</label>
-   <input id="steem-units-min" name="steem_units_min" type="number" min="0" max="9223372036854775807" required>
+               <label for="launch-time">Launch time</label>
+               <input id="launch-time" name="launch_time" type="datetime-local" required>
 
-   <label for="steem-units-soft-cap">Steem units soft cap</label>
-   <input id="steem-units-soft-cap" name="steem_units_soft_cap" type="number" min="0" max="9223372036854775807" required>
+               <label for="steem-units-min">Steem units minimum</label>
+               <input id="steem-units-min" name="steem_units_min" type="number" min="0" max="9223372036854775807"
+                  required>
 
-   <label for="steem-units-hard-cap">Steem units hard cap</label>
-   <input id="steem-units-hard-cap" name="steem_units_hard_cap" type="number" min="0" max="9223372036854775807" required>
+               <label for="steem-units-soft-cap">Steem units soft cap</label>
+               <input id="steem-units-soft-cap" name="steem_units_soft_cap" type="number" min="0"
+                  max="9223372036854775807" required>
 
-   <!-- Initial generation policy -->
-   <label for="pre-soft-cap-steem-unit">Pre soft cap Steem unit</label>
-   <textarea id="pre-soft-cap-steem-unit" name="pre_soft_cap_steem_unit" rows="5" cols="20" required></textarea>
+               <label for="steem-units-hard-cap">Steem units hard cap</label>
+               <input id="steem-units-hard-cap" name="steem_units_hard_cap" type="number" min="0"
+                  max="9223372036854775807" required>
 
-   <label for="pre-soft-cap-token-unit">Pre soft cap token unit</label>
-   <textarea id="pre-soft-cap-token-unit" name="pre_soft_cap_token_unit" rows="5" cols="20" required></textarea>
+               <!-- Initial generation policy -->
+               <label for="pre-soft-cap-steem-unit">Pre soft cap Steem unit</label>
+               <textarea id="pre-soft-cap-steem-unit" name="pre_soft_cap_steem_unit" rows="5" cols="20"
+                  required></textarea>
 
-   <label for="post-soft-cap-steem-unit">Post soft cap Steem unit</label>
-   <textarea id="post-soft-cap-steem-unit" name="post_soft_cap_steem_unit" rows="5" cols="20" required></textarea>
+               <label for="pre-soft-cap-token-unit">Pre soft cap token unit</label>
+               <textarea id="pre-soft-cap-token-unit" name="pre_soft_cap_token_unit" rows="5" cols="20"
+                  required></textarea>
 
-   <label for="post-soft-cap-token-unit">Post soft cap token unit</label>
-   <textarea id="post-soft-cap-token-unit" name="post_soft_cap_token_unit" rows="5" cols="20" required></textarea>
+               <label for="post-soft-cap-steem-unit">Post soft cap Steem unit</label>
+               <textarea id="post-soft-cap-steem-unit" name="post_soft_cap_steem_unit" rows="5" cols="20"
+                  required></textarea>
 
-   <label for="min-unit-ratio">Minimum unit ratio</label>
-   <input id="min-unit-ratio" name="min_unit_ratio" type="number" min="0" max="4294967295" required>
+               <label for="post-soft-cap-token-unit">Post soft cap token unit</label>
+               <textarea id="post-soft-cap-token-unit" name="post_soft_cap_token_unit" rows="5" cols="20"
+                  required></textarea>
 
-   <label for="max-unit-ratio">Maximum unit ratio</label>
-   <input id="max-unit-ratio" name="max_unit_ratio" type="number" min="0" max="4294967295" required>
-</fieldset>
+               <label for="min-unit-ratio">Minimum unit ratio</label>
+               <input id="min-unit-ratio" name="min_unit_ratio" type="number" min="0" max="4294967295" required>
 
-<!-- Token setup and runtime parameters -->
-<fieldset>
-   <legend>Setup & runtime parameters</legend>
+               <label for="max-unit-ratio">Maximum unit ratio</label>
+               <input id="max-unit-ratio" name="max_unit_ratio" type="number" min="0" max="4294967295" required>
 
-   <!-- Allow votes -->
-   <div class="checkbox-container">
-      <input id="allow-voting" type="checkbox" name="allow_voting" onclick="onAllowVotingClicked(this);" checked>
-      <label for="allow-voting">Allow voting</label>
+               <input type="button" name="next" class="next action-button" value="Next" />
+            </fieldset>
+
+            <!-- Token setup and runtime parameters -->
+            <fieldset>
+               <h2 class="fs-title">Setup & Runtime Parameters</h2>
+               <h3 class="fs-subtitle">Tell us something more about you</h3>
+
+               <!-- Allow votes -->
+               <div class="checkbox-container">
+                  <input id="allow-voting" type="checkbox" name="allow_voting" onclick="onAllowVotingClicked(this);"
+                     checked>
+                  <label for="allow-voting">Allow voting</label>
+               </div>
+
+               <!-- Allow downvotes -->
+               <div class="checkbox-container">
+                  <input id="allow-downvoting" type="checkbox" name="allow_downvoting">
+                  <label for="allow-downvoting">Allow down votes</label>
+               </div>
+
+               <!-- Windows -->
+               <label for="cashout-window-seconds">Cashout window seconds</label>
+               <input id="cashout-window-seconds" type="number" name="cashout_window_seconds" min="0" max="4294967295"
+                  value="3600">
+
+               <label for="reverse-auction-window-seconds">Reverse auction window seconds</label>
+               <input id="reverse-auction-window-seconds" type="number" name="reverse_auction_window_seconds" min="0"
+                  max="4294967295" value="300">
+
+               <!-- Vote regeneration period -->
+               <label for="vote-regeneration-period-seconds">Vote regeneration period seconds</label>
+               <input id="vote-regeneration-period-seconds" type="number" name="vote_regeneration_period_seconds"
+                  min="0" max="4294967295" value="432000">
+
+               <label for="votes-per-regeneration-period">Votes per regeneration period</label>
+               <input id="votes-per-regeneration-period" type="number" name="votes_per_regeneration_period" min="0"
+                  max="4294967295" value="600">
+
+               <!-- Rewards -->
+               <label for="content-constant">Content constant</label>
+               <input id="content-constant" type="number" name="content_constant" min="0"
+                  max="170141183460469231731687303715884105727" value="2000000000000">
+
+               <label for="percent-curation-rewards">Percent curation rewards</label>
+               <input id="percent-curation-rewards" type="number" name="percent_curation_rewards" min="0" max="100"
+                  value="50">
+
+               <div id="author-reward-curve-container" class="radio-container">
+                  <label for="author-reward-curve">Author reward curve</label>
+                  <div class="radio-option">
+                     <input type="radio" id="author-reward-curve-quadratic" name="author_reward_curve" value="0">
+                     <label for="author-reward-curve-quadratic">Quadratic</label>
+                  </div>
+
+                  <div class="radio-option">
+                     <input type="radio" id="author-reward-curve-bounded-curation" name="author_reward_curve" value="1">
+                     <label for="author-reward-curve-bounded-curation">Bounded curation</label>
+                  </div>
+
+                  <div class="radio-option">
+                     <input type="radio" id="author-reward-curve-linear" name="author_reward_curve" value="2">
+                     <label for="author-reward-curve-linear">Linear</label>
+                  </div>
+
+                  <div class="radio-option">
+                     <input type="radio" id="author-reward-curve-square-root" name="author_reward_curve" value="3">
+                     <label for="author-reward-curve-square-root">Square root</label>
+                  </div>
+
+                  <div class="radio-option">
+                     <input type="radio" id="author-reward-curve-convergent-linear" name="author_reward_curve" value="4"
+                        checked>
+                     <label for="author-reward-curve-convergent-linear">Convergent linear</label>
+                  </div>
+
+                  <div class="radio-option">
+                     <input type="radio" id="author-reward-curve-convergent-square-root" name="author_reward_curve"
+                        value="5">
+                     <label for="author-reward-curve-convergent-square-root">Convergent square root</label>
+                  </div>
+               </div>
+               <div id="curation-reward-curve-container" class="radio-container">
+                  <label for="curation-reward-curve">Curation reward curve</label>
+                  <div class="radio-option">
+                     <input type="radio" id="curation-reward-curve-quadratic" name="curation_reward_curve" value="0">
+                     <label for="curation-reward-curve-quadratic">Quadratic</label>
+                  </div>
+
+                  <div class="radio-option">
+                     <input type="radio" id="curation-reward-curve-bounded-curation" name="curation_reward_curve"
+                        value="1">
+                     <label for="curation-reward-curve-bounded-curation">Bounded curation</label>
+                  </div>
+
+                  <div class="radio-option">
+                     <input type="radio" id="curation-reward-curve-linear" name="curation_reward_curve" value="2">
+                     <label for="curation-reward-curve-linear">Linear</label>
+                  </div>
+
+                  <div class="radio-option">
+                     <input type="radio" id="curation-reward-curve-square-root" name="curation_reward_curve" value="3">
+                     <label for="curation-reward-curve-square-root">Square root</label>
+                  </div>
+
+                  <div class="radio-option">
+                     <input type="radio" id="curation-reward-curve-convergent-linear" name="curation_reward_curve"
+                        value="4">
+                     <label for="curation-reward-curve-convergent-linear">Convergent linear</label>
+                  </div>
+
+                  <div class="radio-option">
+                     <input type="radio" id="curation-reward-curve-convergent-square-root" name="curation_reward_curve"
+                        value="5" checked>
+                     <label for="curation-reward-curve-convergent-square-root">Convergent square root</label>
+                  </div>
+               </div>
+
+               <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+               <input type="button" name="next" class="next action-button" value="Next" />
+            </fieldset>
+
+            <!-- Token emissions template -->
+            <fieldset id="token-emission-template">
+               <legend id="token-emission-legend">Token emission</legend>
+               <h2 class="fs-title">Token Emission</h2>
+               <h3 class="fs-subtitle">Tell us something more about you</h3>
+
+               <label for="schedule-time">Schedule time</label>
+               <input id="schedule-time" name="schedule_time" type="datetime-local">
+
+               <label for="lep-time">Left endpoint time</label>
+               <input id="lep-time" name="lep_time" type="datetime-local">
+
+               <label for="rep-time">Right endpoint time</label>
+               <input id="rep-time" name="rep_time" type="datetime-local">
+
+               <label for="interval-seconds">Interval seconds</label>
+               <input id="interval-seconds" name="interval_seconds" type="number" min="21600" max="4294967295"
+                  value="21600">
+
+               <label for="interval-count">Interval count</label>
+               <input id="interval-count" name="interval_count" type="number" min="0" max="4294967295" value="0">
+
+               <label for="lep-abs-amount">Left endpoint amount</label>
+               <input id="lep-abs-amount" name="lep_abs_amount" type="number" min="0" max="9223372036854775807">
+
+               <label for="rep-abs-amount">Right endpoint amount</label>
+               <input id="rep-abs-amount" name="rep_abs_amount" type="number" min="0" max="9223372036854775807">
+
+               <label for="lep-rel-numerator">Left endpoint numerator</label>
+               <input id="lep-rel-numerator" name="lep_rel_numerator" type="number" min="0" max="4294967295">
+
+               <label for="rep-rel-numerator">Right endpoint numerator</label>
+               <input id="rep-rel-numerator" name="rep_rel_numerator" type="number" min="0" max="4294967295">
+
+               <label for="rel-amount-denom-bits">Relative denominator bits</label>
+               <input id="rel-amount-denom-bits" name="rel_amount_denom_bits" type="number" min="0" max="255">
+
+               <div id="token-emission-checkbox" class="checkbox-container">
+                  <input id="floor-emissions" name="floor_emissions" type="checkbox">
+                  <label for="floor-emissions">Floor emissions</label>
+               </div>
+
+               <label for="emissions-unit">Emissions unit</label>
+               <textarea id="emissions-unit" name="emissions_unit" rows="10"
+                  cols="20">Enter your text here...</textarea>
+
+               <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+               <input type="button" name="next" class="next action-button" value="Next" />
+            </fieldset>
+         </form>
+
+         <div id="token-emissions"></div>
+         <button type="button" name="addTokenEmissionButton" onclick="addTokenEmission();">Add token
+            emission</button>
+         <button type="button" name="removeTokenEmissionButton" onclick="removeTokenEmission();">Remove token
+            emission</button>
+
+         <div id="creation-submission">
+            <button type="submit" name="createTokenButton" onclick="createToken();">Create token</button>
+         </div>
+      </div>
    </div>
-
-   <!-- Allow downvotes -->
-   <div class="checkbox-container">
-      <input id="allow-downvoting" type="checkbox" name="allow_downvoting">
-      <label for="allow-downvoting">Allow down votes</label>
-   </div>
-
-   <!-- Windows -->
-   <label for="cashout-window-seconds">Cashout window seconds</label>
-   <input id="cashout-window-seconds" type="number" name="cashout_window_seconds" min="0" max="4294967295" value="3600">
-
-   <label for="reverse-auction-window-seconds">Reverse auction window seconds</label>
-   <input id="reverse-auction-window-seconds" type="number" name="reverse_auction_window_seconds" min="0" max="4294967295" value="300">
-
-   <!-- Vote regeneration period -->
-   <label for="vote-regeneration-period-seconds">Vote regeneration period seconds</label>
-   <input id="vote-regeneration-period-seconds" type="number" name="vote_regeneration_period_seconds" min="0" max="4294967295" value="432000">
-
-   <label for="votes-per-regeneration-period">Votes per regeneration period</label>
-   <input id="votes-per-regeneration-period" type="number" name="votes_per_regeneration_period" min="0" max="4294967295" value="600">
-
-   <!-- Rewards -->
-   <label for="content-constant">Content constant</label>
-   <input id="content-constant" type="number" name="content_constant" min="0" max="170141183460469231731687303715884105727" value="2000000000000">
-
-   <label for="percent-curation-rewards">Percent curation rewards</label>
-   <input id="percent-curation-rewards" type="number" name="percent_curation_rewards" min="0" max="100" value="50">
-
-   <div id="author-reward-curve-container" class="radio-container">
-   <label for="author-reward-curve">Author reward curve</label>
-      <div class="radio-option">
-      <input type="radio" id="author-reward-curve-quadratic" name="author_reward_curve" value="0">
-      <label for="author-reward-curve-quadratic">Quadratic</label>
-      </div>
-
-      <div class="radio-option">
-      <input type="radio" id="author-reward-curve-bounded-curation" name="author_reward_curve" value="1">
-      <label for="author-reward-curve-bounded-curation">Bounded curation</label>
-      </div>
-
-      <div class="radio-option">
-      <input type="radio" id="author-reward-curve-linear" name="author_reward_curve" value="2">
-      <label for="author-reward-curve-linear">Linear</label>
-      </div>
-
-      <div class="radio-option">
-      <input type="radio" id="author-reward-curve-square-root" name="author_reward_curve" value="3">
-      <label for="author-reward-curve-square-root">Square root</label>
-      </div>
-
-      <div class="radio-option">
-      <input type="radio" id="author-reward-curve-convergent-linear" name="author_reward_curve" value="4" checked>
-      <label for="author-reward-curve-convergent-linear">Convergent linear</label>
-      </div>
-
-      <div class="radio-option">
-      <input type="radio" id="author-reward-curve-convergent-square-root" name="author_reward_curve" value="5">
-      <label for="author-reward-curve-convergent-square-root">Convergent square root</label>
-      </div>
-   </div>
-   <div id="curation-reward-curve-container" class="radio-container">
-   <label for="curation-reward-curve">Curation reward curve</label>
-      <div class="radio-option">
-      <input type="radio" id="curation-reward-curve-quadratic" name="curation_reward_curve" value="0">
-      <label for="curation-reward-curve-quadratic">Quadratic</label>
-      </div>
-
-      <div class="radio-option">
-      <input type="radio" id="curation-reward-curve-bounded-curation" name="curation_reward_curve" value="1">
-      <label for="curation-reward-curve-bounded-curation">Bounded curation</label>
-      </div>
-
-      <div class="radio-option">
-      <input type="radio" id="curation-reward-curve-linear" name="curation_reward_curve" value="2">
-      <label for="curation-reward-curve-linear">Linear</label>
-      </div>
-
-      <div class="radio-option">
-      <input type="radio" id="curation-reward-curve-square-root" name="curation_reward_curve" value="3">
-      <label for="curation-reward-curve-square-root">Square root</label>
-      </div>
-
-      <div class="radio-option">
-      <input type="radio" id="curation-reward-curve-convergent-linear" name="curation_reward_curve" value="4">
-      <label for="curation-reward-curve-convergent-linear">Convergent linear</label>
-      </div>
-
-      <div class="radio-option">
-      <input type="radio" id="curation-reward-curve-convergent-square-root" name="curation_reward_curve" value="5" checked>
-      <label for="curation-reward-curve-convergent-square-root">Convergent square root</label>
-      </div>
-   </div>
-
-</fieldset>
-
-<!-- Token emissions template -->
-<fieldset id="token-emission-template">
-   <legend id="token-emission-legend">Token emission</legend>
-
-   <label for="schedule-time">Schedule time</label>
-   <input id="schedule-time" name="schedule_time" type="datetime-local">
-
-   <label for="lep-time">Left endpoint time</label>
-   <input id="lep-time" name="lep_time" type="datetime-local">
-
-   <label for="rep-time">Right endpoint time</label>
-   <input id="rep-time" name="rep_time" type="datetime-local">
-
-   <label for="interval-seconds">Interval seconds</label>
-   <input id="interval-seconds" name="interval_seconds" type="number" min="21600" max="4294967295" value="21600">
-
-   <label for="interval-count">Interval count</label>
-   <input id="interval-count" name="interval_count" type="number" min="0" max="4294967295" value="0">
-
-   <label for="lep-abs-amount">Left endpoint amount</label>
-   <input id="lep-abs-amount" name="lep_abs_amount" type="number" min="0" max="9223372036854775807">
-
-   <label for="rep-abs-amount">Right endpoint amount</label>
-   <input id="rep-abs-amount" name="rep_abs_amount" type="number" min="0" max="9223372036854775807">
-
-   <label for="lep-rel-numerator">Left endpoint numerator</label>
-   <input id="lep-rel-numerator" name="lep_rel_numerator" type="number" min="0" max="4294967295">
-
-   <label for="rep-rel-numerator">Right endpoint numerator</label>
-   <input id="rep-rel-numerator" name="rep_rel_numerator" type="number" min="0" max="4294967295">
-
-   <label for="rel-amount-denom-bits">Relative denominator bits</label>
-   <input id="rel-amount-denom-bits" name="rel_amount_denom_bits" type="number" min="0" max="255">
-
-   <div id="token-emission-checkbox" class="checkbox-container">
-      <input id="floor-emissions" name="floor_emissions" type="checkbox">
-      <label for="floor-emissions">Floor emissions</label>
-   </div>
-
-   <label for="emissions-unit">Emissions unit</label>
-   <textarea id="emissions-unit" name="emissions_unit" rows="10" cols="20">Enter your text here...</textarea>
-
-</fieldset>
-
-<div id="token-emissions"></div>
-<button type="button" name="addTokenEmissionButton" onclick="addTokenEmission();">Add token emission</button>
-<button type="button" name="removeTokenEmissionButton" onclick="removeTokenEmission();">Remove token emission</button>
-
-<div id="creation-submission">
-<button type="submit" name="createTokenButton">Create token</button>
-</div>
-</form>
 
 </body>
+
 </html>
