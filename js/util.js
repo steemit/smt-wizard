@@ -79,12 +79,42 @@ function onAllowVotingClicked( e ) {
     toggleRadios( "curation_reward_curve", !e.checked );
 }
 
-function createToken() {
+async function asyncGetNaiFromPool() {
+    return new Promise( function( resolve, reject ) {
+        var http = new XMLHttpRequest();
+        var url = 'https://testnet.steemitdev.com';
+        var payload = '{"jsonrpc":"2.0","method":"database_api.get_nai_pool","params":{},"id":1}';
+        http.open('POST', url, true);
+
+        http.setRequestHeader( 'Content-type', 'application/json' );
+
+        http.onreadystatechange = function() {
+            if ( http.readyState != 4 ) return;
+
+            if ( http.status == 200 ) {
+                var json = JSON.parse( http.responseText );
+                if ( json.result.nai_pool.length > 0 ) {
+                    resolve( json.result.nai_pool[0] );
+                }
+                else {
+                    reject( "No available NAIs!" );
+                }
+            }
+            else {
+                reject( http.status );
+            }
+        }
+        http.send( payload );
+    });
+}
+
+
+async function createToken() {
 
     // Common values for all operations
     var controlAccount = document.getElementById( "control-account" ).value;
-    var symbol = "@@1234567";
-
+    var symbol = await asyncGetNaiFromPool();
+    symbol.decimals = document.getElementById( "precision" ).value;
 
     var transaction = {};
     transaction.operations = [];
@@ -93,8 +123,12 @@ function createToken() {
         'smt_create', {
              'control_account'  : controlAccount,
              'symbol'           : symbol,
-             'precision'        : document.getElementById( "precision" ).value,
-             'smt_creation_fee' : ""
+             'precision'        : symbol.decimals,
+             'smt_creation_fee' : {
+                 'amount': '1000',
+                 'precision': 3,
+                 'nai': '@@000000013'
+             }
         }
     ]);
 
