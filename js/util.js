@@ -283,7 +283,12 @@ function createEmissionsUnitWidget( element )
         }, {
             name: 'units',
             display: 'Units',
-            type: 'number'
+            type: 'number',
+            ctrlAttr: {
+                "min" : 0,
+                "max" : 255,
+                "step": 1
+            }
         }],
         hideButtons: {
             moveUp: true,
