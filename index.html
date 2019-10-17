@@ -3,9 +3,17 @@
 <head>
     <meta charset="utf-8">
     <title>Smart Media Token Creation Wizard</title>
-    <script type="application/javascript" src="js/util.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/steem/dist/steem.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/steem/dist/steem.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.appendgrid@2.0.2/dist/AppendGrid.js"></script>
+
+    <script type="application/javascript" src="js/util.js"></script>
     <link rel="stylesheet" type="text/css" href="css/base.css" media="screen" />
 </head>
 <body onload="initializeSteemJS(); addTokenEmission();">
@@ -74,22 +82,22 @@
       <div class="row">
          <div class="form-group col-md-3">
             <label for="pre_soft_cap_steem_unit">Pre soft cap Steem unit</label>
-            <textarea id="pre_soft_cap_steem_unit" name="pre_soft_cap_steem_unit" class="form-control" rows="5" cols="20" required></textarea>
+            <table id="pre_soft_cap_steem_unit" class="flat-map"></table>
          </div>
 
          <div class="form-group col-md-3">
             <label for="pre_soft_cap_token_unit">Pre soft cap token unit</label>
-            <textarea id="pre_soft_cap_token_unit" name="pre_soft_cap_token_unit" class="form-control" rows="5" cols="20" required></textarea>
+            <table id="pre_soft_cap_token_unit" class="flat-map"></table>
          </div>
 
          <div class="form-group col-md-3">
             <label for="post_soft_cap_steem_unit">Post soft cap Steem unit</label>
-            <textarea id="post_soft_cap_steem_unit" name="post_soft_cap_steem_unit" class="form-control" rows="5" cols="20" required></textarea>
+            <table id="post_soft_cap_steem_unit" class="flat-map"></table>
          </div>
 
          <div class="form-group col-md-3">
             <label for="post_soft_cap_token_unit">Post soft cap token unit</label>
-            <textarea id="post_soft_cap_token_unit" name="post_soft_cap_token_unit" class="form-control" rows="5" cols="20" required></textarea>
+            <table id="post_soft_cap_token_unit" class="flat-map"></table>
          </div>
       </div>
 
@@ -300,7 +308,8 @@
 
    <div class="form-group">
       <label for="emissions_unit">Emissions unit</label>
-      <textarea id="emissions_unit" name="emissions_unit" class="form-control" rows="10" cols="20" placeholder="Enter your text here..."></textarea>
+      <!--<textarea id="emissions_unit" name="emissions_unit" class="form-control" rows="10" cols="20" placeholder="Enter your text here..."></textarea>-->
+      <table id="emissions_unit" class="flat-map"></table>
    </div>
 </fieldset>
 

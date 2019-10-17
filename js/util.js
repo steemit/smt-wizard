@@ -245,3 +245,37 @@ async function createToken() {
     console.log( transaction );
 }
 
+$(document).ready( function () {
+    $( ".flat-map" ).each( function( index, element ) {
+        var myAppendGrid = new AppendGrid({
+            element: element,
+            uiFramework: "bootstrap4",
+            iconFramework: "fontawesome5",
+            columns: [{
+                name: "col-1",
+                display: "Destination",
+                type: "text"
+            }, {
+                name: "col-2",
+                display: "Units",
+                type: "number"
+            }],
+            hideButtons: {
+                moveUp: true,
+                moveDown: true,
+                insert: true,
+                remove: true
+            },
+            sectionClasses: {
+                // Add `table-sm` class from Bootstrap that reduce cell padding
+                table: "table-sm",
+                // Add `btn-group-sm` class from Bootstrap that generate a smaller button groups
+                buttonGroup: "btn-group-sm",
+                // Add `form-control-sm` class from Bootstrap that reduce the size of input controls
+                control: "form-control-sm"
+            },
+            hideRowNumColumn: true,
+            initRows: 1
+        });
+    });
+} );
