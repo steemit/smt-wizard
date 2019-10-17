@@ -1,3 +1,6 @@
+// Global variables
+var _numTokenEmissions = 0;
+
 function initializeSteemJS() {
    steem.api.setOptions({
       url: 'https://testnet.steemitdev.com',
@@ -49,22 +52,21 @@ function toggleRadios( elementName, disable ) {
     }
 }
 
-var _token_emission_ctr = 0;
 function addTokenEmission() {
-    _token_emission_ctr++;
+    _numTokenEmissions++;
     var templateNode = document.getElementById( "token-emission-template" ).cloneNode( true );
-    templateNode.id = "token-emission-" + _token_emission_ctr;
-    templateNode.querySelector( "#token-emission-legend" ).innerHTML += " " + _token_emission_ctr;
-    appendFormElements( templateNode.querySelectorAll('*'), _token_emission_ctr );
+    templateNode.id = "token-emission-" + _numTokenEmissions;
+    templateNode.querySelector( "#token-emission-legend" ).innerHTML += " " + _numTokenEmissions;
+    appendFormElements( templateNode.querySelectorAll('*'), _numTokenEmissions );
     document.getElementById( "token-emissions" ).appendChild( templateNode );
 }
 
 function removeTokenEmission() {
-    if ( _token_emission_ctr == 0 ) return;
+    if ( _numTokenEmissions == 0 ) return;
 
-    var element = document.getElementById( "token-emission-" + _token_emission_ctr );
+    var element = document.getElementById( "token-emission-" + _numTokenEmissions );
     element.parentNode.removeChild( element );
-    _token_emission_ctr--;
+    _numTokenEmissions--;
 }
 
 function onAllowVotingClicked( e ) {
@@ -156,7 +158,7 @@ async function createToken() {
         }
     ]);
 
-    for ( i = 1; i <= _token_emission_ctr; i++ ) {
+    for ( i = 1; i <= _numTokenEmissions; i++ ) {
         transaction.operations.push([
             'smt_setup_emissions', {
                 'control_account'       : controlAccount,
