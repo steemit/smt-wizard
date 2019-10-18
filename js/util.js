@@ -90,12 +90,10 @@ function getField(fieldName) {
 
 function getFlatMapValue( elementName ) {
     var widgetData = _emissionsUnitWidgets[ elementName ].getAllValue(true);
-    console.log(widgetData);
     var flatMap = [];
     for ( i = 0; i < widgetData._RowCount; i++ ) {
         flatMap.push([ widgetData[ 'destination_'+ i ], widgetData[ 'units_' + i ] ]);
     }
-    console.log(flatMap);
     return flatMap;
 }
 
