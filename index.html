@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Smart Media Token Creation Wizard</title>
+    <title>Token Creation Wizard</title>
+    <link rel="shortcut icon" href="assets/favicon.ico" />
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"/>
@@ -19,7 +20,14 @@
 <body onload="initializeSteemJS(); addTokenEmission();">
 
 <div id="content">
-
+<div id="header">
+   <a href="https://www.steem.com/" target="_blank"><img id="brand" src="assets/Steem_Logo_Full_White.png" alt="Steem"></a>
+   <nav id="navigation">
+      <a href="https://smt.steem.com/smt-whitepaper.pdf" target="_blank">SMT Whitepaper</a>
+      <a href="https://www.steem.com/developers/" target="_blank">Developers</a>
+      <a href="https://www.steem.com/entrepreneurs/" target="_blank">Entrepeneurs</a>
+   </nav>
+</div><br />
 <form id="smt_form" onsubmit="createToken(); return false">
 
 <!-- Token creation -->
@@ -28,54 +36,59 @@
       <legend class="heading">Token Creation</legend>
 
       <div class="row">
-         <div class="form-group col-md-5">
-            <label for="control_account">Control Account</label>
-            <input id="control_account" type="text" name="control_account" class="form-control" placeholder="Username" required>
-         </div>
+         <div class="col-md-9">
+            <div class="row">
+               <div class="form-group col-md-5">
+                  <label for="control_account">Control Account</label>
+                  <input id="control_account" type="text" name="control_account" class="form-control" placeholder="Username" required>
+               </div>
 
-         <div class="form-group col-md-2">
-            <label for="precision">Precision</label>
-            <input id="precision" type="number" name="precision" class="form-control" min="0" max="255" value="3" required>
-         </div>
+               <div class="form-group col-md-2">
+                  <label for="precision">Precision</label>
+                  <input id="precision" type="number" name="precision" class="form-control" min="0" max="255" value="3" required>
+               </div>
 
-         <div class="form-group col-md-4">
-            <label for="max_supply">Max Supply</label>
-            <input id="max_supply" name="max_supply" class="form-control" type="number" min="0" max="1000000000000000" placeholder="1000000000000000" required>
-         </div>
-      </div>
+               <div class="form-group col-md-5">
+                  <label for="max_supply">Max Supply</label>
+                  <input id="max_supply" name="max_supply" class="form-control" type="number" min="0" max="1000000000000000" placeholder="1000000000000000" required>
+               </div>
+            </div>
 
-      <div class="row">
-         <div class="form-group col-md-4">
-            <label for="contribution_begin_time">Contribution Begin Time</label>
-            <input id="contribution_begin_time" name="contribution_begin_time" class="form-control" type="datetime-local" required>
-         </div>
+            <div class="row">
+               <div class="form-group col-md-4">
+                  <label for="contribution_begin_time">Contribution Begin Time</label>
+                  <input id="contribution_begin_time" name="contribution_begin_time" class="form-control" type="datetime-local" required>
+               </div>
 
-         <div class="form-group col-md-4">
-            <label for="contribution_end_time">Contribution End Time</label>
-            <input id="contribution_end_time" name="contribution_end_time" class="form-control" type="datetime-local" required>
-         </div>
+               <div class="form-group col-md-4">
+                  <label for="contribution_end_time">Contribution End Time</label>
+                  <input id="contribution_end_time" name="contribution_end_time" class="form-control" type="datetime-local" required>
+               </div>
 
-         <div class="form-group col-md-4">
-            <label for="launch_time">Launch Time</label>
-            <input id="launch_time" name="launch_time" type="datetime-local" class="form-control" required>
-         </div>
-      </div>
+               <div class="form-group col-md-4">
+                  <label for="launch_time">Launch Time</label>
+                  <input id="launch_time" name="launch_time" type="datetime-local" class="form-control" required>
+               </div>
+            </div>
 
-      <div class="row">
-         <div class="form-group col-md-4">
-            <label for="steem_units_min">Minimum Steem Contribution</label>
-            <input id="steem_units_min" name="steem_units_min" class="form-control" type="number" min="0" max="9223372036854775807" required>
-         </div>
+            <div class="row">
+               <div class="form-group col-md-4">
+                  <label for="steem_units_min">Min. Steem Contribution</label>
+                  <input id="steem_units_min" name="steem_units_min" class="form-control" type="number" min="0" max="9223372036854775807" required>
+               </div>
 
-         <div class="form-group col-md-4">
-            <label for="steem_units_soft_cap">Contribution Soft Cap</label>
-            <input id="steem_units_soft_cap" name="steem_units_soft_cap" class="form-control" type="number" min="0" max="9223372036854775807" required>
-         </div>
+               <div class="form-group col-md-4">
+                  <label for="steem_units_soft_cap">Contribution Soft Cap</label>
+                  <input id="steem_units_soft_cap" name="steem_units_soft_cap" class="form-control" type="number" min="0" max="9223372036854775807" required>
+               </div>
 
-         <div class="form-group col-md-4">
-            <label for="steem_units_hard_cap">Contribution Hard Cap</label>
-            <input id="steem_units_hard_cap" name="steem_units_hard_cap" class="form-control" type="number" min="0" max="9223372036854775807" required>
+               <div class="form-group col-md-4">
+                  <label for="steem_units_hard_cap">Contribution Hard Cap</label>
+                  <input id="steem_units_hard_cap" name="steem_units_hard_cap" class="form-control" type="number" min="0" max="9223372036854775807" required>
+               </div>
+            </div>
          </div>
+         <div class="col-md-3 coinstack-img"></div>
       </div>
 
       <!-- Initial generation policy -->
@@ -112,20 +125,21 @@
       </div>
 
       <div class="row">
-         <div class="form-group col-md-3">
+         <div class="form-group col-md-4">
             <label for="min_unit_ratio">Minimum Unit Ratio</label>
             <input id="min_unit_ratio" name="min_unit_ratio" class="form-control" type="number" min="0" max="4294967295" required>
          </div>
 
-         <div class="form-group col-md-3">
+         <div class="form-group col-md-4">
             <label for="max_unit_ratio">Maximum Unit Ratio</label>
             <input id="max_unit_ratio" name="max_unit_ratio" class="form-control" type="number" min="0" max="4294967295" required>
          </div>
-      </div>
 
-      <div class="form-group form-check">
-         <input id="allow_voting" type="checkbox" name="allow_voting" class="form-check-input" onclick="onAllowVotingClicked(this);" checked>
-         <label for="allow_voting" class="form-check-label">Allow Voting</label>
+         <div class="form-group form-check col-md-4 text-center">
+            <br/>
+            <input id="allow_voting" type="checkbox" name="allow_voting" class="form-check-input" onclick="onAllowVotingClicked(this);" checked>
+            <label for="allow_voting" class="form-check-label">Allow Voting</label>
+         </div>
       </div>
 
    </fieldset>
@@ -137,74 +151,79 @@
    <fieldset>
       <legend class="heading">Voting Runtime Parameters</legend>
 
-      <!-- Allow downvotes -->
-      <div class="form-group form-check">
-         <input id="allow_downvoting" type="checkbox" name="allow_downvoting" class="form-check-input" checked>
-         <label for="allow_downvoting" class="form-check-label">Allow Downvotes</label>
-      </div>
-
-      <!-- Windows -->
       <div class="row">
-         <div class="form-group col-md-4">
-            <label for="cashout_window_seconds">Cashout Window Seconds</label>
-            <input id="cashout_window_seconds" type="number" name="cashout_window_seconds" class="form-control" min="0" max="4294967295" value="3600">
-         </div>
+         <div class="col-md-9">
+            <!-- Allow downvotes -->
+            <div class="form-group form-check">
+               <input id="allow_downvoting" type="checkbox" name="allow_downvoting" class="form-check-input" checked>
+               <label for="allow_downvoting" class="form-check-label">Allow Downvotes</label>
+            </div>
 
-         <div class="form-group col-md-4">
-            <label for="reverse_auction_window_seconds">Reverse Auction Window Seconds</label>
-            <input id="reverse_auction_window_seconds" type="number" name="reverse_auction_window_seconds" class="form-control" min="0" max="4294967295" value="300">
-         </div>
-      </div>
+            <!-- Windows -->
+            <div class="row">
+               <div class="form-group col-md-6">
+                  <label for="cashout_window_seconds">Cashout Window Seconds</label>
+                  <input id="cashout_window_seconds" type="number" name="cashout_window_seconds" class="form-control" min="0" max="4294967295" value="3600">
+               </div>
 
-      <!-- Vote regeneration period -->
-      <div class="row">
-         <div class="form-group col-md-4">
-            <label for="vote_regeneration_period_seconds">Vote Regeneration Period Seconds</label>
-            <input id="vote_regeneration_period_seconds" type="number" name="vote_regeneration_period_seconds" class="form-control" min="0" max="4294967295" value="432000">
-         </div>
+               <div class="form-group col-md-6">
+                  <label for="reverse_auction_window_seconds">Reverse Auction Window Seconds</label>
+                  <input id="reverse_auction_window_seconds" type="number" name="reverse_auction_window_seconds" class="form-control" min="0" max="4294967295" value="300">
+               </div>
+            </div>
 
-         <div class="form-group col-md-4">
-            <label for="votes_per_regeneration_period">Votes per Regeneration Period</label>
-            <input id="votes_per_regeneration_period" type="number" name="votes_per_regeneration_period" class="form-control" min="0" max="4294967295" value="600">
-         </div>
-      </div>
+            <!-- Vote regeneration period -->
+            <div class="row">
+               <div class="form-group col-md-6">
+                  <label for="vote_regeneration_period_seconds">Vote Regeneration Period Seconds</label>
+                  <input id="vote_regeneration_period_seconds" type="number" name="vote_regeneration_period_seconds" class="form-control" min="0" max="4294967295" value="432000">
+               </div>
 
-      <!-- Rewards -->
-      <div class="row">
-         <div class="form-group col-md-4">
-            <label for="content_constant">Content Constant</label>
-            <input id="content_constant" type="number" name="content_constant" class="form-control" min="0" max="170141183460469231731687303715884105727" value="2000000000000">
-         </div>
+               <div class="form-group col-md-6">
+                  <label for="votes_per_regeneration_period">Votes per Regeneration Period</label>
+                  <input id="votes_per_regeneration_period" type="number" name="votes_per_regeneration_period" class="form-control" min="0" max="4294967295" value="600">
+               </div>
+            </div>
 
-         <div class="form-group col-md-3">
-            <label for="percent_curation_rewards">Percent Curation Rewards</label>
-            <input id="percent_curation_rewards" type="number" name="percent_curation_rewards" class="form-control" min="0" max="100" value="50">
-         </div>
-      </div>
+            <!-- Rewards -->
+            <div class="row">
+               <div class="form-group col-md-6">
+                  <label for="content_constant">Content Constant</label>
+                  <input id="content_constant" type="number" name="content_constant" class="form-control" min="0" max="170141183460469231731687303715884105727" value="2000000000000">
+               </div>
 
-      <div class="row">
-         <div class="form-group col-md-4">
-            <label for="author_reward_curve">Author Reward Curve</label>
-            <select name="author_reward_curve" id="author_reward_curve">
-               <option value="quadratic">Quadratic</option>
-               <option value="bounded_curation">Bounded curation</option>
-               <option value="linear">Linear</option>
-               <option value="square_root">Square root</option>
-               <option value="convergent_linear" selected="selected">Convergent linear</option>
-               <option value="convergent_square_root">Convergent square root</option>
-            </select>
+               <div class="form-group col-md-6">
+                  <label for="percent_curation_rewards">Percent Curation Rewards</label>
+                  <input id="percent_curation_rewards" type="number" name="percent_curation_rewards" class="form-control" min="0" max="100" value="50">
+               </div>
+            </div>
+
+            <div class="row">
+               <div class="form-group col-md-6">
+                  <label for="author_reward_curve">Author Reward Curve</label>
+                  <select name="author_reward_curve" id="author_reward_curve">
+                     <option value="quadratic">Quadratic</option>
+                     <option value="bounded_curation">Bounded curation</option>
+                     <option value="linear">Linear</option>
+                     <option value="square_root">Square root</option>
+                     <option value="convergent_linear" selected="selected">Convergent linear</option>
+                     <option value="convergent_square_root">Convergent square root</option>
+                  </select>
+               </div>
+               <div class="form-group col-md-6">
+                  <label for="curation_reward_curve">Curation Reward Curve</label>
+                  <select name="curation_reward_curve" id="curation_reward_curve">
+                     <option value="quadratic">Quadratic</option>
+                     <option value="bounded_curation">Bounded curation</option>
+                     <option value="linear">Linear</option>
+                     <option value="square_root">Square root</option>
+                     <option value="convergent_linear">Convergent linear</option>
+                     <option value="convergent_square_root" selected="selected">Convergent square root</option>
+                  </select>
+               </div>
+            </div>
          </div>
-         <div class="form-group col-md-4">
-            <label for="curation_reward_curve">Curation Reward Curve</label>
-            <select name="curation_reward_curve" id="curation_reward_curve">
-               <option value="quadratic">Quadratic</option>
-               <option value="bounded_curation">Bounded curation</option>
-               <option value="linear">Linear</option>
-               <option value="square_root">Square root</option>
-               <option value="convergent_linear">Convergent linear</option>
-               <option value="convergent_square_root" selected="selected">Convergent square root</option>
-            </select>
-         </div>
+         <div class="col-md-3 funnel-img"></div>
       </div>
 
    </fieldset>
@@ -215,58 +234,63 @@
    <h4 class="heading">Token Emission</h4>
 
    <div class="row">
-      <div class="form-group col-md-4">
-         <label for="schedule_time">Schedule Time</label>
-         <input id="schedule_time" name="schedule_time" class="form-control" type="datetime-local">
-      </div>
+      <div class="col-md-9">
+         <div class="row">
+            <div class="form-group col-md-4">
+               <label for="schedule_time">Schedule Time</label>
+               <input id="schedule_time" name="schedule_time" class="form-control" type="datetime-local">
+            </div>
 
-      <div class="form-group col-md-4">
-         <label for="lep_time">Left Endpoint Time</label>
-         <input id="lep_time" name="lep_time" class="form-control" type="datetime-local">
-      </div>
+            <div class="form-group col-md-4">
+               <label for="lep_time">Left Endpoint Time</label>
+               <input id="lep_time" name="lep_time" class="form-control" type="datetime-local">
+            </div>
 
-      <div class="form-group col-md-4">
-         <label for="rep_time">Right Endpoint Time</label>
-         <input id="rep_time" name="rep_time" class="form-control" type="datetime-local">
-      </div>
-   </div>
+            <div class="form-group col-md-4">
+               <label for="rep_time">Right Endpoint Time</label>
+               <input id="rep_time" name="rep_time" class="form-control" type="datetime-local">
+            </div>
+         </div>
 
-   <div class="row">
-      <div class="form-group col-md-3">
-         <label for="interval_seconds">Interval Seconds</label>
-         <input id="interval_seconds" name="interval_seconds" class="form-control" type="number" min="21600" max="4294967295" value="21600">
-      </div>
+         <div class="row">
+            <div class="form-group col-md-4">
+               <label for="interval_seconds">Interval Seconds</label>
+               <input id="interval_seconds" name="interval_seconds" class="form-control" type="number" min="21600" max="4294967295" value="21600">
+            </div>
 
-      <div class="form-group col-md-2">
-         <label for="interval_count">Interval Count</label>
-         <input id="interval_count" name="interval_count" class="form-control" type="number" min="0" max="4294967295" value="0">
-      </div>
-      <div class="form-group col-md-4">
-         <label for="rel_amount_denom_bits">Relative denominator bits</label>
-         <input id="rel_amount_denom_bits" name="rel_amount_denom_bits" class="form-control" type="number" min="0" max="255">
-      </div>
-   </div>
+            <div class="form-group col-md-4">
+               <label for="interval_count">Interval Count</label>
+               <input id="interval_count" name="interval_count" class="form-control" type="number" min="0" max="4294967295" value="0">
+            </div>
+            <div class="form-group col-md-4">
+               <label for="rel_amount_denom_bits">Relative denominator bits</label>
+               <input id="rel_amount_denom_bits" name="rel_amount_denom_bits" class="form-control" type="number" min="0" max="255">
+            </div>
+         </div>
 
-   <div class="row">
-      <div class="form-group col-md-3">
-         <label for="lep_abs_amount">Left Endpoint Amount</label>
-         <input id="lep_abs_amount" name="lep_abs_amount" class="form-control" type="number" min="0" max="9223372036854775807">
-      </div>
+         <div class="row">
+            <div class="form-group col-md-3">
+               <label for="lep_abs_amount">Left Endpoint Amount</label>
+               <input id="lep_abs_amount" name="lep_abs_amount" class="form-control" type="number" min="0" max="9223372036854775807">
+            </div>
 
-      <div class="form-group col-md-3">
-         <label for="rep_abs_amount">Right Endpoint Amount</label>
-         <input id="rep_abs_amount" name="rep_abs_amount" class="form-control" type="number" min="0" max="9223372036854775807">
-      </div>
+            <div class="form-group col-md-3">
+               <label for="rep_abs_amount">Right Endpoint Amount</label>
+               <input id="rep_abs_amount" name="rep_abs_amount" class="form-control" type="number" min="0" max="9223372036854775807">
+            </div>
 
-      <div class="form-group col-md-3">
-         <label for="lep_rel_numerator">Left Endpoint Numerator</label>
-         <input id="lep_rel_numerator" name="lep_rel_numerator" class="form-control" type="number" min="0" max="4294967295">
-      </div>
+            <div class="form-group col-md-3">
+               <label for="lep_rel_numerator">Left Endpoint Numerator</label>
+               <input id="lep_rel_numerator" name="lep_rel_numerator" class="form-control" type="number" min="0" max="4294967295">
+            </div>
 
-      <div class="form-group col-md-3">
-         <label for="rep_rel_numerator">Right Endpoint Numerator</label>
-         <input id="rep_rel_numerator" name="rep_rel_numerator" class="form-control" type="number" min="0" max="4294967295">
+            <div class="form-group col-md-3">
+               <label for="rep_rel_numerator">Right Endpoint Numerator</label>
+               <input id="rep_rel_numerator" name="rep_rel_numerator" class="form-control" type="number" min="0" max="4294967295">
+            </div>
+         </div>
       </div>
+      <div class="col-md-3 token-emissions-img"></div>
    </div>
 
    <div class="form-group form-check">
