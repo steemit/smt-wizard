@@ -124,13 +124,11 @@ function getValue(elementName) {
                     return null;
                 }
                 case 'datetime-local':
-                    console.log(elementName + " = " + el.value);
                     return el.value;
-                throw "unhandled " + el.type;
         case 'TEXTAREA':
             return el.value;
         case 'SELECT':
-            throw "select value?? " + elementName + " " + el.value;
+            return el.options[el.selectedIndex].value;
         case 'BUTTON':
             throw "button value??" + elementName + " " + el.value;
     }
