@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Smart Media Token Creation Wizard</title>
+    <title>Token Creation Wizard</title>
+    <link rel="shortcut icon" href="assets/favicon.ico" />
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"/>
@@ -19,7 +20,14 @@
 <body onload="initializeSteemJS(); addTokenEmission();">
 
 <div id="content">
-
+<div id="header">
+   <a href="https://www.steem.com/" target="_blank"><img id="brand" src="assets/Steem_Logo_Full_White.png" alt="Steem"></a>
+   <nav id="navigation">
+      <a href="https://smt.steem.com/smt-whitepaper.pdf" target="_blank">SMT Whitepaper</a>
+      <a href="https://www.steem.com/developers/" target="_blank">Developers</a>
+      <a href="https://www.steem.com/entrepreneurs/" target="_blank">Entrepeneurs</a>
+   </nav>
+</div><br />
 <form id="smt_form" onsubmit="createToken(); return false">
 
 <!-- Token creation -->
