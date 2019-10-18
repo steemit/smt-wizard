@@ -25,7 +25,7 @@ function addTokenEmission() {
     _numTokenEmissions++;
     var templateNode = document.getElementById( "token_emission_template" ).cloneNode( true );
     templateNode.id = "token_emission_" + _numTokenEmissions;
-    templateNode.querySelector("legend").innerHTML += " " + _numTokenEmissions;
+    templateNode.querySelector("h4").innerHTML += " " + _numTokenEmissions;
     appendFormElements( templateNode.querySelectorAll('*'), _numTokenEmissions );
     document.getElementById( "token_emissions" ).appendChild( templateNode );
     createEmissionsUnitWidget( document.getElementById( "emissions_unit_" + _numTokenEmissions ) );
@@ -173,7 +173,6 @@ async function asyncGetNaiFromPool() {
 
 
 async function createToken() {
-
     // Common values for all operations
     var controlAccount = getValue( "control_account" );
     var symbol = await asyncGetNaiFromPool();
@@ -220,7 +219,7 @@ async function createToken() {
         }
     ]);
 
-    for ( i = 1; i <= _numTokenEmissions; i++ ) {
+    for ( var i = 1; i <= _numTokenEmissions; i++ ) {
         transaction.operations.push([
             'smt_setup_emissions', {
                 'control_account'       : controlAccount,
