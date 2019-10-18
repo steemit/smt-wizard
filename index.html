@@ -129,11 +129,18 @@
             <label for="max_unit_ratio">Maximum Unit Ratio</label>
             <input id="max_unit_ratio" name="max_unit_ratio" class="form-control" type="number" min="0" max="4294967295" required>
          </div>
+
+         <div class="form-group form-check col-md-3 text-center">
+            <br/>
+            <input id="allow_voting" type="checkbox" name="allow_voting" class="form-check-input" onclick="onAllowVotingClicked(this);" checked>
+            <label for="allow_voting" class="form-check-label">Allow Voting</label>
+         </div>
+
+         <div id="coinstack-img" class="col-md-3"></div>
       </div>
 
-      <div class="form-group form-check">
-         <input id="allow_voting" type="checkbox" name="allow_voting" class="form-check-input" onclick="onAllowVotingClicked(this);" checked>
-         <label for="allow_voting" class="form-check-label">Allow Voting</label>
+      <div class="row">
+         
       </div>
 
    </fieldset>

@@ -52,6 +52,7 @@ h4.heading {
 #brand {
   height: 40px;
 }
+
 #navigation {
   vertical-align: middle;
   float:right;
@@ -74,6 +75,7 @@ h4.heading {
 #navigation a:hover {
   border-bottom: 1px solid #11a7f2;
 }
+
 .form-page {
 	border-style: outset;
   border-width: 1px;
@@ -88,7 +90,6 @@ h4.heading {
   box-shadow: 0 0 15px 1px rgba(33, 37, 41, 0.4);
 }
 
-
 .table .thead-light th {
   color: #212529;
   background-color: #f5f5f5;
@@ -97,6 +98,19 @@ h4.heading {
 .table thead th {
   vertical-align: bottom;
   border-bottom: 2px solid #212529;
+}
+
+#coinstack-img {
+  background-image: url(../assets/icon-coinstack-dark.png);
+  background-repeat: no-repeat;
+  background-position: center; 
+  background-size: contain;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
 }
 
 /*
