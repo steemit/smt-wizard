@@ -116,6 +116,7 @@ function addTokenEmission() {
     appendFormElements(templateNode.querySelectorAll('*'), _numTokenEmissions);
     document.getElementById("token_emissions").appendChild(templateNode);
     createEmissionsUnitWidget(document.getElementById("emissions_unit_" + _numTokenEmissions));
+    $( "#" + templateNode.id ).slideDown( "slow", function() {});
 }
 
 function removeTokenEmission() {
@@ -123,8 +124,10 @@ function removeTokenEmission() {
 
     var element = document.getElementById("token_emission_" + _numTokenEmissions);
     delete _emissionsUnitWidgets["emissions_unit_" + _numTokenEmissions];
-    element.parentNode.removeChild(element);
-    _numTokenEmissions--;
+    $( "#" + element.id ).slideUp( "slow", function() {
+        element.parentNode.removeChild(element);
+        _numTokenEmissions--;
+    });
 }
 
 function appendFormElements(elements, append) {
