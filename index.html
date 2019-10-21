@@ -27,341 +27,346 @@
 
 <body>
 
-   <div id="content">
-      <div id="header">
-         <a href="https://www.steem.com/" target="_blank"><img id="brand" src="assets/Steem_Logo_Full_White.png"
-               alt="Steem"></a>
-         <nav id="navigation">
-            <a href="https://smt.steem.com/smt-whitepaper.pdf" target="_blank">SMT Whitepaper</a>
-            <a href="https://www.steem.com/developers/" target="_blank">Developers</a>
-            <a href="https://www.steem.com/entrepreneurs/" target="_blank">Entrepeneurs</a>
-         </nav>
-      </div><br />
-      <div id="progressbar-container">
-         <ul id="progressbar">
-            <li class="active">Token Creation</li>
-            <li>Voting Parameters</li>
-            <li>Token Emissions</li>
-         </ul>
+   <div class="row">
+      <div class="col-md-6 offset-md-3">
+         <div id="header">
+            <a href="https://www.steem.com/" target="_blank"><img id="brand" src="assets/Steem_Logo_Full_White.png"
+                  alt="Steem"></a>
+            <nav id="navigation">
+               <a href="https://smt.steem.com/smt-whitepaper.pdf" target="_blank">SMT Whitepaper</a>
+               <a href="https://www.steem.com/developers/" target="_blank">Developers</a>
+               <a href="https://www.steem.com/entrepreneurs/" target="_blank">Entrepeneurs</a>
+            </nav>
+         </div><br />
+         <div id="progressbar-container">
+            <ul id="progressbar">
+               <li class="active">Token Creation</li>
+               <li>Voting Parameters</li>
+               <li>Token Emissions</li>
+            </ul>
+         </div>
+         <form id="smt_form">
+            <!-- Token creation -->
+            <div class="form-page">
+               <fieldset>
+                  <legend class="heading">Token Creation</legend>
+
+                  <div class="row">
+                     <div class="col-md-9">
+                        <div class="row">
+                           <div class="form-group col-md-5">
+                              <label for="control_account">Control Account</label>
+                              <div class="input-group mb-2">
+                                 <div class="input-group-prepend">
+                                    <div class="input-group-text">@</div>
+                                 </div>
+                                 <input id="control_account" type="text" name="control_account" class="form-control"
+                                    placeholder="Username" required>
+                              </div>
+                           </div>
+
+                           <div class="form-group col-md-2">
+                              <label for="precision">Precision</label>
+                              <input id="precision" type="number" name="precision" class="form-control" min="0"
+                                 max="255" value="3" required>
+                           </div>
+
+                           <div class="form-group col-md-5">
+                              <label for="max_supply">Max Supply</label>
+                              <div class="input-group mb-3">
+                                 <input id="max_supply" name="max_supply" class="form-control" type="number" min="0"
+                                    max="1000000000000000" placeholder="1000000000000000" required>
+                                 <div class="input-group-append">
+                                    <span class="input-group-text">Tokens</span>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div class="row">
+                           <div class="form-group col-md-4">
+                              <label for="contribution_begin_time">Contribution Begin Time</label>
+                              <input id="contribution_begin_time" name="contribution_begin_time" class="form-control"
+                                 type="datetime-local" required>
+                           </div>
+
+                           <div class="form-group col-md-4">
+                              <label for="contribution_end_time">Contribution End Time</label>
+                              <input id="contribution_end_time" name="contribution_end_time" class="form-control"
+                                 type="datetime-local" required>
+                           </div>
+
+                           <div class="form-group col-md-4">
+                              <label for="launch_time">Launch Time</label>
+                              <input id="launch_time" name="launch_time" type="datetime-local" class="form-control"
+                                 required>
+                           </div>
+                        </div>
+
+                        <div class="row">
+                           <div class="form-group col-md-4">
+                              <label for="steem_units_min">Minimum Contributions</label>
+                              <div class="input-group mb-3">
+                                 <input id="steem_units_min" name="steem_units_min" class="form-control" type="number"
+                                    min="0" max="9223372036854775807" placeholder="0.000" step="0.001" required>
+                                 <div class="input-group-append">
+                                    <span class="input-group-text">STEEM</span>
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="form-group col-md-4">
+                              <label for="steem_units_soft_cap">Contribution Soft Cap</label>
+                              <div class="input-group mb-3">
+                                 <input id="steem_units_soft_cap" name="steem_units_soft_cap" class="form-control"
+                                    type="number" min="0" max="9223372036854775807" placeholder="0.000" step="0.001"
+                                    required>
+                                 <div class="input-group-append">
+                                    <span class="input-group-text">STEEM</span>
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="form-group col-md-4">
+                              <label for="steem_units_hard_cap">Contribution Hard Cap</label>
+                              <div class="input-group mb-3">
+                                 <input id="steem_units_hard_cap" name="steem_units_hard_cap" class="form-control"
+                                    type="number" min="0" max="9223372036854775807" placeholder="0.000" step="0.001"
+                                    required>
+                                 <div class="input-group-append">
+                                    <span class="input-group-text">STEEM</span>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-3 coinstack-img"></div>
+                  </div>
+
+                  <!-- Initial generation policy -->
+                  <div class="row">
+                     <div class="form-group col-md-6">
+                        <h4 class="heading">Pre Soft Cap</h4>
+                        <div class="row">
+                           <div class="form-group col-md-6">
+                              <label for="pre_soft_cap_steem_unit">Steem Units</label>
+                              <table id="pre_soft_cap_steem_unit" class="flat-map"></table>
+                           </div>
+
+                           <div class="form-group col-md-6">
+                              <label for="pre_soft_cap_token_unit">Token Units</label>
+                              <table id="pre_soft_cap_token_unit" class="flat-map"></table>
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="form-group col-md-6">
+                        <h4 class="heading">Post Soft Cap</h4>
+                        <div class="row">
+                           <div class="form-group col-md-6">
+                              <label for="post_soft_cap_steem_unit">Steem Units</label>
+                              <table id="post_soft_cap_steem_unit" class="flat-map"></table>
+                           </div>
+
+                           <div class="form-group col-md-6">
+                              <label for="post_soft_cap_token_unit">Token Units</label>
+                              <table id="post_soft_cap_token_unit" class="flat-map"></table>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="row">
+                     <div class="form-group col-md-4">
+                        <label for="min_unit_ratio">Minimum Unit Ratio</label>
+                        <input id="min_unit_ratio" name="min_unit_ratio" class="form-control" type="number" min="0"
+                           max="4294967295" placeholder="50" required>
+                     </div>
+
+                     <div class="form-group col-md-4">
+                        <label for="max_unit_ratio">Maximum Unit Ratio</label>
+                        <input id="max_unit_ratio" name="max_unit_ratio" class="form-control" type="number" min="0"
+                           max="4294967295" placeholder="100" required>
+                     </div>
+                  </div>
+
+                  <hr />
+                  <div class="row">
+                     <div class="form-group col-md-12 text-center">
+                        <input type="button" name="next" class="next action-button btn btn-primary"
+                           value="Next &rarr;" />
+                     </div>
+                  </div>
+
+               </fieldset>
+            </div>
+
+            <!-- Token setup and runtime parameters -->
+            <div class="form-page">
+               <fieldset>
+                  <legend class="heading">Voting Parameters</legend>
+
+                  <div class="row">
+                     <div class="col-md-9">
+                        <!-- Voting -->
+                        <div class="row">
+                           <div class="col-md-6">
+                              <div class="form-group form-check">
+                                 <input id="allow_voting" type="checkbox" name="allow_voting" class="form-check-input"
+                                    onclick="onAllowVotingClicked(this);" checked>
+                                 <label for="allow_voting" class="form-check-label">Allow Voting</label>
+                              </div>
+                           </div>
+                           <div class="col-md-6">
+                              <div class="form-group form-check col-md-6">
+                                 <input id="allow_downvoting" type="checkbox" name="allow_downvoting"
+                                    class="form-check-input" checked>
+                                 <label for="allow_downvoting" class="form-check-label">Allow Downvotes</label>
+                              </div>
+                           </div>
+                        </div>
+
+                        <!-- Windows -->
+                        <div class="row">
+                           <div class="form-group col-md-6">
+                              <label for="cashout_window_seconds">Cashout Window</label>
+                              <div class="input-group mb-3">
+                                 <input id="cashout_window_seconds" type="number" name="cashout_window_seconds"
+                                    class="form-control" min="0" max="4294967295" value="3600">
+                                 <div class="input-group-append">
+                                    <span class="input-group-text">Seconds</span>
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="form-group col-md-6">
+                              <label for="reverse_auction_window_seconds">Reverse Auction Window</label>
+                              <div class="input-group mb-3">
+                                 <input id="reverse_auction_window_seconds" type="number"
+                                    name="reverse_auction_window_seconds" class="form-control" min="0" max="4294967295"
+                                    value="300">
+                                 <div class="input-group-append">
+                                    <span class="input-group-text">Seconds</span>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                        <!-- Vote regeneration period -->
+                        <div class="row">
+                           <div class="form-group col-md-6">
+                              <label for="vote_regeneration_period_seconds">Vote Regeneration Period</label>
+                              <div class="input-group mb-3">
+                                 <input id="vote_regeneration_period_seconds" type="number"
+                                    name="vote_regeneration_period_seconds" class="form-control" min="0"
+                                    max="4294967295" value="432000">
+                                 <div class="input-group-append">
+                                    <span class="input-group-text">Seconds</span>
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="form-group col-md-6">
+                              <label for="votes_per_regeneration_period">Votes per Regeneration Period</label>
+                              <div class="input-group mb-3">
+                                 <input id="votes_per_regeneration_period" type="number"
+                                    name="votes_per_regeneration_period" class="form-control" min="0" max="4294967295"
+                                    value="600">
+                                 <div class="input-group-append">
+                                    <span class="input-group-text">Votes</span>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                        <!-- Rewards -->
+                        <div class="row">
+                           <div class="form-group col-md-6">
+                              <label for="content_constant">Content Constant</label>
+                              <input id="content_constant" type="number" name="content_constant" class="form-control"
+                                 min="0" max="170141183460469231731687303715884105727" value="2000000000000">
+                           </div>
+
+                           <div class="form-group col-md-6">
+                              <label for="percent_curation_rewards">Percent Curation Rewards</label>
+                              <div class="input-group mb-3">
+                                 <input id="percent_curation_rewards" type="number" name="percent_curation_rewards"
+                                    class="form-control" min="0" max="100" value="50">
+                                 <div class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div class="row">
+                           <div class="form-group col-md-6">
+                              <label for="author_reward_curve">Author Reward Curve</label>
+                              <select class="selectpicker" name="author_reward_curve" id="author_reward_curve">
+                                 <option value="quadratic">Quadratic</option>
+                                 <option value="bounded_curation">Bounded curation</option>
+                                 <option value="linear">Linear</option>
+                                 <option value="square_root">Square root</option>
+                                 <option value="convergent_linear" selected="selected">Convergent linear</option>
+                                 <option value="convergent_square_root">Convergent square root</option>
+                              </select>
+                           </div>
+                           <div class="form-group col-md-6">
+                              <label for="curation_reward_curve">Curation Reward Curve</label>
+                              <select class="selectpicker" name="curation_reward_curve" id="curation_reward_curve">
+                                 <option value="quadratic">Quadratic</option>
+                                 <option value="bounded_curation">Bounded curation</option>
+                                 <option value="linear">Linear</option>
+                                 <option value="square_root">Square root</option>
+                                 <option value="convergent_linear">Convergent linear</option>
+                                 <option value="convergent_square_root" selected="selected">Convergent square root
+                                 </option>
+                              </select>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-3 funnel-img"></div>
+                  </div>
+
+                  <hr />
+                  <div class="row">
+                     <div class="form-group col-md-12 text-center">
+                        <input type="button" name="previous" class="previous action-button btn btn-primary"
+                           value="&larr; Previous" />
+                        <input type="button" name="next" class="next action-button btn btn-primary"
+                           value="Next &rarr;" />
+                     </div>
+                  </div>
+
+               </fieldset>
+            </div>
+
+            <div class="form-page">
+               <h3>Token Emissions</h3>
+               <div id="token_emissions">
+                  <!-- Generated fields here -->
+               </div>
+
+               <hr />
+               <div class="row">
+                  <div class="form-group col-md-12 text-center">
+                     <div>
+                        <input type="button" name="previous" class="previous action-button btn btn-primary"
+                           value="&larr; Previous" />
+                        <input type="button" name="addTokenEmissionButton" class="btn btn-primary"
+                           onclick="addTokenEmission();" value="Add Emission" />
+                        <input type="button" name="removeTokenEmissionButton" class="btn btn-primary"
+                           onclick="removeTokenEmission();" value="Remove Emission" />
+                        <input type="button" name="createTokenButton" onclick="createToken();"
+                           class="action-button btn btn-success" value="Create Token" />
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+         </form>
+
       </div>
-      <form id="smt_form">
-         <!-- Token creation -->
-         <div class="form-page">
-            <fieldset>
-               <legend class="heading">Token Creation</legend>
-
-               <div class="row">
-                  <div class="col-md-9">
-                     <div class="row">
-                        <div class="form-group col-md-5">
-                           <label for="control_account">Control Account</label>
-                           <div class="input-group mb-2">
-                              <div class="input-group-prepend">
-                                 <div class="input-group-text">@</div>
-                              </div>
-                              <input id="control_account" type="text" name="control_account" class="form-control"
-                                 placeholder="Username" required>
-                           </div>
-                        </div>
-
-                        <div class="form-group col-md-2">
-                           <label for="precision">Precision</label>
-                           <input id="precision" type="number" name="precision" class="form-control" min="0" max="255"
-                              value="3" required>
-                        </div>
-
-                        <div class="form-group col-md-5">
-                           <label for="max_supply">Max Supply</label>
-                           <div class="input-group mb-3">
-                              <input id="max_supply" name="max_supply" class="form-control" type="number" min="0"
-                                 max="1000000000000000" placeholder="1000000000000000" required>
-                              <div class="input-group-append">
-                                 <span class="input-group-text">Tokens</span>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div class="row">
-                        <div class="form-group col-md-4">
-                           <label for="contribution_begin_time">Contribution Begin Time</label>
-                           <input id="contribution_begin_time" name="contribution_begin_time" class="form-control"
-                              type="datetime-local" required>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                           <label for="contribution_end_time">Contribution End Time</label>
-                           <input id="contribution_end_time" name="contribution_end_time" class="form-control"
-                              type="datetime-local" required>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                           <label for="launch_time">Launch Time</label>
-                           <input id="launch_time" name="launch_time" type="datetime-local" class="form-control"
-                              required>
-                        </div>
-                     </div>
-
-                     <div class="row">
-                        <div class="form-group col-md-4">
-                           <label for="steem_units_min">Minimum Contributions</label>
-                           <div class="input-group mb-3">
-                              <input id="steem_units_min" name="steem_units_min" class="form-control" type="number"
-                                 min="0" max="9223372036854775807" placeholder="0.000" step="0.001" required>
-                              <div class="input-group-append">
-                                 <span class="input-group-text">STEEM</span>
-                              </div>
-                           </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                           <label for="steem_units_soft_cap">Contribution Soft Cap</label>
-                           <div class="input-group mb-3">
-                              <input id="steem_units_soft_cap" name="steem_units_soft_cap" class="form-control"
-                                 type="number" min="0" max="9223372036854775807" placeholder="0.000" step="0.001"
-                                 required>
-                              <div class="input-group-append">
-                                 <span class="input-group-text">STEEM</span>
-                              </div>
-                           </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                           <label for="steem_units_hard_cap">Contribution Hard Cap</label>
-                           <div class="input-group mb-3">
-                              <input id="steem_units_hard_cap" name="steem_units_hard_cap" class="form-control"
-                                 type="number" min="0" max="9223372036854775807" placeholder="0.000" step="0.001"
-                                 required>
-                              <div class="input-group-append">
-                                 <span class="input-group-text">STEEM</span>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-md-3 coinstack-img"></div>
-               </div>
-
-               <!-- Initial generation policy -->
-               <div class="row">
-                  <div class="form-group col-md-6">
-                     <h4 class="heading">Pre Soft Cap</h4>
-                     <div class="row">
-                        <div class="form-group col-md-6">
-                           <label for="pre_soft_cap_steem_unit">Steem Units</label>
-                           <table id="pre_soft_cap_steem_unit" class="flat-map"></table>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                           <label for="pre_soft_cap_token_unit">Token Units</label>
-                           <table id="pre_soft_cap_token_unit" class="flat-map"></table>
-                        </div>
-                     </div>
-                  </div>
-
-                  <div class="form-group col-md-6">
-                     <h4 class="heading">Post Soft Cap</h4>
-                     <div class="row">
-                        <div class="form-group col-md-6">
-                           <label for="post_soft_cap_steem_unit">Steem Units</label>
-                           <table id="post_soft_cap_steem_unit" class="flat-map"></table>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                           <label for="post_soft_cap_token_unit">Token Units</label>
-                           <table id="post_soft_cap_token_unit" class="flat-map"></table>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-
-               <div class="row">
-                  <div class="form-group col-md-4">
-                     <label for="min_unit_ratio">Minimum Unit Ratio</label>
-                     <input id="min_unit_ratio" name="min_unit_ratio" class="form-control" type="number" min="0"
-                        max="4294967295" placeholder="50" required>
-                  </div>
-
-                  <div class="form-group col-md-4">
-                     <label for="max_unit_ratio">Maximum Unit Ratio</label>
-                     <input id="max_unit_ratio" name="max_unit_ratio" class="form-control" type="number" min="0"
-                        max="4294967295" placeholder="100" required>
-                  </div>
-               </div>
-
-               <hr />
-               <div class="row">
-                  <div class="form-group col-md-12 text-center">
-                     <input type="button" name="next" class="next action-button btn btn-primary" value="Next &rarr;" />
-                  </div>
-               </div>
-
-            </fieldset>
-         </div>
-
-         <!-- Token setup and runtime parameters -->
-         <div class="form-page">
-            <fieldset>
-               <legend class="heading">Voting Parameters</legend>
-
-               <div class="row">
-                  <div class="col-md-9">
-                     <!-- Voting -->
-                     <div class="row">
-                        <div class="col-md-6">
-                           <div class="form-group form-check">
-                              <input id="allow_voting" type="checkbox" name="allow_voting" class="form-check-input"
-                                 onclick="onAllowVotingClicked(this);" checked>
-                              <label for="allow_voting" class="form-check-label">Allow Voting</label>
-                           </div>
-                        </div>
-                        <div class="col-md-6">
-                           <div class="form-group form-check col-md-6">
-                              <input id="allow_downvoting" type="checkbox" name="allow_downvoting" class="form-check-input"
-                                 checked>
-                              <label for="allow_downvoting" class="form-check-label">Allow Downvotes</label>
-                           </div>
-                        </div>
-                     </div>
-
-                     <!-- Windows -->
-                     <div class="row">
-                        <div class="form-group col-md-6">
-                           <label for="cashout_window_seconds">Cashout Window</label>
-                           <div class="input-group mb-3">
-                              <input id="cashout_window_seconds" type="number" name="cashout_window_seconds"
-                                 class="form-control" min="0" max="4294967295" value="3600">
-                              <div class="input-group-append">
-                                 <span class="input-group-text">Seconds</span>
-                              </div>
-                           </div>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                           <label for="reverse_auction_window_seconds">Reverse Auction Window</label>
-                           <div class="input-group mb-3">
-                              <input id="reverse_auction_window_seconds" type="number"
-                                 name="reverse_auction_window_seconds" class="form-control" min="0" max="4294967295"
-                                 value="300">
-                              <div class="input-group-append">
-                                 <span class="input-group-text">Seconds</span>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-
-                     <!-- Vote regeneration period -->
-                     <div class="row">
-                        <div class="form-group col-md-6">
-                           <label for="vote_regeneration_period_seconds">Vote Regeneration Period</label>
-                           <div class="input-group mb-3">
-                              <input id="vote_regeneration_period_seconds" type="number"
-                                 name="vote_regeneration_period_seconds" class="form-control" min="0" max="4294967295"
-                                 value="432000">
-                              <div class="input-group-append">
-                                 <span class="input-group-text">Seconds</span>
-                              </div>
-                           </div>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                           <label for="votes_per_regeneration_period">Votes per Regeneration Period</label>
-                           <div class="input-group mb-3">
-                              <input id="votes_per_regeneration_period" type="number"
-                                 name="votes_per_regeneration_period" class="form-control" min="0" max="4294967295"
-                                 value="600">
-                              <div class="input-group-append">
-                                 <span class="input-group-text">Votes</span>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-
-                     <!-- Rewards -->
-                     <div class="row">
-                        <div class="form-group col-md-6">
-                           <label for="content_constant">Content Constant</label>
-                           <input id="content_constant" type="number" name="content_constant" class="form-control"
-                              min="0" max="170141183460469231731687303715884105727" value="2000000000000">
-                        </div>
-
-                        <div class="form-group col-md-6">
-                           <label for="percent_curation_rewards">Percent Curation Rewards</label>
-                           <div class="input-group mb-3">
-                              <input id="percent_curation_rewards" type="number" name="percent_curation_rewards"
-                                 class="form-control" min="0" max="100" value="50">
-                              <div class="input-group-append">
-                                 <span class="input-group-text">%</span>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div class="row">
-                        <div class="form-group col-md-6">
-                           <label for="author_reward_curve">Author Reward Curve</label>
-                           <select class="selectpicker" name="author_reward_curve" id="author_reward_curve">
-                              <option value="quadratic">Quadratic</option>
-                              <option value="bounded_curation">Bounded curation</option>
-                              <option value="linear">Linear</option>
-                              <option value="square_root">Square root</option>
-                              <option value="convergent_linear" selected="selected">Convergent linear</option>
-                              <option value="convergent_square_root">Convergent square root</option>
-                           </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                           <label for="curation_reward_curve">Curation Reward Curve</label>
-                           <select class="selectpicker" name="curation_reward_curve" id="curation_reward_curve">
-                              <option value="quadratic">Quadratic</option>
-                              <option value="bounded_curation">Bounded curation</option>
-                              <option value="linear">Linear</option>
-                              <option value="square_root">Square root</option>
-                              <option value="convergent_linear">Convergent linear</option>
-                              <option value="convergent_square_root" selected="selected">Convergent square root</option>
-                           </select>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-md-3 funnel-img"></div>
-               </div>
-
-               <hr />
-               <div class="row">
-                  <div class="form-group col-md-12 text-center">
-                     <input type="button" name="previous" class="previous action-button btn btn-primary"
-                        value="&larr; Previous" />
-                     <input type="button" name="next" class="next action-button btn btn-primary" value="Next &rarr;" />
-                  </div>
-               </div>
-
-            </fieldset>
-         </div>
-
-         <div class="form-page">
-            <h3>Token Emissions</h3>
-            <div id="token_emissions">
-               <!-- Generated fields here -->
-            </div>
-
-            <hr />
-            <div class="row">
-               <div class="form-group col-md-12 text-center">
-                  <div>
-                     <input type="button" name="previous" class="previous action-button btn btn-primary"
-                        value="&larr; Previous" />
-                     <input type="button" name="addTokenEmissionButton" class="btn btn-primary"
-                        onclick="addTokenEmission();" value="Add Emission" />
-                     <input type="button" name="removeTokenEmissionButton" class="btn btn-primary"
-                        onclick="removeTokenEmission();" value="Remove Emission" />
-                     <input type="button" name="createTokenButton" onclick="createToken();"
-                        class="action-button btn btn-success" value="Create Token" />
-                  </div>
-               </div>
-            </div>
-         </div>
-
-      </form>
-
    </div>
 
    <!-- Token emissions template -->
