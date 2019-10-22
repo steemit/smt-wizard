@@ -2,6 +2,8 @@ $(document).ready(function () {
     initializeSteemJS();
     addTokenEmission();
 
+    $('.combobox').combobox({ clearIfNoMatch: false, appendId: '_combo' });
+
     $(".flat-map").each(function (index, element) {
         createEmissionsUnitWidget(element);
     });
@@ -313,7 +315,8 @@ async function createToken() {
                 'lep_time': getValue("lep_time_" + i),
                 'rep_time': getValue("rep_time_" + i),
                 'interval_seconds': getValue("interval_seconds_" + i),
-                'interval_count': getValue("interval_count_" + i),
+                //'interval_count': getValue("interval_count_" + i),
+                'interval_count': $('#interval_count_' + i + '_combo').val(),
                 'lep_abs_amount': getValue("lep_abs_amount_" + i),
                 'rep_abs_amount': getValue("rep_abs_amount_" + i),
                 'lep_rel_numerator': getValue("lep_rel_numerator_" + i),
