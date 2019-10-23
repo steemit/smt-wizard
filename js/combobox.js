@@ -41,6 +41,7 @@
     this.selected = false;
     this.renderLimit = this.options.renderLimit || -1;
     this.clearIfNoMatch = this.options.clearIfNoMatch;
+    this.inputGroupAdditionalClass = this.options.inputGroupAdditionalClass;
     this.refresh();
     this.transferAttributes();
     this.listen();
@@ -166,7 +167,6 @@
     }
 
   , process: function (items) {
-    console.log('process');
       var that = this;
 
       items = $.grep(items, function (item) {
@@ -188,7 +188,7 @@
       } else if (this.options.bsVersion == '3') {
         return '<div class="combobox-container"> <input type="hidden" /> <div class="input-group"> <input type="text" autocomplete="off" /> <span class="input-group-addon dropdown-toggle" data-dropdown="dropdown"> <span class="caret pulldown" /> <span class="glyphicon glyphicon-remove remove" /> </span> </div> </div>'
       } else {
-        return '<div class="combobox-container"> <input type="hidden" /> <div class="input-group"> <input type="text" autocomplete="off" />'
+        return '<div class="combobox-container"> <input type="hidden" /> <div class="input-group' + (this.options.inputGroupAdditionalClass ? ' ' + this.options.inputGroupAdditionalClass : '') + '"> <input type="text" autocomplete="off" />'
           + '<span class="input-group-append"' + (hasPopper ? ' data-toggle="dropdown" data-reference="parent"' : '') + '>'
             + '<span class="input-group-text dropdown-toggle' + (this.options.iconCaret ? ' custom-icon' : '') + '">'
               + (this.options.iconCaret ? '<span class="' + this.options.iconCaret + ' pulldown" />' : '')

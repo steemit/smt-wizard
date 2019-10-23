@@ -2,8 +2,6 @@ $(document).ready(function () {
     initializeSteemJS();
     addTokenEmission();
 
-    $('.combobox').combobox({ clearIfNoMatch: false, appendId: '_combo' });
-
     $(".flat-map").each(function (index, element) {
         createEmissionsUnitWidget(element);
     });
@@ -118,7 +116,8 @@ function addTokenEmission() {
     appendFormElements(templateNode.querySelectorAll('*'), _numTokenEmissions);
     document.getElementById("token_emissions").appendChild(templateNode);
     createEmissionsUnitWidget(document.getElementById("emissions_unit_" + _numTokenEmissions));
-    $( "#" + templateNode.id ).slideDown( "slow", function() {});
+    $( '#interval_count_' + _numTokenEmissions ).combobox({ clearIfNoMatch: false, appendId: '_combo' });
+    $( '#' + templateNode.id ).slideDown( "slow", function() {});
 }
 
 function removeTokenEmission() {
@@ -353,7 +352,7 @@ async function createToken() {
     console.log(transaction);
 }
 
-function createEmissionsUnitWidget(element) {
+function createEmissionsUnitWidget(element, options) {
     _emissionsUnitWidgets[element.id] = new AppendGrid({
         element: element,
         uiFramework: 'bootstrap4',
@@ -361,7 +360,34 @@ function createEmissionsUnitWidget(element) {
         columns: [{
             name: 'destination',
             display: 'Destination',
-            type: 'text'
+            type: 'custom',
+            customBuilder: function(parent, idPrefix, name, uniqueIndex) {
+
+                var arr = [''].concat(options);
+
+                var inputControl = $('<select>');
+                $(arr).each(function() {
+                    inputControl.append($("<option>").text(this));
+                });
+
+                var uniqueId = idPrefix + "_" + name + "_" + uniqueIndex;
+                inputControl.attr({
+                    id: uniqueId,
+                    name: uniqueId
+                });
+                inputControl.addClass('form-control');
+                inputControl.addClass('form-control-sm');
+                inputControl.appendTo(parent);
+                inputControl.combobox({ clearIfNoMatch: false, appendId: '_combo', inputGroupAdditionalClass: 'input-group-sm' });
+            },
+            customGetter: function(idPrefix, name, uniqueIndex) {
+                var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                return $(controlId).val();
+            },
+            customSetter: function(idPrefix, name, uniqueIndex, value) {
+                var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                $(cotnrolId).val(value);
+            }
         }, {
             name: 'units',
             display: 'Units',
