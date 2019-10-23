@@ -25,6 +25,22 @@ $(document).ready(function () {
         }
     });
 
+    /*
+    // This will disable the next button until all fields are valid
+    $('.next').attr('disabled', true);
+    $("input,select,textarea").bind("keyup change", function(e) {
+        var visible_form_is_valid = true;
+        $('.needs-validation').find('input:visible').each(function () {
+            if (!this.checkValidity()) {
+                visible_form_is_valid = false;
+            }
+        });
+        if (visible_form_is_valid) {
+            $('.next:visible').attr('disabled', false);
+        }
+    });
+    */
+
     // On blur validation listener for form elements
     $('.needs-validation').find('input,select,textarea').on('focusout', function () {
         // Check element validity and change class
@@ -49,7 +65,12 @@ $(document).ready(function () {
             columns: [{
                 name: 'destination',
                 display: 'Destination',
-                type: 'text'
+                type: 'text',
+                ctrlAttr: {
+                    "minlength": 3,
+                    "maxlength": 32,
+                    "required": true
+                }
             }, {
                 name: 'units',
                 display: 'Units',
@@ -57,7 +78,8 @@ $(document).ready(function () {
                 ctrlAttr: {
                     "min": 0,
                     "max": 255,
-                    "step": 1
+                    "step": 1,
+                    "required": true
                 }
             }],
             hideButtons: {
@@ -301,6 +323,23 @@ $(document).ready(function () {
     });
 
     $("input[type=button].next").click(function () {
+        var visible_form_is_valid = true;
+        $('.needs-validation').find('input:visible,select:visible,textarea:visible').each(function () {
+            // Check element validity and change class
+            $(this).removeClass('is-valid is-invalid').addClass(this.checkValidity() ? 'is-valid' : 'is-invalid');
+            if (this.checkValidity()) {
+                $(this).removeClass('is-valid is-invalid').addClass('is-valid');
+                $(this).closest('.form-group').find('.valid-feedback').show();
+                $(this).closest('.form-group').find('.invalid-feedback').hide();
+            }
+            else {
+                $(this).removeClass('is-valid is-invalid').addClass('is-invalid');
+                $(this).closest('.form-group').find('.valid-feedback').hide();
+                $(this).closest('.form-group').find('.invalid-feedback').show();
+                visible_form_is_valid = false;
+            }
+        });
+        if (!visible_form_is_valid) return false;
         if (animating) return false;
         animating = true;
 
@@ -374,6 +413,24 @@ $(document).ready(function () {
     });
 
     $('[name="createTokenButton"]').click( async function() {
+        var visible_form_is_valid = true;
+        $('.needs-validation').find('input:visible,select:visible,textarea:visible').each(function () {
+            // Check element validity and change class
+            $(this).removeClass('is-valid is-invalid').addClass(this.checkValidity() ? 'is-valid' : 'is-invalid');
+            if (this.checkValidity()) {
+                $(this).removeClass('is-valid is-invalid').addClass('is-valid');
+                $(this).closest('.form-group').find('.valid-feedback').show();
+                $(this).closest('.form-group').find('.invalid-feedback').hide();
+            }
+            else {
+                $(this).removeClass('is-valid is-invalid').addClass('is-invalid');
+                $(this).closest('.form-group').find('.valid-feedback').hide();
+                $(this).closest('.form-group').find('.invalid-feedback').show();
+                visible_form_is_valid = false;
+            }
+        });
+        if (!visible_form_is_valid) return false;
+
         // Common values for all operations
         var controlAccount = getValue("control_account");
         var symbol = await asyncGetNaiFromPool();
