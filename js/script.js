@@ -25,6 +25,25 @@ $(document).ready(function () {
         }
     });
 
+    function validationFeedback( object, callbacks ) {
+        // Check element validity and change class
+        $(object).removeClass('is-valid is-invalid').addClass(object.checkValidity() ? 'is-valid' : 'is-invalid');
+        if (object.checkValidity()) {
+            $(object).removeClass('is-valid is-invalid').addClass('is-valid');
+            $(object).closest('.form-group').find('.valid-feedback').show();
+            $(object).closest('.form-group').find('.invalid-feedback').hide();
+            if (typeof callbacks.onValid !== "undefined")
+                callbacks.onValid( object );
+        }
+        else {
+            $(object).removeClass('is-valid is-invalid').addClass('is-invalid');
+            $(object).closest('.form-group').find('.valid-feedback').hide();
+            $(object).closest('.form-group').find('.invalid-feedback').show();
+            if (typeof callbacks.onInvalid !== "undefined")
+                callbacks.onInvalid( object );
+        }
+   }
+
     /*
     // This will disable the next button until all fields are valid
     $('.next').attr('disabled', true);
@@ -43,18 +62,7 @@ $(document).ready(function () {
 
     // On blur validation listener for form elements
     $('.needs-validation').find('input,select,textarea').on('focusout', function () {
-        // Check element validity and change class
-        $(this).removeClass('is-valid is-invalid').addClass(this.checkValidity() ? 'is-valid' : 'is-invalid');
-        if (this.checkValidity()) {
-            $(this).removeClass('is-valid is-invalid').addClass('is-valid');
-            $(this).closest('.form-group').find('.valid-feedback').show();
-            $(this).closest('.form-group').find('.invalid-feedback').hide();
-        }
-        else {
-            $(this).removeClass('is-valid is-invalid').addClass('is-invalid');
-            $(this).closest('.form-group').find('.valid-feedback').hide();
-            $(this).closest('.form-group').find('.invalid-feedback').show();
-        }
+        validationFeedback( this );
     });
 
     function createDestinationUnitWidget(element) {
@@ -102,32 +110,10 @@ $(document).ready(function () {
                 var destination_id = '#' + caller.id + "_destination_" + (addedRowIndex[0] + 1);
                 var units_id = '#' + caller.id + "_units_" + (addedRowIndex[0] + 1);
                 $(destination_id).on('focusout', function () {
-                    // Check element validity and change class
-                    $(this).removeClass('is-valid is-invalid').addClass(this.checkValidity() ? 'is-valid' : 'is-invalid');
-                    if (this.checkValidity()) {
-                        $(this).removeClass('is-valid is-invalid').addClass('is-valid');
-                        $(this).closest('.form-group').find('.valid-feedback').show();
-                        $(this).closest('.form-group').find('.invalid-feedback').hide();
-                    }
-                    else {
-                        $(this).removeClass('is-valid is-invalid').addClass('is-invalid');
-                        $(this).closest('.form-group').find('.valid-feedback').hide();
-                        $(this).closest('.form-group').find('.invalid-feedback').show();
-                    }
+                    validationFeedback( this );
                 });
                 $(units_id).on('focusout', function () {
-                    // Check element validity and change class
-                    $(this).removeClass('is-valid is-invalid').addClass(this.checkValidity() ? 'is-valid' : 'is-invalid');
-                    if (this.checkValidity()) {
-                        $(this).removeClass('is-valid is-invalid').addClass('is-valid');
-                        $(this).closest('.form-group').find('.valid-feedback').show();
-                        $(this).closest('.form-group').find('.invalid-feedback').hide();
-                    }
-                    else {
-                        $(this).removeClass('is-valid is-invalid').addClass('is-invalid');
-                        $(this).closest('.form-group').find('.valid-feedback').hide();
-                        $(this).closest('.form-group').find('.invalid-feedback').show();
-                    }
+                    validationFeedback( this );
                 });
             },
             beforeRowRemove: function(caller, rowIndex) {
@@ -250,18 +236,7 @@ $(document).ready(function () {
         document.getElementById("token_emissions").appendChild(templateNode);
 
         $('#' + templateNode.id).find('input,select,textarea').on('focusout', function () {
-            // Check element validity and change class
-            $(this).removeClass('is-valid is-invalid').addClass(this.checkValidity() ? 'is-valid' : 'is-invalid');
-            if (this.checkValidity()) {
-                $(this).removeClass('is-valid is-invalid').addClass('is-valid');
-                $(this).closest('.form-group').find('.valid-feedback').show();
-                $(this).closest('.form-group').find('.invalid-feedback').hide();
-            }
-            else {
-                $(this).removeClass('is-valid is-invalid').addClass('is-invalid');
-                $(this).closest('.form-group').find('.valid-feedback').hide();
-                $(this).closest('.form-group').find('.invalid-feedback').show();
-            }
+            validationFeedback( this );
         });
 
         createDestinationUnitWidget(document.getElementById("emissions_unit_" + num_token_emissions));
@@ -325,21 +300,14 @@ $(document).ready(function () {
     $("input[type=button].next").click(function () {
         var visible_form_is_valid = true;
         $('.needs-validation').find('input:visible,select:visible,textarea:visible').each(function () {
-            // Check element validity and change class
-            $(this).removeClass('is-valid is-invalid').addClass(this.checkValidity() ? 'is-valid' : 'is-invalid');
-            if (this.checkValidity()) {
-                $(this).removeClass('is-valid is-invalid').addClass('is-valid');
-                $(this).closest('.form-group').find('.valid-feedback').show();
-                $(this).closest('.form-group').find('.invalid-feedback').hide();
-            }
-            else {
-                $(this).removeClass('is-valid is-invalid').addClass('is-invalid');
-                $(this).closest('.form-group').find('.valid-feedback').hide();
-                $(this).closest('.form-group').find('.invalid-feedback').show();
-                visible_form_is_valid = false;
-            }
+            validationFeedback( this, {
+                onInvalid: function( obj ) {
+                    visible_form_is_valid = false;
+                }
+            });
         });
         if (!visible_form_is_valid) return false;
+
         if (animating) return false;
         animating = true;
 
@@ -415,19 +383,11 @@ $(document).ready(function () {
     $('[name="createTokenButton"]').click( async function() {
         var visible_form_is_valid = true;
         $('.needs-validation').find('input:visible,select:visible,textarea:visible').each(function () {
-            // Check element validity and change class
-            $(this).removeClass('is-valid is-invalid').addClass(this.checkValidity() ? 'is-valid' : 'is-invalid');
-            if (this.checkValidity()) {
-                $(this).removeClass('is-valid is-invalid').addClass('is-valid');
-                $(this).closest('.form-group').find('.valid-feedback').show();
-                $(this).closest('.form-group').find('.invalid-feedback').hide();
-            }
-            else {
-                $(this).removeClass('is-valid is-invalid').addClass('is-invalid');
-                $(this).closest('.form-group').find('.valid-feedback').hide();
-                $(this).closest('.form-group').find('.invalid-feedback').show();
-                visible_form_is_valid = false;
-            }
+            validationFeedback( this, {
+                onInvalid: function( obj ) {
+                    visible_form_is_valid = false;
+                }
+            });
         });
         if (!visible_form_is_valid) return false;
 
