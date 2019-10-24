@@ -32,14 +32,14 @@ $(document).ready(function () {
             $(object).removeClass('is-valid is-invalid').addClass('is-valid');
             $(object).closest('.form-group').find('.valid-feedback').show();
             $(object).closest('.form-group').find('.invalid-feedback').hide();
-            if (typeof callbacks.onValid !== "undefined")
+            if (typeof callbacks !== "undefined" && typeof callbacks.onValid !== "undefined")
                 callbacks.onValid( object );
         }
         else {
             $(object).removeClass('is-valid is-invalid').addClass('is-invalid');
             $(object).closest('.form-group').find('.valid-feedback').hide();
             $(object).closest('.form-group').find('.invalid-feedback').show();
-            if (typeof callbacks.onInvalid !== "undefined")
+            if (typeof callbacks !== "undefined" && typeof callbacks.onInvalid !== "undefined")
                 callbacks.onInvalid( object );
         }
    }
