@@ -210,7 +210,7 @@ $(document).ready(function () {
         });
     }
 
-    $('[name="addTokenEmissionButton"]').click( function() {
+    $('[name="add_token_emission_button"]').click( function() {
         num_token_emissions++;
 
         function appendFormElements(elements, append) {
@@ -245,7 +245,7 @@ $(document).ready(function () {
         });
     });
 
-    $('[name="removeTokenEmissionButton"]').click( function() {
+    $('[name="remove_token_emission_button"]').click( function() {
         if (num_token_emissions == 0) return;
 
         var element = $('#token_emission_'+ num_token_emissions );
@@ -261,7 +261,7 @@ $(document).ready(function () {
     });
 
     // We issue a click just to add a Token Emission by default
-    $('[name="addTokenEmissionButton"]').click();
+    $('[name="add_token_emission_button"]').click();
 
     $(".flat-map").each(function (index, element) {
         createDestinationUnitWidget(element);
@@ -380,7 +380,7 @@ $(document).ready(function () {
         });
     });
 
-    $('[name="createTokenButton"]').click( async function() {
+    $('[name="create_token_button"]').click( async function() {
         var visible_form_is_valid = true;
         $('.needs-validation').find('input:visible,select:visible,textarea:visible').each(function () {
             validationFeedback( this, {
