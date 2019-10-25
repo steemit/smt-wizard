@@ -241,7 +241,7 @@ $(document).ready(function () {
 
         createDestinationUnitWidget(document.getElementById("emissions_unit_" + num_token_emissions));
         $( "#" + templateNode.id ).slideDown( "slow", function() {
-            $('[name="removeTokenEmissionButton"]').attr('disabled', false);
+            $('[name="remove_token_emission_button"]').attr('disabled', false);
         });
     });
 
@@ -255,7 +255,7 @@ $(document).ready(function () {
             element.remove();
             num_token_emissions--;
             if (num_token_emissions == 0) {
-                $('[name="removeTokenEmissionButton"]').attr('disabled', true);
+                $('[name="remove_token_emission_button"]').attr('disabled', true);
             }
         });
     });
