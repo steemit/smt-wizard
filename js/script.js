@@ -391,10 +391,47 @@ $(document).ready(function () {
         });
         if (!visible_form_is_valid) return false;
 
+        $('#wif-dialog').dialog( "option", "width", $('.form-page').width() * 0.8 );
+        $('#wif-dialog').dialog('open');
+    });
+
+    $('#wif-dialog').dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: [
+            {
+                text: "Cancel",
+                "class": 'btn btn-secondary',
+                click: function() {
+                    $(this).dialog("close");
+                }
+            },
+            {
+                text: "Continue",
+                "class": 'btn btn-primary',
+                click: function() {
+                    createToken();
+                    $(this).dialog("close");
+                }
+            }
+        ],
+        closeOnEscape: false,
+        open: function(event, ui) {
+            $('#control_account_unused').val(getValue("control_account"));
+            $(".ui-dialog-titlebar-close", ui.dialog).hide();
+            $(".ui-dialog-titlebar", ui.dialog).hide();
+        },
+        draggable: false,
+        resizable: false
+    });
+
+    async function createToken()
+    {
         // Common values for all operations
         var controlAccount = getValue("control_account");
         var symbol = await asyncGetNaiFromPool();
         symbol.decimals = getValue("precision");
+        var activeWif = getValue('active_wif');
 
         var transaction = {};
         transaction.operations = [];
@@ -480,5 +517,6 @@ $(document).ready(function () {
         ]);
 
         console.log(transaction);
-    });
+        console.log(activeWif);
+    }
 });

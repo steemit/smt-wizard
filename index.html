@@ -369,6 +369,8 @@
       </div>
    </div>
 
+   <!-- Hidden -->
+
    <!-- Token emissions template -->
    <fieldset id="token_emission_template" class="token-emission">
       <h4 class="heading">Token Emission</h4>
@@ -460,6 +462,25 @@
          <table id="emissions_unit"></table>
       </div>
    </fieldset>
+
+   <div id="wif-dialog" class="row" title="Active WIF">
+      <div clss="row">
+         <div class="form-group col-md-12">
+            <label for="control_account_unused">Control Account</label>
+            <div class="input-group mb-2">
+               <div class="input-group-prepend">
+                  <div class="input-group-text">@</div>
+               </div>
+               <input id="control_account_unused" name="control_account_unused" class="form-control" type="text" disabled>
+            </div>
+         </div>
+
+         <div class="form-group col-md-12">
+            <label for="active_wif">Active WIF</label>
+            <input id="active_wif" name="active_wif" class="form-control" type="password" autocomplete="off" required>
+         </div>
+      </div>
+   </div>
 
 </body>
 

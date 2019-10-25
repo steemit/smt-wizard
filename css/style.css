@@ -76,7 +76,7 @@ h4.heading {
 
 #token_emission_template, .token-emission { display: none; }
 
-.form-page {
+.form-page, .ui-dialog {
 	border-style: outset;
   border-width: 1px;
   border-color: #f5f5f5;
@@ -197,3 +197,19 @@ h4.heading {
   display: none;
 }
 
+#wif-dialog {
+  display: none;
+}
+
+.ui-widget-overlay {
+  background: #212529;
+  opacity: 0.5;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+  text-align: center;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+  float: none;
+}
