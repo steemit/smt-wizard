@@ -401,15 +401,24 @@ $(document).ready(function () {
         buttons: [
             {
                 text: "Cancel",
-                "class": 'btn btn-secondary',
+                "class": 'btn btn-primary',
                 click: function() {
                     $(this).dialog("close");
                 }
             },
             {
                 text: "Continue",
-                "class": 'btn btn-primary',
+                "class": 'btn btn-success',
                 click: function() {
+                    var visible_form_is_valid = true;
+                    $('#active_wif').each(function () {
+                        validationFeedback( this, {
+                            onInvalid: function( obj ) {
+                                visible_form_is_valid = false;
+                            }
+                        });
+                    });
+                    if (!visible_form_is_valid) return false;
                     createToken();
                     $(this).dialog("close");
                 }
