@@ -9,7 +9,7 @@ $(document).ready(function () {
     // Connect SteemJS to the testnet
     steem.api.setOptions({
         url: 'https://testnet.steemitdev.com',
-        retry: false,
+        retry: true,
         address_prefix: 'TST',
         chain_id: '46d82ab7d8db682eb1959aed0ada039a6d49afa1602491f93dde9cac3e8e6c32',
         useAppbaseApi: true,
@@ -180,33 +180,10 @@ $(document).ready(function () {
                 return Math.floor(Math.random() * (max - min + 1)) + min;
             }
 
-            var http = new XMLHttpRequest();
-            var url = 'https://testnet.steemitdev.com';
-            var payload = '{"jsonrpc":"2.0","method":"database_api.get_nai_pool","params":{},"id":1}';
-            http.open('POST', url, true);
-
-            http.setRequestHeader('Content-Type', 'application/json');
-
-            http.onreadystatechange = function () {
-                if (http.readyState != 4) return;
-
-                if (http.status == 200) {
-                    var json = JSON.parse(http.responseText);
-                    if (json.result.nai_pool.length > 0) {
-                        // We choose a random NAI to decrease the likelihood of two or 
-                        // more people clashing while trying to claim a NAI
-                        var index = getRandomInt(0, json.result.nai_pool.length - 1);
-                        resolve(json.result.nai_pool[index]);
-                    }
-                    else {
-                        reject("No available NAIs!");
-                    }
-                }
-                else {
-                    reject(http.status);
-                }
-            }
-            http.send(payload);
+            steem.api.callAsync('condenser_api.get_nai_pool', []).then((result) => {
+                var index = getRandomInt(0, result.length - 1);
+                resolve(result[index]);
+            }).catch((err) => { reject("No available NAIs!"); });
         });
     }
 
@@ -439,7 +416,7 @@ $(document).ready(function () {
         // Common values for all operations
         var controlAccount = getValue("control_account");
         var symbol = await asyncGetNaiFromPool();
-        symbol.decimals = getValue("precision");
+        symbol.precision = getValue("precision");
         var activeWif = getValue('active_wif');
 
         var transaction = {};
@@ -451,7 +428,7 @@ $(document).ready(function () {
                 'symbol': symbol,
                 'precision': symbol.decimals,
                 'smt_creation_fee': {
-                    'amount': '1000',
+                    'amount': 1000,
                     'precision': 3,
                     'nai': '@@000000013'
                 }
@@ -466,21 +443,23 @@ $(document).ready(function () {
             }
         ]);
 
-        transaction.operations.push([
-            'smt_set_runtime_parameters', {
-                'control_account': controlAccount,
-                'symbol': symbol,
-                'allow_downvoting': getValue("allow_downvoting"),
-                'cashout_window_seconds': getValue("cashout_window_seconds"),
-                'reverse_auction_window_seconds': getValue("reverse_auction_window_seconds"),
-                'vote_regeneration_period_seconds': getValue("vote_regeneration_period_seconds"),
-                'votes_per_regeneration_period': getValue("votes_per_regeneration_period"),
-                'content_constant': getValue("content_constant"),
-                'percent_curation_rewards': getValue("percent_curation_rewards"),
-                'author_reward_curve': getValue("author_reward_curve"),
-                'curation_reward_curve': getValue("curation_reward_curve")
-            }
-        ]);
+        if (getValue("allow_voting")) {
+            transaction.operations.push([
+                'smt_set_runtime_parameters', {
+                    'control_account': controlAccount,
+                    'symbol': symbol,
+                    'allow_downvoting': getValue("allow_downvoting"),
+                    'cashout_window_seconds': getValue("cashout_window_seconds"),
+                    'reverse_auction_window_seconds': getValue("reverse_auction_window_seconds"),
+                    'vote_regeneration_period_seconds': getValue("vote_regeneration_period_seconds"),
+                    'votes_per_regeneration_period': getValue("votes_per_regeneration_period"),
+                    'content_constant': getValue("content_constant"),
+                    'percent_curation_rewards': getValue("percent_curation_rewards"),
+                    'author_reward_curve': getValue("author_reward_curve"),
+                    'curation_reward_curve': getValue("curation_reward_curve")
+                }
+            ]);
+        }
 
         for (var i = 1; i <= num_token_emissions; i++) {
             transaction.operations.push([
@@ -527,5 +506,17 @@ $(document).ready(function () {
 
         console.log(transaction);
         console.log(activeWif);
+        steem.api.callAsync('condenser_api.get_version', []).then((result) => {
+            if(result['blockchain_version'] < '0.23.0') return done(); /* SKIP AS THIS WILL ONLY PASS ON A TESTNET CURRENTLY */
+            result.should.have.property('blockchain_version');
+
+            steem.broadcast._prepareTransaction(transaction).then(function(tx){
+              tx = steem.auth.signTransaction(tx, [activeWif]);
+              steem.api.verifyAuthorityAsync(tx).then(
+                (result) => {result.should.equal(true); console.log(result); done();},
+                (err)    => {console.log(err);done(err);}
+              );
+            });
+        });
     }
 });
