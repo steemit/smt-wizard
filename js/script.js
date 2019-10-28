@@ -426,12 +426,13 @@ $(document).ready(function () {
             'smt_create', {
                 'control_account': controlAccount,
                 'symbol': symbol,
-                'precision': symbol.decimals,
+                'precision': symbol.precision,
                 'smt_creation_fee': {
                     'amount': 1000,
                     'precision': 3,
                     'nai': '@@000000013'
-                }
+                },
+                'extensions': []
             }
         ]);
 
@@ -439,7 +440,8 @@ $(document).ready(function () {
             'smt_set_setup_parameters', {
                 'control_account': controlAccount,
                 'symbol': symbol,
-                'allow_voting': getValue("allow_voting")
+                'allow_voting': getValue("allow_voting"),
+                'extensions': []
             }
         ]);
 
@@ -456,7 +458,8 @@ $(document).ready(function () {
                     'content_constant': getValue("content_constant"),
                     'percent_curation_rewards': getValue("percent_curation_rewards"),
                     'author_reward_curve': getValue("author_reward_curve"),
-                    'curation_reward_curve': getValue("curation_reward_curve")
+                    'curation_reward_curve': getValue("curation_reward_curve"),
+                    'extensions': []
                 }
             ]);
         }
@@ -477,7 +480,8 @@ $(document).ready(function () {
                     'rep_rel_numerator': getValue("rep_rel_numerator_" + i),
                     'rel_amount_denom_bits': getValue("rel_amount_denom_bits_" + i),
                     'floor_emissions': getValue("floor_emissions_" + i),
-                    'emissions_unit': getFlatMapValue("emissions_unit_" + i)
+                    'emissions_unit': getFlatMapValue("emissions_unit_" + i),
+                    'extensions': []
                 }
             ]);
         }
@@ -500,7 +504,8 @@ $(document).ready(function () {
                     'post_soft_cap_token_unit': getFlatMapValue("post_soft_cap_token_unit"),
                     'min_unit_ratio': getValue("min_unit_ratio"),
                     'max_unit_ratio': getValue("max_unit_ratio")
-                }
+                },
+                'extensions': []
             }
         ]);
 
