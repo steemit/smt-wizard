@@ -77,6 +77,11 @@ $(document).ready(function () {
                     "minlength": 3,
                     "maxlength": 32,
                     "required": true
+                },
+                ctrlAdded: function (element) {
+                    $(element).on('focusout', function() {
+                        validationFeedback( this );
+                    });
                 }
             }, {
                 name: 'units',
@@ -87,6 +92,11 @@ $(document).ready(function () {
                     "max": 255,
                     "step": 1,
                     "required": true
+                },
+                ctrlAdded: function (element) {
+                    $(element).on('focusout', function() {
+                        validationFeedback( this );
+                    });
                 }
             }],
             hideButtons: {
@@ -105,20 +115,11 @@ $(document).ready(function () {
             },
             hideRowNumColumn: true,
             initRows: 1,
-            afterRowAppended: function(caller, parentRowIndex, addedRowIndex) {
-                var destination_id = '#' + caller.id + "_destination_" + (addedRowIndex[0] + 1);
-                var units_id = '#' + caller.id + "_units_" + (addedRowIndex[0] + 1);
-                $(destination_id).on('focusout', function () {
-                    validationFeedback( this );
-                });
-                $(units_id).on('focusout', function () {
-                    validationFeedback( this );
-                });
-            },
             beforeRowRemove: function(caller, rowIndex) {
                 // We don't allow the user to have an empty flat map
                 if (rowIndex == 0)
                     return false;
+
                 return true;
             }
         });
@@ -524,8 +525,8 @@ $(document).ready(function () {
             steem.broadcast._prepareTransaction(transaction).then(function(tx){
               tx = steem.auth.signTransaction(tx, [activeWif]);
               steem.api.verifyAuthorityAsync(tx).then(
-                (result) => {result.should.equal(true); console.log(result); done();},
-                (err)    => {console.log(err);done(err);}
+                (result) => {result.should.equal(true); console.log(result);},
+                (err)    => {console.log(err);}
               );
             });
         });
