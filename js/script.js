@@ -5,7 +5,6 @@ $(document).ready(function () {
     var destination_unit_widgets = [];          // Holds a mapping of the Element ID and AppendGrid object
     var num_token_emissions = 0;                // The number of Token Emissions
 
-
     // Connect SteemJS to the testnet
     steem.api.setOptions({
         url: 'https://testnet.steemitdev.com',
@@ -130,7 +129,7 @@ $(document).ready(function () {
         var widgetData = destination_unit_widgets[elementName].getAllValue(true);
         var flatMap = [];
         for (i = 0; i < widgetData._RowCount; i++) {
-            flatMap.push([widgetData['destination_' + i], widgetData['units_' + i]]);
+            flatMap.push([widgetData['destination_' + i], parseInt(widgetData['units_' + i])]);
         }
         return flatMap;
     }
@@ -440,9 +439,9 @@ $(document).ready(function () {
             'smt_set_setup_parameters', {
                 'control_account': controlAccount,
                 'symbol': symbol,
-                'setup_parameters': [0,{
+                'setup_parameters': [[0,{
                    'value': getValue( "allow_voting" )
-                }],
+                }]],
                 'extensions': []
             }
         ]);
@@ -474,15 +473,18 @@ $(document).ready(function () {
                     'schedule_time': getValue("schedule_time_" + i),
                     'lep_time': getValue("lep_time_" + i),
                     'rep_time': getValue("rep_time_" + i),
-                    'interval_seconds': getValue("interval_seconds_" + i),
-                    'interval_count': getValue("interval_count_" + i),
-                    'lep_abs_amount': getValue("lep_abs_amount_" + i),
-                    'rep_abs_amount': getValue("rep_abs_amount_" + i),
-                    'lep_rel_numerator': getValue("lep_rel_numerator_" + i),
-                    'rep_rel_numerator': getValue("rep_rel_numerator_" + i),
-                    'rel_amount_denom_bits': getValue("rel_amount_denom_bits_" + i),
+                    'interval_seconds': parseInt(getValue("interval_seconds_" + i)),
+                    'interval_count': parseInt(getValue("interval_count_" + i)),
+                    'lep_abs_amount': parseInt(getValue("lep_abs_amount_" + i)),
+                    'rep_abs_amount': parseInt(getValue("rep_abs_amount_" + i)),
+                    'lep_rel_amount_numerator': parseInt(getValue("lep_rel_numerator_" + i)),
+                    'rep_rel_amount_numerator': parseInt(getValue("rep_rel_numerator_" + i)),
+                    'rel_amount_denom_bits': parseInt(getValue("rel_amount_denom_bits_" + i)),
                     'floor_emissions': getValue("floor_emissions_" + i),
-                    'emissions_unit': getFlatMapValue("emissions_unit_" + i),
+                    'emissions_unit': {
+                        'token_unit': getFlatMapValue("emissions_unit_" + i)
+                    },
+                    'remove': false,
                     'extensions': []
                 }
             ]);
@@ -492,13 +494,13 @@ $(document).ready(function () {
             'smt_setup', {
                 'control_account': controlAccount,
                 'symbol': symbol,
-                'max_supply': getValue("max_supply"),
+                'max_supply': parseInt(getValue("max_supply")),
                 'contribution_begin_time': getValue("contribution_begin_time"),
                 'contribution_end_time': getValue("contribution_end_time"),
                 'launch_time': getValue("launch_time"),
-                'steem_units_min': getValue("steem_units_min"),
-                'steem_units_soft_cap': getValue("steem_units_soft_cap"),
-                'steem_units_hard_cap': getValue("steem_units_hard_cap"),
+                'steem_units_min': parseInt(getValue("steem_units_min")),
+                'steem_units_soft_cap': parseInt(getValue("steem_units_soft_cap")),
+                'steem_units_hard_cap': parseInt(getValue("steem_units_hard_cap")),
                 'initial_generation_policy': [0,{
                     'pre_soft_cap_unit': {
                         'steem_unit': getFlatMapValue("pre_soft_cap_steem_unit"),
@@ -508,8 +510,8 @@ $(document).ready(function () {
                         'steem_unit': getFlatMapValue("post_soft_cap_steem_unit"),
                         'token_unit': getFlatMapValue("post_soft_cap_token_unit"),
                     },
-                    'min_unit_ratio': getValue("min_unit_ratio"),
-                    'max_unit_ratio': getValue("max_unit_ratio"),
+                    'min_unit_ratio': parseInt(getValue("min_unit_ratio")),
+                    'max_unit_ratio': parseInt(getValue("max_unit_ratio")),
                     'extensions': []
                 }],
                 'extensions': []
