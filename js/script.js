@@ -440,7 +440,9 @@ $(document).ready(function () {
             'smt_set_setup_parameters', {
                 'control_account': controlAccount,
                 'symbol': symbol,
-                'allow_voting': getValue("allow_voting"),
+                'setup_parameters': [0,{
+                   'value': getValue( "allow_voting" )
+                }],
                 'extensions': []
             }
         ]);
@@ -497,14 +499,19 @@ $(document).ready(function () {
                 'steem_units_min': getValue("steem_units_min"),
                 'steem_units_soft_cap': getValue("steem_units_soft_cap"),
                 'steem_units_hard_cap': getValue("steem_units_hard_cap"),
-                'initial_generation_policy': {
-                    'pre_soft_cap_steem_unit': getFlatMapValue("pre_soft_cap_steem_unit"),
-                    'pre_soft_cap_token_unit': getFlatMapValue("pre_soft_cap_token_unit"),
-                    'post_soft_cap_steem_unit': getFlatMapValue("post_soft_cap_steem_unit"),
-                    'post_soft_cap_token_unit': getFlatMapValue("post_soft_cap_token_unit"),
+                'initial_generation_policy': [0,{
+                    'pre_soft_cap_unit': {
+                        'steem_unit': getFlatMapValue("pre_soft_cap_steem_unit"),
+                        'token_unit': getFlatMapValue("pre_soft_cap_token_unit")
+                    },
+                    'post_soft_cap_unit': {
+                        'steem_unit': getFlatMapValue("post_soft_cap_steem_unit"),
+                        'token_unit': getFlatMapValue("post_soft_cap_token_unit"),
+                    },
                     'min_unit_ratio': getValue("min_unit_ratio"),
-                    'max_unit_ratio': getValue("max_unit_ratio")
-                },
+                    'max_unit_ratio': getValue("max_unit_ratio"),
+                    'extensions': []
+                }],
                 'extensions': []
             }
         ]);
