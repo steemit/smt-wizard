@@ -8,7 +8,7 @@ $(document).ready(function () {
     // Connect SteemJS to the testnet
     steem.api.setOptions({
         url: 'https://testnet.steemitdev.com',
-        retry: true,
+        retry: false,
         address_prefix: 'TST',
         chain_id: '46d82ab7d8db682eb1959aed0ada039a6d49afa1602491f93dde9cac3e8e6c32',
         useAppbaseApi: true,
@@ -427,7 +427,7 @@ $(document).ready(function () {
                 'symbol': symbol,
                 'precision': symbol.precision,
                 'smt_creation_fee': {
-                    'amount': 1000,
+                    'amount': '1000',
                     'precision': 3,
                     'nai': '@@000000013'
                 },
