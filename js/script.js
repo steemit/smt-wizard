@@ -416,7 +416,7 @@ $(document).ready(function () {
         // Common values for all operations
         var controlAccount = getValue("control_account");
         var symbol = await asyncGetNaiFromPool();
-        symbol.precision = getValue("precision");
+        symbol.precision = parseInt(getValue("precision"));
         var activeWif = getValue('active_wif');
 
         var transaction = {};
@@ -519,9 +519,6 @@ $(document).ready(function () {
         console.log(transaction);
         console.log(activeWif);
         steem.api.callAsync('condenser_api.get_version', []).then((result) => {
-            if(result['blockchain_version'] < '0.23.0') return done(); /* SKIP AS THIS WILL ONLY PASS ON A TESTNET CURRENTLY */
-            result.should.have.property('blockchain_version');
-
             steem.broadcast._prepareTransaction(transaction).then(function(tx){
               tx = steem.auth.signTransaction(tx, [activeWif]);
               steem.api.verifyAuthorityAsync(tx).then(
