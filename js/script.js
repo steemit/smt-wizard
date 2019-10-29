@@ -411,6 +411,13 @@ $(document).ready(function () {
         resizable: false
     });
 
+    function steemToSatoshi(steemString)
+    {
+        var steem = parseFloat(steemString);
+        steem *= 1000;
+        return Math.round(steem);
+    }
+
     async function createToken()
     {
         // Common values for all operations
@@ -499,9 +506,9 @@ $(document).ready(function () {
                 'contribution_begin_time': getValue("contribution_begin_time"),
                 'contribution_end_time': getValue("contribution_end_time"),
                 'launch_time': getValue("launch_time"),
-                'steem_units_min': parseInt(getValue("steem_units_min")),
-                'steem_units_soft_cap': parseInt(getValue("steem_units_soft_cap")),
-                'steem_units_hard_cap': parseInt(getValue("steem_units_hard_cap")),
+                'steem_units_min': steemToSatoshi(getValue("steem_units_min")),
+                'steem_units_soft_cap': steemToSatoshi(getValue("steem_units_soft_cap")),
+                'steem_units_hard_cap': steemToSatoshi(getValue("steem_units_hard_cap")),
                 'initial_generation_policy': [0,{
                     'pre_soft_cap_unit': {
                         'steem_unit': getFlatMapValue("pre_soft_cap_steem_unit"),
