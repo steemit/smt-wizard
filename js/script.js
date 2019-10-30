@@ -459,15 +459,33 @@ $(document).ready(function () {
                 'smt_set_runtime_parameters', {
                     'control_account': controlAccount,
                     'symbol': symbol,
-                    'allow_downvoting': getValue("allow_downvoting"),
-                    'cashout_window_seconds': getValue("cashout_window_seconds"),
-                    'reverse_auction_window_seconds': getValue("reverse_auction_window_seconds"),
-                    'vote_regeneration_period_seconds': getValue("vote_regeneration_period_seconds"),
-                    'votes_per_regeneration_period': getValue("votes_per_regeneration_period"),
-                    'content_constant': getValue("content_constant"),
-                    'percent_curation_rewards': getValue("percent_curation_rewards"),
-                    'author_reward_curve': getValue("author_reward_curve"),
-                    'curation_reward_curve': getValue("curation_reward_curve"),
+                    'runtime_parameters': [
+                        [0,
+                            {
+                                'cashout_window_seconds': parseInt(getValue("cashout_window_seconds")),
+                                'reverse_auction_window_seconds': parseInt(getValue("reverse_auction_window_seconds"))
+                            }
+                        ],
+                        [1,
+                            {
+                                'vote_regeneration_period_seconds': parseInt(getValue("vote_regeneration_period_seconds")),
+                                'votes_per_regeneration_period': parseInt(getValue("votes_per_regeneration_period"))
+                            }
+                        ],
+                        [2,
+                            {
+                                'content_constant': getValue("content_constant"),
+                                'percent_curation_rewards': parseInt(getValue("percent_curation_rewards")),
+                                'author_reward_curve': parseInt(getValue("author_reward_curve")),
+                                'curation_reward_curve': parseInt(getValue("curation_reward_curve"))
+                            }
+                        ],
+                        [3,
+                            {
+                                'allow_downvoting': getValue("allow_downvoting")
+                            }
+                        ]
+                    ],
                     'extensions': []
                 }
             ]);
@@ -527,15 +545,8 @@ $(document).ready(function () {
         ]);
 
         console.log(transaction);
-        console.log(activeWif);
-        steem.api.callAsync('condenser_api.get_version', []).then((result) => {
-            steem.broadcast._prepareTransaction(transaction).then(function(tx){
-              tx = steem.auth.signTransaction(tx, [activeWif]);
-              steem.api.verifyAuthorityAsync(tx).then(
-                (result) => {result.should.equal(true); console.log(result);},
-                (err)    => {console.log(err);}
-              );
-            });
+        steem.broadcast.send(transaction, [activeWif], (err, result) => {
+            console.log(err, result);
         });
     }
 });
