@@ -482,7 +482,7 @@ $(document).ready(function () {
                         ],
                         [3,
                             {
-                                'allow_downvoting': getValue("allow_downvoting")
+                                'value': getValue("allow_downvoting")
                             }
                         ]
                     ],
