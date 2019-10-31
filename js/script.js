@@ -88,8 +88,8 @@ $(document).ready(function () {
                 display: 'Units',
                 type: 'number',
                 ctrlAttr: {
-                    "min": 0,
-                    "max": 255,
+                    "min": 1,
+                    "max": 65535,
                     "step": 1,
                     "required": true
                 },
@@ -418,6 +418,13 @@ $(document).ready(function () {
         return Math.round(steem);
     }
 
+    function convertPercentage(percentString)
+    {
+        var percent = parseFloat(percentString);
+        percent += 100;
+        return Math.round(percent);
+    }
+
     async function createToken()
     {
         // Common values for all operations
@@ -475,7 +482,7 @@ $(document).ready(function () {
                         [2,
                             {
                                 'content_constant': getValue("content_constant"),
-                                'percent_curation_rewards': parseInt(getValue("percent_curation_rewards")),
+                                'percent_curation_rewards': convertPercentage(getValue("percent_curation_rewards")),
                                 'author_reward_curve': parseInt(getValue("author_reward_curve")),
                                 'curation_reward_curve': parseInt(getValue("curation_reward_curve"))
                             }
