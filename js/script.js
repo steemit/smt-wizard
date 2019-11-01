@@ -421,7 +421,7 @@ $(document).ready(function () {
     function convertPercentage(percentString)
     {
         var percent = parseFloat(percentString);
-        percent += 100;
+        percent *= 100;
         return Math.round(percent);
     }
 
