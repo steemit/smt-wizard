@@ -10,7 +10,7 @@ $(document).ready(function () {
         url: 'https://testnet.steemitdev.com',
         retry: false,
         address_prefix: 'TST',
-        chain_id: '46d82ab7d8db682eb1959aed0ada039a6d49afa1602491f93dde9cac3e8e6c32',
+        chain_id: 'abc93c9021bbd9a8dd21c438ee3c480a661ca1966b5e4e838326dcf42a3dac2d',
         useAppbaseApi: true,
     });
 
@@ -524,6 +524,40 @@ $(document).ready(function () {
         }
 
         transaction.operations.push([
+            'smt_setup_ico_tier', {
+                'control_account': controlAccount,
+                'symbol': symbol,
+                'steem_units_cap': steemToSatoshi(getValue("steem_units_soft_cap")),
+                'generation_policy': [0,{
+                    'generation_unit': {
+                        'steem_unit': getFlatMapValue("pre_soft_cap_steem_unit"),
+                        'token_unit': getFlatMapValue("pre_soft_cap_token_unit")
+                    },
+                    'extensions': []
+                }],
+                'remove': false,
+                'extensions': []
+            }
+        ]);
+
+        transaction.operations.push([
+         'smt_setup_ico_tier', {
+             'control_account': controlAccount,
+             'symbol': symbol,
+             'steem_units_cap': steemToSatoshi(getValue("steem_units_hard_cap")),
+             'generation_policy': [0,{
+                 'generation_unit': {
+                     'steem_unit': getFlatMapValue("post_soft_cap_steem_unit"),
+                     'token_unit': getFlatMapValue("post_soft_cap_token_unit")
+                 },
+                 'extensions': []
+             }],
+             'remove': false,
+             'extensions': []
+         }
+     ]);
+
+        transaction.operations.push([
             'smt_setup', {
                 'control_account': controlAccount,
                 'symbol': symbol,
@@ -532,21 +566,8 @@ $(document).ready(function () {
                 'contribution_end_time': getValue("contribution_end_time"),
                 'launch_time': getValue("launch_time"),
                 'steem_units_min': steemToSatoshi(getValue("steem_units_min")),
-                'steem_units_soft_cap': steemToSatoshi(getValue("steem_units_soft_cap")),
-                'steem_units_hard_cap': steemToSatoshi(getValue("steem_units_hard_cap")),
-                'initial_generation_policy': [0,{
-                    'pre_soft_cap_unit': {
-                        'steem_unit': getFlatMapValue("pre_soft_cap_steem_unit"),
-                        'token_unit': getFlatMapValue("pre_soft_cap_token_unit")
-                    },
-                    'post_soft_cap_unit': {
-                        'steem_unit': getFlatMapValue("post_soft_cap_steem_unit"),
-                        'token_unit': getFlatMapValue("post_soft_cap_token_unit"),
-                    },
-                    'min_unit_ratio': parseInt(getValue("min_unit_ratio")),
-                    'max_unit_ratio': parseInt(getValue("max_unit_ratio")),
-                    'extensions': []
-                }],
+                'min_unit_ratio': parseInt(getValue("min_unit_ratio")),
+                'max_unit_ratio': parseInt(getValue("max_unit_ratio")),
                 'extensions': []
             }
         ]);
