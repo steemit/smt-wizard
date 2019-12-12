@@ -5,12 +5,20 @@ $(document).ready(function () {
     var destination_unit_widgets = [];          // Holds a mapping of the Element ID and AppendGrid object
     var num_token_emissions = 0;                // The number of Token Emissions
 
+    async function asyncGetChainID() {
+      return new Promise(function (resolve, reject) {
+          steem.api.callAsync('condenser_api.get_version', []).then((result) => {
+              resolve(result["chain_id"]);
+          }).catch((err) => { reject("Could not get Chain ID!"); });
+      });
+    }
+
     // Connect SteemJS to the testnet
     steem.api.setOptions({
         url: 'https://testnet.steemitdev.com',
         retry: false,
         address_prefix: 'TST',
-        chain_id: 'abc93c9021bbd9a8dd21c438ee3c480a661ca1966b5e4e838326dcf42a3dac2d',
+        chain_id: await asyncGetChainID(),
         useAppbaseApi: true,
     });
 
