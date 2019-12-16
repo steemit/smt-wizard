@@ -117,85 +117,36 @@
                            </div>
 
                            <div class="form-group col-md-4">
-                              <label for="steem_units_soft_cap">Contribution Soft Cap</label>
-                              <div class="input-group mb-3">
-                                 <input id="steem_units_soft_cap" name="steem_units_soft_cap" class="form-control"
-                                    type="number" min="0" max="9223372036854775807" placeholder="0.000" step="0.001"
-                                    required>
-                                 <div class="input-group-append">
-                                    <span class="input-group-text">STEEM</span>
-                                 </div>
-                              </div>
+                              <label for="min_unit_ratio">Minimum Unit Ratio</label>
+                              <input id="min_unit_ratio" name="min_unit_ratio" class="form-control" type="number" min="0"
+                                 max="4294967295" placeholder="50" required>
                            </div>
 
                            <div class="form-group col-md-4">
-                              <label for="steem_units_hard_cap">Contribution Hard Cap</label>
-                              <div class="input-group mb-3">
-                                 <input id="steem_units_hard_cap" name="steem_units_hard_cap" class="form-control"
-                                    type="number" min="0" max="9223372036854775807" placeholder="0.000" step="0.001"
-                                    required>
-                                 <div class="input-group-append">
-                                    <span class="input-group-text">STEEM</span>
-                                 </div>
-                              </div>
+                              <label for="max_unit_ratio">Maximum Unit Ratio</label>
+                              <input id="max_unit_ratio" name="max_unit_ratio" class="form-control" type="number" min="0"
+                                 max="4294967295" placeholder="100" required>
                            </div>
+
                         </div>
                      </div>
                      <div class="col-md-3 coinstack-img"></div>
                   </div>
 
-                  <!-- Initial generation policy -->
-                  <div class="row">
-                     <div class="form-group col-md-6">
-                        <h4 class="heading">Pre Soft Cap</h4>
-                        <div class="row">
-                           <div class="form-group col-md-6">
-                              <label for="pre_soft_cap_steem_unit">Steem Units</label>
-                              <table id="pre_soft_cap_steem_unit" class="flat-map"></table>
-                           </div>
-
-                           <div class="form-group col-md-6">
-                              <label for="pre_soft_cap_token_unit">Token Units</label>
-                              <table id="pre_soft_cap_token_unit" class="flat-map"></table>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div class="form-group col-md-6">
-                        <h4 class="heading">Post Soft Cap</h4>
-                        <div class="row">
-                           <div class="form-group col-md-6">
-                              <label for="post_soft_cap_steem_unit">Steem Units</label>
-                              <table id="post_soft_cap_steem_unit" class="flat-map"></table>
-                           </div>
-
-                           <div class="form-group col-md-6">
-                              <label for="post_soft_cap_token_unit">Token Units</label>
-                              <table id="post_soft_cap_token_unit" class="flat-map"></table>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-
-                  <div class="row">
-                     <div class="form-group col-md-4">
-                        <label for="min_unit_ratio">Minimum Unit Ratio</label>
-                        <input id="min_unit_ratio" name="min_unit_ratio" class="form-control" type="number" min="0"
-                           max="4294967295" placeholder="50" required>
-                     </div>
-
-                     <div class="form-group col-md-4">
-                        <label for="max_unit_ratio">Maximum Unit Ratio</label>
-                        <input id="max_unit_ratio" name="max_unit_ratio" class="form-control" type="number" min="0"
-                           max="4294967295" placeholder="100" required>
-                     </div>
+                  <h3 id="ico_tiers_heading">ICO Tiers</h3>
+                  <div id="ico_tiers">
+                     <!-- Generated fields here -->
                   </div>
 
                   <hr />
                   <div class="row">
                      <div class="form-group col-md-12 text-center">
-                        <input type="button" name="next" class="next action-button btn btn-primary"
-                           value="Next &rarr;" />
+                        <input type="button" name="add_ico_tier_button" class="btn btn-primary"
+                           value="Add Tier" />
+                        <input type="button" name="remove_ico_tier_button" class="btn btn-primary"
+                           value="Remove Tier" />
+                        <input type="button" name="next"
+                           class="next action-button btn btn-primary" value="Next &rarr;" />
                      </div>
                   </div>
 
@@ -369,6 +320,38 @@
    </div>
 
    <!-- Hidden -->
+
+   <!-- ICO tier template -->
+   <fieldset id="ico_tier_template" class ="ico-tier">
+      <h4 class="heading">ICO Tier</h4>
+      <div class="row">
+         <div class="form-group col-md-6">
+            <label for="steem_units_cap">Steem Cap</label>
+            <div class="input-group mb-3">
+               <input id="steem_units_cap" name="steem_units_cap" class="form-control" type="number"
+                  min="0" max="9223372036854775807" placeholder="0.000" step="0.001" required>
+               <div class="input-group-append">
+                  <span class="input-group-text">STEEM</span>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="form-group col-md-12">
+            <div class="row">
+               <div class="form-group col-md-6">
+                  <label for="steem_unit">Steem Units</label>
+                  <table id="steem_unit"></table>
+               </div>
+
+               <div class="form-group col-md-6">
+                  <label for="token_unit">Token Units</label>
+                  <table id="token_unit"></table>
+               </div>
+            </div>
+         </div>
+      </div>
+   </fieldset>
 
    <!-- Token emissions template -->
    <fieldset id="token_emission_template" class="token-emission">
