@@ -4,6 +4,8 @@ $(document).ready(function () {
     var animating;                              // Flag to prevent quick multi-click glitches
     var destination_unit_widgets = [];          // Holds a mapping of the Element ID and AppendGrid object
     var num_token_emissions = 0;                // The number of Token Emissions
+    var num_ico_tiers = 0;                      // The number of ICO tiers
+    const MAX_ICO_TIERS = 10;
 
     // Connect SteemJS to the testnet
     steem.api.setOptions({
@@ -187,24 +189,77 @@ $(document).ready(function () {
         });
     }
 
-    $('[name="add_token_emission_button"]').click( function() {
-        num_token_emissions++;
+    function appendFormElements(elements, append) {
+        for (i = 0; i < elements.length; i++) {
+            var e = elements[i];
 
-        function appendFormElements(elements, append) {
-            for (i = 0; i < elements.length; i++) {
-                var e = elements[i];
-
-                if (e.tagName == "LABEL") {
-                    e.htmlFor += "_" + append;
-                } else if (e.tagName == "INPUT" || e.tagName == "TEXTAREA") {
-                    e.name += "_" + append;
-                    e.id += "_" + append;
-                } else if (e.id == "") {
-                } else {
-                    e.id += "_" + append;
-                }
+            if (e.tagName == "LABEL") {
+                e.htmlFor += "_" + append;
+            } else if (e.tagName == "INPUT" || e.tagName == "TEXTAREA") {
+                e.name += "_" + append;
+                e.id += "_" + append;
+            } else if (e.id == "") {
+            } else {
+                e.id += "_" + append;
             }
         }
+    }
+
+    $('[name="add_ico_tier_button"]').click( function() {
+        num_ico_tiers++;
+        if ( num_ico_tiers == 1)
+        {
+            $("#ico_tiers_heading").slideDown( "slow" );
+        }
+
+        var templateNode = document.getElementById("ico_tier_template").cloneNode(true);
+        templateNode.id = "ico_tier_" + num_ico_tiers;
+        templateNode.querySelector("h4").innerHTML += " " + num_ico_tiers;
+        appendFormElements(templateNode.querySelectorAll('*'), num_ico_tiers);
+        document.getElementById("ico_tiers").appendChild(templateNode);
+
+        $('#' + templateNode.id).find('input,select,textarea').on('focusout', function () {
+            validationFeedback( this );
+        });
+
+        createDestinationUnitWidget(document.getElementById("steem_unit_" + num_ico_tiers));
+        createDestinationUnitWidget(document.getElementById("token_unit_" + num_ico_tiers));
+        $( "#" + templateNode.id ).slideDown( "slow", function() {
+            $('[name="remove_ico_tier_button"]').attr('disabled', false);
+            if (num_ico_tiers == MAX_ICO_TIERS)
+            {
+                $('[name="add_ico_tier_button"]').attr('disabled', true);
+            }
+        });
+    });
+
+    $('[name="add_ico_tier_button"]').click();
+
+    $('[name="remove_ico_tier_button"]').click( function() {
+        if (num_ico_tiers == 0) return;
+
+        var element = $('#ico_tier_'+ num_ico_tiers );
+
+        delete destination_unit_widgets["steem_unit_" + num_ico_tiers];
+        delete destination_unit_widgets["token_unit_" + num_ico_tiers];
+        if ( num_ico_tiers == 1 )
+        {
+            $("#ico_tiers_heading").slideUp( "slow" );
+        }
+        element.slideUp( "slow", function() {
+            element.remove();
+            num_ico_tiers--;
+            if (num_ico_tiers == 0) {
+                $('[name="remove_ico_tier_button"]').attr('disabled', true);
+            }
+            if (num_ico_tiers == MAX_ICO_TIERS - 1) {
+                $('[name="add_ico_tier_button"]').attr('disabled', false);
+            }
+        });
+    });
+
+    $('[name="add_token_emission_button"]').click( function() {
+        num_token_emissions++;
 
         var templateNode = document.getElementById("token_emission_template").cloneNode(true);
         templateNode.id = "token_emission_" + num_token_emissions;
@@ -239,10 +294,6 @@ $(document).ready(function () {
 
     // We issue a click just to add a Token Emission by default
     $('[name="add_token_emission_button"]').click();
-
-    $(".flat-map").each(function (index, element) {
-        createDestinationUnitWidget(element);
-    });
 
     $('#allow_voting').click( function() {
         var checked = $(this).prop('checked');
@@ -523,39 +574,24 @@ $(document).ready(function () {
             ]);
         }
 
-        transaction.operations.push([
-            'smt_setup_ico_tier', {
-                'control_account': controlAccount,
-                'symbol': symbol,
-                'steem_units_cap': steemToSatoshi(getValue("steem_units_soft_cap")),
-                'generation_policy': [0,{
-                    'generation_unit': {
-                        'steem_unit': getFlatMapValue("pre_soft_cap_steem_unit"),
-                        'token_unit': getFlatMapValue("pre_soft_cap_token_unit")
-                    },
+        for(var i = 1; i <= num_ico_tiers; i++) {
+            transaction.operations.push([
+                'smt_setup_ico_tier', {
+                    'control_account': controlAccount,
+                    'symbol': symbol,
+                    'steem_units_cap': steemToSatoshi(getValue("steem_units_cap_" + i)),
+                    'generation_policy': [0,{
+                        'generation_unit': {
+                            'steem_unit': getFlatMapValue("steem_unit_" + i),
+                            'token_unit': getFlatMapValue("token_unit_" + i)
+                        },
+                        'extensions': []
+                    }],
+                    'remove': false,
                     'extensions': []
-                }],
-                'remove': false,
-                'extensions': []
-            }
-        ]);
-
-        transaction.operations.push([
-         'smt_setup_ico_tier', {
-             'control_account': controlAccount,
-             'symbol': symbol,
-             'steem_units_cap': steemToSatoshi(getValue("steem_units_hard_cap")),
-             'generation_policy': [0,{
-                 'generation_unit': {
-                     'steem_unit': getFlatMapValue("post_soft_cap_steem_unit"),
-                     'token_unit': getFlatMapValue("post_soft_cap_token_unit")
-                 },
-                 'extensions': []
-             }],
-             'remove': false,
-             'extensions': []
-         }
-     ]);
+                }
+            ]);
+        }
 
         transaction.operations.push([
             'smt_setup', {

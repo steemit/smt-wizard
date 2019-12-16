@@ -74,7 +74,12 @@ h4.heading {
   border-bottom: 1px solid #11a7f2;
 }
 
-#token_emission_template, .token-emission { display: none; }
+#token_emission_template,
+.token-emission,
+#ico_tier_template,
+.ico-tier {
+  display: none;
+}
 
 .form-page, .ui-dialog {
 	border-style: outset;
