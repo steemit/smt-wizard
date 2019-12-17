@@ -73,23 +73,12 @@ $(document).ready(function () {
                 if (typeof callbacks !== "undefined" && typeof callbacks.onInvalid !== "undefined")
                     callbacks.onInvalid( object );
             }
-    }
+        }
 
-        /*
-        // This will disable the next button until all fields are valid
-        $('.next').attr('disabled', true);
-        $("input,select,textarea").bind("keyup change", function(e) {
-            var visible_form_is_valid = true;
-            $('.needs-validation').find('input:visible').each(function () {
-                if (!this.checkValidity()) {
-                    visible_form_is_valid = false;
-                }
-            });
-            if (visible_form_is_valid) {
-                $('.next:visible').attr('disabled', false);
-            }
-        });
-        */
+        // Initialize static datetime pickers
+        $('#contribution_begin_time').datetimepicker();
+        $('#contribution_end_time').datetimepicker();
+        $('#launch_time').datetimepicker();
 
         // On blur validation listener for form elements
         $('.needs-validation').find('input,select,textarea').on('focusout', function () {
@@ -226,8 +215,10 @@ $(document).ready(function () {
                 if (e.tagName == "LABEL") {
                     e.htmlFor += "_" + append;
                 } else if (e.tagName == "INPUT" || e.tagName == "TEXTAREA") {
-                    e.name += "_" + append;
-                    e.id += "_" + append;
+                    if ( e.name !== undefined && e.name != '')
+                        e.name += "_" + append;
+                    if ( e.id !== undefined && e.id != '')
+                        e.id += "_" + append;
                 } else if (e.id == "") {
                 } else {
                     e.id += "_" + append;
@@ -296,6 +287,21 @@ $(document).ready(function () {
             templateNode.querySelector("h4").innerHTML += " " + num_token_emissions;
             appendFormElements(templateNode.querySelectorAll('*'), num_token_emissions);
             document.getElementById("token_emissions").appendChild(templateNode);
+
+            var scheduleTimeId = '#schedule_time_' + num_token_emissions;
+            $(scheduleTimeId).find('input').attr('data-target', scheduleTimeId);
+            $(scheduleTimeId).find('div.input-group-append').attr('data-target', scheduleTimeId);
+            $(scheduleTimeId).datetimepicker();
+
+            var lepTimeId = '#lep_time_' + num_token_emissions;
+            $(lepTimeId).find('input').attr('data-target', lepTimeId);
+            $(lepTimeId).find('div.input-group-append').attr('data-target', lepTimeId);
+            $(lepTimeId).datetimepicker();
+
+            var repTimeId = '#rep_time_' + num_token_emissions;
+            $(repTimeId).find('input').attr('data-target', repTimeId);
+            $(repTimeId).find('div.input-group-append').attr('data-target', repTimeId);
+            $(repTimeId).datetimepicker();
 
             $('#' + templateNode.id).find('input,select,textarea').on('focusout', function () {
                 validationFeedback( this );

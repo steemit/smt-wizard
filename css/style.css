@@ -98,6 +98,7 @@ h4.heading {
 }
 
 /* Destination Unit Table */
+/*
 .table .thead-light th {
   color: #212529;
   background-color: #f5f5f5;
@@ -107,6 +108,7 @@ h4.heading {
   vertical-align: bottom;
   border-bottom: 2px solid #212529;
 }
+*/
  /* Form clip art */
 .coinstack-img {
   background-image: url(../assets/icon-coinstack-dark.png);
