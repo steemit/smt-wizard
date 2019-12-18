@@ -263,8 +263,6 @@ $(document).ready(function () {
             });
         });
 
-        $('[name="add_ico_tier_button"]').click();
-
         $('[name="remove_ico_tier_button"]').click( function() {
             if (num_ico_tiers == 0) return;
 
@@ -321,9 +319,6 @@ $(document).ready(function () {
                 }
             });
         });
-
-        // We issue a click just to add a Token Emission by default
-        $('[name="add_token_emission_button"]').click();
 
         $('#allow_voting').click( function() {
             var checked = $(this).prop('checked');
@@ -643,5 +638,10 @@ $(document).ready(function () {
                 console.log(err, result);
             });
         }
+
+        setTimeout(function() {
+            $('[name="add_ico_tier_button"]').click();
+            $('[name="add_token_emission_button"]').click();
+        }, 100);
     });
 });
