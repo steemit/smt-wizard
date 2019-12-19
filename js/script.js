@@ -6,6 +6,11 @@ $(document).ready(function () {
     var num_token_emissions = 0;                // The number of Token Emissions
     var num_ico_tiers = 0;                      // The number of ICO tiers
     const MAX_ICO_TIERS = 10;
+    const destination_type = {
+        TOKEN_EMISSIONS: 'token_emissions',
+        ICO_STEEM: 'ico_steem',
+        ICO_TOKEN: 'ico_token'
+    };
 
     async function asyncGetChainID() {
         return new Promise( function( resolve, reject ) {
@@ -96,14 +101,55 @@ $(document).ready(function () {
             validationFeedback( this );
         });
 
-        function createDestinationUnitWidget(element) {
+        function createDestinationUnitWidget(element, destinationType) {
+            var destinationTypeOptions = ["Account", "Account Vesting", "Market Maker"];
+            switch (destinationType) {
+                case destination_type.ICO_STEEM:
+                    break;
+                case destination_type.ICO_TOKEN:
+                    destinationTypeOptions.push("Contributor", "Contributor Vesting", "Rewards");
+                    break;
+                case destination_type.TOKEN_EMISSIONS:
+                    destinationTypeOptions.push("Rewards", "Vesting");
+                    break;
+                default:
+                    throw "Invalid Destination Type!";
+            }
+
             destination_unit_widgets[element.id] = new AppendGrid({
                 element: element,
                 uiFramework: 'bootstrap4',
                 iconFramework: 'fontawesome5',
                 columns: [{
-                    name: 'destination',
-                    display: 'Destination',
+                    name: "destination",
+                    display: "Destination",
+                    type: "select",
+                    ctrlOptions: destinationTypeOptions,
+                    ctrlClass: 'selectpicker',
+                    ctrlAdded: function (element) {
+                        $(element).selectpicker();
+                    },
+                    displayCss: {
+                        "width": "33.33%"
+                    },
+                    events: {
+                        // Add change event
+                        change: function(e) {
+                            var element = $(e.srcElement);
+                            if ( element.val() != "Account" && element.val() != "Account Vesting") {
+                                var accountInputElement = element.closest('td').next().children('input');
+                                accountInputElement.val('');
+                                accountInputElement.attr('disabled', true);
+                                accountInputElement.removeClass('is-valid is-invalid');
+                            }
+                            else {
+                                element.closest('td').next().children('input').attr('disabled', false);
+                            }
+                        }
+                    }
+                }, {
+                    name: 'account',
+                    display: 'Account',
                     type: 'text',
                     ctrlAttr: {
                         "minlength": 3,
@@ -162,7 +208,35 @@ $(document).ready(function () {
             var widgetData = destination_unit_widgets[elementName].getAllValue(true);
             var flatMap = [];
             for (i = 0; i < widgetData._RowCount; i++) {
-                flatMap.push([widgetData['destination_' + i], parseInt(widgetData['units_' + i])]);
+                var key = '';
+                switch (widgetData['destination_' + i]) {
+                    case 'Account':
+                        key = widgetData['account_' + i];
+                        break;
+                    case 'Account Vesting':
+                        key += '$!';
+                        key += widgetData['account_' + i];
+                        key += '.vesting';
+                        break;
+                    case 'Market Maker':
+                        key = '$market_maker';
+                        break;
+                    case 'Rewards':
+                        key = '$rewards';
+                        break;
+                    case 'Vesting':
+                        key = '$vesting';
+                        break;
+                    case 'Contributor':
+                        key = '$from';
+                        break;
+                    case 'Contributor Vesting':
+                        key = '$from.vesting';
+                        break;
+                    default:
+                        throw 'Invalid Destination Unit!';
+                }
+                flatMap.push([key, parseInt(widgetData['units_' + i])]);
             }
             return flatMap;
         }
@@ -252,8 +326,8 @@ $(document).ready(function () {
                 validationFeedback( this );
             });
 
-            createDestinationUnitWidget(document.getElementById("steem_unit_" + num_ico_tiers));
-            createDestinationUnitWidget(document.getElementById("token_unit_" + num_ico_tiers));
+            createDestinationUnitWidget(document.getElementById("steem_unit_" + num_ico_tiers), destination_type.ICO_STEEM);
+            createDestinationUnitWidget(document.getElementById("token_unit_" + num_ico_tiers), destination_type.ICO_TOKEN);
             $( "#" + templateNode.id ).slideDown( "slow", function() {
                 $('[name="remove_ico_tier_button"]').attr('disabled', false);
                 if (num_ico_tiers == MAX_ICO_TIERS)
@@ -301,7 +375,7 @@ $(document).ready(function () {
                 validationFeedback( this );
             });
 
-            createDestinationUnitWidget(document.getElementById("emissions_unit_" + num_token_emissions));
+            createDestinationUnitWidget(document.getElementById("emissions_unit_" + num_token_emissions), destination_type.TOKEN_EMISSIONS);
             $( "#" + templateNode.id ).slideDown( "slow", function() {
                 $('[name="remove_token_emission_button"]').attr('disabled', false);
             });
