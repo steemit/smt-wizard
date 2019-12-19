@@ -136,30 +136,60 @@ $(document).ready(function () {
                         // Add change event
                         change: function(e) {
                             var element = $(e.srcElement);
+                            var accountInputElement = element.closest('td').next().find('input');
+                            accountInputElement.removeClass('is-valid is-invalid');
                             if ( element.val() != "Account" && element.val() != "Account Vesting") {
-                                var accountInputElement = element.closest('td').next().children('input');
                                 accountInputElement.val('');
                                 accountInputElement.attr('disabled', true);
-                                accountInputElement.removeClass('is-valid is-invalid');
                             }
                             else {
-                                element.closest('td').next().children('input').attr('disabled', false);
+                                accountInputElement.attr('disabled', false);
                             }
                         }
                     }
                 }, {
                     name: 'account',
                     display: 'Account',
-                    type: 'text',
-                    ctrlAttr: {
-                        "minlength": 3,
-                        "maxlength": 32,
-                        "required": true
-                    },
-                    ctrlAdded: function (element) {
-                        $(element).on('focusout', function() {
+                    type: "custom",
+                    customBuilder: function(parent, idPrefix, name, uniqueIndex) {
+                        // Prepare input group which is a component of Bootstrap
+                        var inputGroup = document.createElement("div");
+                        inputGroup.classList.add("input-group");
+                        inputGroup.classList.add("input-group-sm");
+                        parent.appendChild(inputGroup);
+                        // Prepare input group prepend holder
+                        var inputGroupPrepend = document.createElement("div");
+                        inputGroupPrepend.classList.add("input-group-prepend");
+                        inputGroup.appendChild(inputGroupPrepend);
+                        // Prepare input group prepend text
+                        var inputGroupPrependText = document.createElement("span");
+                        inputGroupPrependText.innerText = "@";
+                        inputGroupPrependText.classList.add("input-group-text");
+                        inputGroupPrepend.appendChild(inputGroupPrependText);
+                        // Create the input element
+                        var inputControl = document.createElement("input");
+                        inputControl.id = idPrefix + "_" + name + "_" + uniqueIndex;
+                        inputControl.name = inputControl.id;
+                        inputControl.type = "text";
+                        inputControl.minLength = 3;
+                        inputControl.maxLength = 32;
+                        inputControl.required = true;
+                        inputControl.classList.add("form-control");
+                        inputControl.classList.add("form-control-sm");
+                        $(inputControl).on('focusout', function() {
                             validationFeedback( this );
                         });
+                        inputGroup.appendChild(inputControl);
+                    },
+                    customGetter: function(idPrefix, name, uniqueIndex) {
+                        // Get the value of input element
+                        var controlId = "#" + idPrefix + "_" + name + "_" + uniqueIndex;
+                        return $(controlId).val();
+                    },
+                    customSetter: function(idPrefix, name, uniqueIndex, value) {
+                        // Set the value of input element
+                        var controlId = "#" + idPrefix + "_" + name + "_" + uniqueIndex;
+                        $(controlId).val(value);
                     }
                 }, {
                     name: 'units',
