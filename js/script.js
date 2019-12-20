@@ -73,23 +73,12 @@ $(document).ready(function () {
                 if (typeof callbacks !== "undefined" && typeof callbacks.onInvalid !== "undefined")
                     callbacks.onInvalid( object );
             }
-    }
+        }
 
-        /*
-        // This will disable the next button until all fields are valid
-        $('.next').attr('disabled', true);
-        $("input,select,textarea").bind("keyup change", function(e) {
-            var visible_form_is_valid = true;
-            $('.needs-validation').find('input:visible').each(function () {
-                if (!this.checkValidity()) {
-                    visible_form_is_valid = false;
-                }
-            });
-            if (visible_form_is_valid) {
-                $('.next:visible').attr('disabled', false);
-            }
-        });
-        */
+        // Initialize static datetime pickers
+        $('#contribution_begin_time').datetimepicker();
+        $('#contribution_end_time').datetimepicker();
+        $('#launch_time').datetimepicker();
 
         // On blur validation listener for form elements
         $('.needs-validation').find('input,select,textarea').on('focusout', function () {
@@ -226,8 +215,10 @@ $(document).ready(function () {
                 if (e.tagName == "LABEL") {
                     e.htmlFor += "_" + append;
                 } else if (e.tagName == "INPUT" || e.tagName == "TEXTAREA") {
-                    e.name += "_" + append;
-                    e.id += "_" + append;
+                    if ( e.name !== undefined && e.name != '')
+                        e.name += "_" + append;
+                    if ( e.id !== undefined && e.id != '')
+                        e.id += "_" + append;
                 } else if (e.id == "") {
                 } else {
                     e.id += "_" + append;
@@ -294,6 +285,21 @@ $(document).ready(function () {
             templateNode.querySelector("h4").innerHTML += " " + num_token_emissions;
             appendFormElements(templateNode.querySelectorAll('*'), num_token_emissions);
             document.getElementById("token_emissions").appendChild(templateNode);
+
+            var scheduleTimeId = '#schedule_time_' + num_token_emissions;
+            $(scheduleTimeId).find('input').attr('data-target', scheduleTimeId);
+            $(scheduleTimeId).find('div.input-group-append').attr('data-target', scheduleTimeId);
+            $(scheduleTimeId).datetimepicker();
+
+            var lepTimeId = '#lep_time_' + num_token_emissions;
+            $(lepTimeId).find('input').attr('data-target', lepTimeId);
+            $(lepTimeId).find('div.input-group-append').attr('data-target', lepTimeId);
+            $(lepTimeId).datetimepicker();
+
+            var repTimeId = '#rep_time_' + num_token_emissions;
+            $(repTimeId).find('input').attr('data-target', repTimeId);
+            $(repTimeId).find('div.input-group-append').attr('data-target', repTimeId);
+            $(repTimeId).datetimepicker();
 
             $('#' + templateNode.id).find('input,select,textarea').on('focusout', function () {
                 validationFeedback( this );
@@ -501,141 +507,143 @@ $(document).ready(function () {
             return Math.round(percent);
         }
 
-        async function createToken()
+        function createToken()
         {
-            // Common values for all operations
-            var controlAccount = getValue("control_account");
-            var symbol = await asyncGetNaiFromPool();
-            symbol.precision = parseInt(getValue("precision"));
-            var activeWif = getValue('active_wif');
+            asyncGetNaiFromPool().then(nai => {
+                // Common values for all operations
+                var controlAccount = getValue("control_account");
+                var symbol = nai;
+                symbol.precision = parseInt(getValue("precision"));
+                var activeWif = getValue('active_wif');
 
-            var transaction = {};
-            transaction.operations = [];
+                var transaction = {};
+                transaction.operations = [];
 
-            transaction.operations.push([
-                'smt_create', {
-                    'control_account': controlAccount,
-                    'symbol': symbol,
-                    'precision': symbol.precision,
-                    'smt_creation_fee': {
-                        'amount': '1000',
-                        'precision': 3,
-                        'nai': '@@000000013'
-                    },
-                    'extensions': []
-                }
-            ]);
-
-            transaction.operations.push([
-                'smt_set_setup_parameters', {
-                    'control_account': controlAccount,
-                    'symbol': symbol,
-                    'setup_parameters': [[0,{
-                    'value': getValue( "allow_voting" )
-                    }]],
-                    'extensions': []
-                }
-            ]);
-
-            if (getValue("allow_voting")) {
                 transaction.operations.push([
-                    'smt_set_runtime_parameters', {
+                    'smt_create', {
                         'control_account': controlAccount,
                         'symbol': symbol,
-                        'runtime_parameters': [
-                            [0,
-                                {
-                                    'cashout_window_seconds': parseInt(getValue("cashout_window_seconds")),
-                                    'reverse_auction_window_seconds': parseInt(getValue("reverse_auction_window_seconds"))
-                                }
-                            ],
-                            [1,
-                                {
-                                    'vote_regeneration_period_seconds': parseInt(getValue("vote_regeneration_period_seconds")),
-                                    'votes_per_regeneration_period': parseInt(getValue("votes_per_regeneration_period"))
-                                }
-                            ],
-                            [2,
-                                {
-                                    'content_constant': getValue("content_constant"),
-                                    'percent_curation_rewards': convertPercentage(getValue("percent_curation_rewards")),
-                                    'author_reward_curve': parseInt(getValue("author_reward_curve")),
-                                    'curation_reward_curve': parseInt(getValue("curation_reward_curve"))
-                                }
-                            ],
-                            [3,
-                                {
-                                    'value': getValue("allow_downvoting")
-                                }
-                            ]
-                        ],
-                        'extensions': []
-                    }
-                ]);
-            }
-
-            for (var i = 1; i <= num_token_emissions; i++) {
-                transaction.operations.push([
-                    'smt_setup_emissions', {
-                        'control_account': controlAccount,
-                        'symbol': symbol,
-                        'schedule_time': getValue("schedule_time_" + i),
-                        'lep_time': getValue("lep_time_" + i),
-                        'rep_time': getValue("rep_time_" + i),
-                        'interval_seconds': parseInt(getValue("interval_seconds_" + i)),
-                        'interval_count': parseInt(getValue("interval_count_" + i)),
-                        'lep_abs_amount': parseInt(getValue("lep_abs_amount_" + i)),
-                        'rep_abs_amount': parseInt(getValue("rep_abs_amount_" + i)),
-                        'lep_rel_amount_numerator': parseInt(getValue("lep_rel_numerator_" + i)),
-                        'rep_rel_amount_numerator': parseInt(getValue("rep_rel_numerator_" + i)),
-                        'rel_amount_denom_bits': parseInt(getValue("rel_amount_denom_bits_" + i)),
-                        'floor_emissions': getValue("floor_emissions_" + i),
-                        'emissions_unit': {
-                            'token_unit': getFlatMapValue("emissions_unit_" + i)
+                        'precision': symbol.precision,
+                        'smt_creation_fee': {
+                            'amount': '1000',
+                            'precision': 3,
+                            'nai': '@@000000013'
                         },
-                        'remove': false,
                         'extensions': []
                     }
                 ]);
-            }
 
-            for(var i = 1; i <= num_ico_tiers; i++) {
                 transaction.operations.push([
-                    'smt_setup_ico_tier', {
+                    'smt_set_setup_parameters', {
                         'control_account': controlAccount,
                         'symbol': symbol,
-                        'steem_units_cap': steemToSatoshi(getValue("steem_units_cap_" + i)),
-                        'generation_policy': [0,{
-                            'generation_unit': {
-                                'steem_unit': getFlatMapValue("steem_unit_" + i),
-                                'token_unit': getFlatMapValue("token_unit_" + i)
-                            },
-                            'extensions': []
-                        }],
-                        'remove': false,
+                        'setup_parameters': [[0,{
+                        'value': getValue( "allow_voting" )
+                        }]],
                         'extensions': []
                     }
                 ]);
-            }
 
-            transaction.operations.push([
-                'smt_setup', {
-                    'control_account': controlAccount,
-                    'symbol': symbol,
-                    'max_supply': parseInt(getValue("max_supply")),
-                    'contribution_begin_time': getValue("contribution_begin_time"),
-                    'contribution_end_time': getValue("contribution_end_time"),
-                    'launch_time': getValue("launch_time"),
-                    'steem_units_min': steemToSatoshi(getValue("steem_units_min")),
-                    'min_unit_ratio': parseInt(getValue("min_unit_ratio")),
-                    'max_unit_ratio': parseInt(getValue("max_unit_ratio")),
-                    'extensions': []
+                if (getValue("allow_voting")) {
+                    transaction.operations.push([
+                        'smt_set_runtime_parameters', {
+                            'control_account': controlAccount,
+                            'symbol': symbol,
+                            'runtime_parameters': [
+                                [0,
+                                    {
+                                        'cashout_window_seconds': parseInt(getValue("cashout_window_seconds")),
+                                        'reverse_auction_window_seconds': parseInt(getValue("reverse_auction_window_seconds"))
+                                    }
+                                ],
+                                [1,
+                                    {
+                                        'vote_regeneration_period_seconds': parseInt(getValue("vote_regeneration_period_seconds")),
+                                        'votes_per_regeneration_period': parseInt(getValue("votes_per_regeneration_period"))
+                                    }
+                                ],
+                                [2,
+                                    {
+                                        'content_constant': getValue("content_constant"),
+                                        'percent_curation_rewards': convertPercentage(getValue("percent_curation_rewards")),
+                                        'author_reward_curve': parseInt(getValue("author_reward_curve")),
+                                        'curation_reward_curve': parseInt(getValue("curation_reward_curve"))
+                                    }
+                                ],
+                                [3,
+                                    {
+                                        'value': getValue("allow_downvoting")
+                                    }
+                                ]
+                            ],
+                            'extensions': []
+                        }
+                    ]);
                 }
-            ]);
 
-            console.log(transaction);
-            steem.broadcast.send(transaction, [activeWif], (err, result) => {
-                console.log(err, result);
+                for (var i = 1; i <= num_token_emissions; i++) {
+                    transaction.operations.push([
+                        'smt_setup_emissions', {
+                            'control_account': controlAccount,
+                            'symbol': symbol,
+                            'schedule_time': getValue("schedule_time_" + i),
+                            'lep_time': getValue("lep_time_" + i),
+                            'rep_time': getValue("rep_time_" + i),
+                            'interval_seconds': parseInt(getValue("interval_seconds_" + i)),
+                            'interval_count': parseInt(getValue("interval_count_" + i)),
+                            'lep_abs_amount': parseInt(getValue("lep_abs_amount_" + i)),
+                            'rep_abs_amount': parseInt(getValue("rep_abs_amount_" + i)),
+                            'lep_rel_amount_numerator': parseInt(getValue("lep_rel_numerator_" + i)),
+                            'rep_rel_amount_numerator': parseInt(getValue("rep_rel_numerator_" + i)),
+                            'rel_amount_denom_bits': parseInt(getValue("rel_amount_denom_bits_" + i)),
+                            'floor_emissions': getValue("floor_emissions_" + i),
+                            'emissions_unit': {
+                                'token_unit': getFlatMapValue("emissions_unit_" + i)
+                            },
+                            'remove': false,
+                            'extensions': []
+                        }
+                    ]);
+                }
+
+                for(var i = 1; i <= num_ico_tiers; i++) {
+                    transaction.operations.push([
+                        'smt_setup_ico_tier', {
+                            'control_account': controlAccount,
+                            'symbol': symbol,
+                            'steem_units_cap': steemToSatoshi(getValue("steem_units_cap_" + i)),
+                            'generation_policy': [0,{
+                                'generation_unit': {
+                                    'steem_unit': getFlatMapValue("steem_unit_" + i),
+                                    'token_unit': getFlatMapValue("token_unit_" + i)
+                                },
+                                'extensions': []
+                            }],
+                            'remove': false,
+                            'extensions': []
+                        }
+                    ]);
+                }
+
+                transaction.operations.push([
+                    'smt_setup', {
+                        'control_account': controlAccount,
+                        'symbol': symbol,
+                        'max_supply': parseInt(getValue("max_supply")),
+                        'contribution_begin_time': getValue("contribution_begin_time"),
+                        'contribution_end_time': getValue("contribution_end_time"),
+                        'launch_time': getValue("launch_time"),
+                        'steem_units_min': steemToSatoshi(getValue("steem_units_min")),
+                        'min_unit_ratio': parseInt(getValue("min_unit_ratio")),
+                        'max_unit_ratio': parseInt(getValue("max_unit_ratio")),
+                        'extensions': []
+                    }
+                ]);
+
+                console.log(transaction);
+                steem.broadcast.send(transaction, [activeWif], (err, result) => {
+                    console.log(err, result);
+                });
             });
         }
 
