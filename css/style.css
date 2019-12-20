@@ -31,7 +31,7 @@ h3, legend.heading {
 	color: #161fc8; 
 	font-family: "Raleway", sans-serif;
   font-weight: bolder;
-  font-size: 2.0rem;
+  font-size: 1.5rem;
 }
 
 legend.heading {
@@ -41,12 +41,13 @@ legend.heading {
 h4.heading {
   font-family: "Raleway", sans-serif;
   font-weight: bold;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
 }
 
 #header {
-  margin-top: 1.5rem;
+  background-color: #212529;
 }
+
 #brand {
   height: 40px;
 }
@@ -76,8 +77,8 @@ h4.heading {
 
 #token_emission_template,
 .token-emission,
+#ico,
 #ico_tier_template,
-#ico_tiers_heading,
 .ico-tier {
   display: none;
 }
@@ -95,8 +96,8 @@ h4.heading {
 	padding: 1.5em;
   background-color: rgba(255,255,255,1.0);
   background-image: url(../assets/Steem_Wave_Grey.png);
-  background-size: contain;
-  background-repeat: repeat-x;
+  background-size: 100% 1000px;
+  /*background-repeat: repeat-x;*/
   box-shadow: 0 0 15px 1px rgba(33, 37, 41, 0.4);
   width: 100%;
   position: relative;
