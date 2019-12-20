@@ -81,6 +81,10 @@ h4.heading {
   display: none;
 }
 
+#ico_tiers {
+  display: block;
+}
+
 .form-page, .ui-dialog {
 	border-style: outset;
   border-width: 1px;
