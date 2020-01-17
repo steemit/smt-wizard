@@ -334,7 +334,7 @@ $(document).ready(function () {
             num_ico_tiers++;
             if ( num_ico_tiers == 1)
             {
-                $("#ico_tiers_heading").slideDown( "slow" );
+                $("#ico").slideDown( "slow" );
             }
 
             var templateNode = document.getElementById("ico_tier_template").cloneNode(true);
@@ -367,7 +367,7 @@ $(document).ready(function () {
             delete destination_unit_widgets["token_unit_" + num_ico_tiers];
             if ( num_ico_tiers == 1 )
             {
-                $("#ico_tiers_heading").slideUp( "slow" );
+                $("#ico").slideUp( "slow" );
             }
             element.slideUp( "slow", function() {
                 element.remove();
@@ -613,10 +613,20 @@ $(document).ready(function () {
 
         function createToken()
         {
-            asyncGetNaiFromPool().then(nai => {
+            // In the case of no ICO, we set required fields to default values
+            if (num_ico_tiers == 0) {
+                var launchTime = $('[name="launch_time"]').val();
+                $('[name="contribution_begin_time"]').val(launchTime);
+                $('[name="contribution_end_time"]').val(launchTime);
+
+                $('[name="min_unit_ratio"]').val('0');
+                $('[name="max_unit_ratio"]').val('0');
+                $('[name="steem_units_min"]').val('0');
+            }
+
+            asyncGetNaiFromPool().then(symbol => {
                 // Common values for all operations
                 var controlAccount = getValue("control_account");
-                var symbol = nai;
                 symbol.precision = parseInt(getValue("precision"));
                 var activeWif = getValue('active_wif');
 
