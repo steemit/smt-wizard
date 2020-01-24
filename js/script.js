@@ -11,6 +11,7 @@ $(document).ready(function () {
         ICO_STEEM: 'ico_steem',
         ICO_TOKEN: 'ico_token'
     };
+    var defaultAnimationSpeed = 'normal';
 
     async function asyncGetChainID() {
         return new Promise( function( resolve, reject ) {
@@ -84,6 +85,9 @@ $(document).ready(function () {
         $('#contribution_begin_time').datetimepicker();
         $('#contribution_end_time').datetimepicker();
         $('#launch_time').datetimepicker();
+
+        // Initialize all tooltips
+        $('[data-toggle="tooltip"]').tooltip();
 
         // On blur validation listener for form elements
         $('.needs-validation').find('input,select,textarea').on('focusout', function () {
@@ -334,7 +338,7 @@ $(document).ready(function () {
             num_ico_tiers++;
             if ( num_ico_tiers == 1)
             {
-                $("#ico").slideDown( "slow" );
+                $("#ico").slideDown( defaultAnimationSpeed );
             }
 
             var templateNode = document.getElementById("ico_tier_template").cloneNode(true);
@@ -349,7 +353,9 @@ $(document).ready(function () {
 
             createDestinationUnitWidget(document.getElementById("steem_unit_" + num_ico_tiers), destination_type.ICO_STEEM);
             createDestinationUnitWidget(document.getElementById("token_unit_" + num_ico_tiers), destination_type.ICO_TOKEN);
-            $( "#" + templateNode.id ).slideDown( "slow", function() {
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $( "#" + templateNode.id ).slideDown( defaultAnimationSpeed, function() {
                 $('[name="remove_ico_tier_button"]').attr('disabled', false);
                 if (num_ico_tiers == MAX_ICO_TIERS)
                 {
@@ -367,9 +373,9 @@ $(document).ready(function () {
             delete destination_unit_widgets["token_unit_" + num_ico_tiers];
             if ( num_ico_tiers == 1 )
             {
-                $("#ico").slideUp( "slow" );
+                $("#ico").slideUp( defaultAnimationSpeed );
             }
-            element.slideUp( "slow", function() {
+            element.slideUp( defaultAnimationSpeed, function() {
                 element.remove();
                 num_ico_tiers--;
                 if (num_ico_tiers == 0) {
@@ -409,8 +415,9 @@ $(document).ready(function () {
                 validationFeedback( this );
             });
 
+            $('[data-toggle="tooltip"]').tooltip();
             createDestinationUnitWidget(document.getElementById("emissions_unit_" + num_token_emissions), destination_type.TOKEN_EMISSIONS);
-            $( "#" + templateNode.id ).slideDown( "slow", function() {
+            $( "#" + templateNode.id ).slideDown( defaultAnimationSpeed, function() {
                 $('[name="remove_token_emission_button"]').attr('disabled', false);
             });
         });
@@ -421,7 +428,7 @@ $(document).ready(function () {
             var element = $('#token_emission_'+ num_token_emissions );
 
             delete destination_unit_widgets["emissions_unit_" + num_token_emissions];
-            element.slideUp( "slow", function() {
+            element.slideUp( defaultAnimationSpeed, function() {
                 element.remove();
                 num_token_emissions--;
                 if (num_token_emissions == 0) {
@@ -704,7 +711,7 @@ $(document).ready(function () {
                             'lep_time': getValue("lep_time_" + i),
                             'rep_time': getValue("rep_time_" + i),
                             'interval_seconds': parseInt(getValue("interval_seconds_" + i)),
-                            'interval_count': parseInt(getValue("interval_count_" + i)),
+                            'emission_count': parseInt(getValue("emission_count_" + i)),
                             'lep_abs_amount': parseInt(getValue("lep_abs_amount_" + i)),
                             'rep_abs_amount': parseInt(getValue("rep_abs_amount_" + i)),
                             'lep_rel_amount_numerator': parseInt(getValue("lep_rel_numerator_" + i)),
