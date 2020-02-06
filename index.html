@@ -14,7 +14,7 @@
    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
 
-   <script src="https://cdn.jsdelivr.net/npm/steem@0.7.10/dist/steem.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/steem@0.7.11/dist/steem.min.js"></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -96,25 +96,62 @@
                         <div class="col-md-9">
                            <div class="row">
                               <div class="form-group col-md-6">
-                                 <label for="control_account">Control Account</label>
-                                 <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                       <div class="input-group-text">@</div>
+                                 <div class="row">
+                                    <div class="col-12">
+                                       <label for="control_account" data-toggle="tooltip" data-placement="top"
+                                          title="The account that has administrative authority over the token">Control
+                                          Account</label>
+                                       <div class="input-group mb-2">
+                                          <div class="input-group-prepend">
+                                             <div class="input-group-text">@</div>
+                                          </div>
+                                          <input id="control_account" type="text" name="control_account"
+                                             class="form-control" placeholder="Username" required>
+                                       </div>
                                     </div>
-                                    <input id="control_account" type="text" name="control_account" class="form-control"
-                                       placeholder="Username" required>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-12 field-description">
+                                       <p>
+                                          The <strong>control account</strong> has administrative authority over the
+                                          created token. All subsequent changes
+                                          to the token will require the authorities of the control account. For more
+                                          information on control account best practices review the applicable sections
+                                          of the
+                                          <a href="https://smt.steem.com/smt-whitepaper.pdf" target="_blank">SMT
+                                             Whitepaper</a>.
+                                       </p>
+                                    </div>
                                  </div>
                               </div>
 
                               <div class="form-group col-md-6">
-                                 <label for="launch_time">Launch Time</label>
-                                 <div class="input-group mb-3 date" id="launch_time" data-target-input="nearest"
-                                    data-date-format="YYYY-MM-DD\\THH:mm">
-                                    <input type="text" name="launch_time" class="form-control datetimepicker-input"
-                                       data-target="#launch_time" required />
-                                    <div class="input-group-append" data-target="#launch_time"
-                                       data-toggle="datetimepicker">
-                                       <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                 <div class="row">
+                                    <div class="col-12">
+                                       <label for="launch_time" data-toggle="tooltip" data-placement="top"
+                                          title="The date and time the token will become transactable on the blockchain">Launch
+                                          Time</label>
+                                       <div class="input-group date mb-2" id="launch_time" data-target-input="nearest"
+                                          data-date-format="YYYY-MM-DD\\THH:mm">
+                                          <input type="text" name="launch_time"
+                                             class="form-control datetimepicker-input" data-target="#launch_time"
+                                             required />
+                                          <div class="input-group-append" data-target="#launch_time"
+                                             data-toggle="datetimepicker">
+                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-12 field-description">
+                                       <p>
+                                          The <strong>launch time</strong> determines when tokens become active. If the
+                                          token features an ICO (Initial Coin Offering), the launch time must be on or
+                                          after the contribution
+                                          end time. Once a token launches it becomes transactable on the Steem
+                                          blockchain similar to STEEM and STEEM Power.
+                                       </p>
                                     </div>
                                  </div>
                               </div>
@@ -123,108 +160,223 @@
 
                            <div class="row">
                               <div class="form-group col-md-6">
-                                 <label for="max_supply">Max Supply</label>
-                                 <div class="input-group mb-3">
-                                    <input id="max_supply" name="max_supply" class="form-control" type="number" min="0"
-                                       max="1000000000000000" placeholder="1000000000000000" required>
-                                    <div class="input-group-append">
-                                       <span class="input-group-text">Tokens</span>
+                                 <div class="row">
+                                    <div class="col-12">
+                                       <label for="max_supply" data-toggle="tooltip" data-placement="top"
+                                          title="The maximum number of tokens that may exist">Max Supply</label>
+                                       <div class="input-group mb-2">
+                                          <input id="max_supply" name="max_supply" class="form-control" type="number"
+                                             min="0" max="1000000000000000" placeholder="1000000000000000" required>
+                                          <div class="input-group-append">
+                                             <span class="input-group-text">Tokens</span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-12 field-description">
+                                       <p>
+                                          The <strong>max supply</strong> is the total number of tokens that can exist
+                                          on the blockchain. The supply is created through the ICO process or through
+                                          inflation with token
+                                          emissions. By adding a maximum supply, you ensure that you can never inflate
+                                          more than the given amount of tokens.
+                                       </p>
                                     </div>
                                  </div>
                               </div>
 
-                              <div class="form-group col-md-2">
-                                 <label for="precision">Precision</label>
-                                 <input id="precision" type="number" name="precision" class="form-control" min="0"
-                                    max="255" value="3" required>
+                              <div class="form-group col-md-6">
+                                 <div class="row">
+                                    <div class="col-12">
+                                       <label for="precision" data-toggle="tooltip" data-placement="top"
+                                          title="The number of decimal places a token can have">Precision</label>
+                                       <input id="precision" type="number" name="precision" class="form-control mb-2"
+                                          min="0" max="255" value="3" required>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-12 field-description">
+                                       <p>
+                                          The <strong>precision</strong> will dictate how many decimal places a
+                                          particular token will have available to it. For example, the STEEM coin has a
+                                          precision of 3. This allows users
+                                          to send and receive denominations as low as 0.001 STEEM.
+                                       </p>
+                                    </div>
+                                 </div>
                               </div>
                            </div>
-
-
                         </div>
                         <div class="col-md-3 coinstack-img"></div>
                      </div>
 
                      <div id="ico">
-                        <h3 class="heading">ICO</h3>
-                        <div class="row">
-                           <div class="form-group col-md-4">
-                              <label for="contribution_begin_time">Contribution Begin Time</label>
-                              <div class="input-group mb-3 date" id="contribution_begin_time"
-                                 data-target-input="nearest" data-date-format="YYYY-MM-DD\\THH:mm">
-                                 <input type="text" name="contribution_begin_time"
-                                    class="form-control datetimepicker-input" data-target="#contribution_begin_time"
-                                    required />
-                                 <div class="input-group-append" data-target="#contribution_begin_time"
-                                    data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                 </div>
-                              </div>
-                           </div>
-
-                           <div class="form-group col-md-4">
-                              <label for="contribution_end_time">Contribution End Time</label>
-                              <div class="input-group mb-3 date" id="contribution_end_time" data-target-input="nearest"
-                                 data-date-format="YYYY-MM-DD\\THH:mm">
-                                 <input type="text" name="contribution_end_time"
-                                    class="form-control datetimepicker-input" data-target="#contribution_end_time"
-                                    required />
-                                 <div class="input-group-append" data-target="#contribution_end_time"
-                                    data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
+                        <h3 class="heading">Initial Coin Offering</h3>
 
                         <div class="row">
                            <div class="form-group col-md-4">
-                              <label for="steem_units_min">Minimum Contributions</label>
-                              <div class="input-group mb-3">
-                                 <input id="steem_units_min" name="steem_units_min" class="form-control" type="number"
-                                    min="0" max="9223372036854775807" placeholder="0.000" step="0.001" required>
-                                 <div class="input-group-append">
-                                    <span class="input-group-text">STEEM</span>
+                              <div class="row">
+                                 <div class="col-12">
+                                    <label for="contribution_begin_time" data-toggle="tooltip" data-placement="top"
+                                       title="The date and time users may contribute to the ICO">Contribution Begin
+                                       Time</label>
+                                    <div class="input-group mb-2 date" id="contribution_begin_time"
+                                       data-target-input="nearest" data-date-format="YYYY-MM-DD\\THH:mm">
+                                       <input type="text" name="contribution_begin_time"
+                                          class="form-control datetimepicker-input"
+                                          data-target="#contribution_begin_time" required />
+                                       <div class="input-group-append" data-target="#contribution_begin_time"
+                                          data-toggle="datetimepicker">
+                                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-12 field-description">
+                                    <p>
+                                       The <strong>contribution begin time</strong> specifies when a particular ICO
+                                       begins. When the contribution begin time is reached, the token opens up the ICO
+                                       process
+                                       to contributors. At this time users may begin to make contributions.
+                                    </p>
                                  </div>
                               </div>
                            </div>
 
                            <div class="form-group col-md-4">
-                              <label for="min_unit_ratio">Minimum Unit Ratio</label>
-                              <input id="min_unit_ratio" name="min_unit_ratio" class="form-control" type="number"
-                                 min="0" max="4294967295" placeholder="50" required>
+                              <div class="row">
+                                 <div class="col-12">
+                                    <label for="contribution_end_time" data-toggle="tooltip" data-placement="top"
+                                       title="The date and time in which users can no longer contribute and the ICO is evaluated">Contribution
+                                       End Time</label>
+                                    <div class="input-group mb-2 date" id="contribution_end_time"
+                                       data-target-input="nearest" data-date-format="YYYY-MM-DD\\THH:mm">
+                                       <input type="text" name="contribution_end_time"
+                                          class="form-control datetimepicker-input" data-target="#contribution_end_time"
+                                          required />
+                                       <div class="input-group-append" data-target="#contribution_end_time"
+                                          data-toggle="datetimepicker">
+                                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-12 field-description">
+                                    <p>
+                                       The <strong>contribution end time</strong> determines when the ICO process is
+                                       complete. When the contribution end time is reached users can no longer make 
+                                       contributions and the ICO is evaluated.
+                                    </p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+
+                        <div class="row">
+                           <div class="form-group col-md-4">
+                              <div class="row">
+                                 <div class="col-12">
+                                    <label for="steem_units_min" data-toggle="tooltip" data-placement="top"
+                                       title="The number of STEEM units an ICO requires to succeed">Minimum
+                                       Contributions</label>
+                                    <div class="input-group mb-2">
+                                       <input id="steem_units_min" name="steem_units_min" class="form-control"
+                                          type="number" min="0" max="9223372036854775807" placeholder="0.000"
+                                          step="0.001" required>
+                                       <div class="input-group-append">
+                                          <span class="input-group-text">STEEM</span>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-12 field-description">
+                                    <p>
+                                       The <strong>minimum contribution</strong> is the number of STEEM required for the
+                                       ICO to be considered successful. If the minimum contribution is not met, the
+                                       token
+                                       is moved in to a failure status and the contributors are refunded. If the
+                                       contributions exceed the minimum contribution, the ICO is considered successful
+                                       and
+                                       moves on to the launch phase.
+                                    </p>
+                                 </div>
+                              </div>
                            </div>
 
                            <div class="form-group col-md-4">
-                              <label for="max_unit_ratio">Maximum Unit Ratio</label>
-                              <input id="max_unit_ratio" name="max_unit_ratio" class="form-control" type="number"
-                                 min="0" max="4294967295" placeholder="100" required>
+                              <div class="row">
+                                 <div class="col-12">
+                                    <label for="min_unit_ratio" data-toggle="tooltip" data-placement="top"
+                                       title="The minimum amount of tokens to be created for each STEEM unit">Minimum
+                                       Unit
+                                       Ratio</label>
+                                    <input id="min_unit_ratio" name="min_unit_ratio" class="form-control mb-2"
+                                       type="number" min="0" max="4294967295" placeholder="50" required>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-12 field-description">
+                                    <p>
+                                       The <strong>minimum unit ratio</strong> is the number of tokens created per STEEM
+                                       unit in a R-for-1 ratio. The unit ratio is dynamic as per the token destination
+                                       unit
+                                       map, but this ratio has a floor specified by the minimum unit ratio.
+                                    </p>
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="form-group col-md-4">
+                              <div class="row">
+                                 <div class="col-12">
+                                    <label for="max_unit_ratio" data-toggle="tooltip" data-placement="top"
+                                       title="The maximum amount of tokens to be created for each STEEM unit">Maximum
+                                       Unit
+                                       Ratio</label>
+                                    <input id="max_unit_ratio" name="max_unit_ratio" class="form-control mb-2"
+                                       type="number" min="0" max="4294967295" placeholder="100" required>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-12 field-description">
+                                    <p>
+                                       The <strong>maximum unit ratio</strong> is the number of tokens created per STEEM
+                                       unit in a R-for-1 ratio. The unit ratio is dynamic as per the token destination
+                                       unit
+                                       map, but this ratio has a ceiling specified by the maximum unit ratio.
+                                    </p>
+                                 </div>
+                              </div>
                            </div>
 
                         </div>
-                     </div>
-
-                     <div id="ico_tiers">
-                        <!-- Generated fields here -->
-                     </div>
-
-                     <hr />
-                     <div class="row">
-                        <div class="col-md-12 text-center">
-                           <div class="btn-group p-1" role="group" aria-label="Add/Remove ICO Tiers">
-                              <input type="button" name="add_ico_tier_button" class="btn btn-secondary"
-                                 value="Add ICO Tier" />
-                              <input type="button" name="remove_ico_tier_button" class="btn btn-secondary"
-                                 value="Remove ICO Tier" />
-                           </div>
-                           <div class="btn-group p-1" role="group" aria-label="Next page">
-                              <input type="button" name="next" class="next action-button btn btn-primary"
-                                 value="Next &rarr;" />
-                           </div>
-                        </div>
-                     </div>
-
                   </fieldset>
+
+                  <div id="ico_tiers">
+                     <!-- Generated fields here -->
+                  </div>
+
+                  <hr />
+                  <div class="row">
+                     <div class="col-md-12 text-center">
+                        <div class="btn-group p-1" role="group" aria-label="Add/Remove ICO Tiers">
+                           <input type="button" name="add_ico_tier_button" class="btn btn-secondary"
+                              value="Add ICO Tier" />
+                           <input type="button" name="remove_ico_tier_button" class="btn btn-secondary"
+                              value="Remove ICO Tier" />
+                        </div>
+                        <div class="btn-group p-1" role="group" aria-label="Next page">
+                           <input type="button" name="next" class="next action-button btn btn-primary"
+                              value="Next &rarr;" />
+                        </div>
+                     </div>
+                  </div>
+
                </div>
 
                <!-- Token setup and runtime parameters -->
@@ -238,16 +390,48 @@
                            <div class="row">
                               <div class="col-md-6">
                                  <div class="form-group form-check">
-                                    <input id="allow_voting" type="checkbox" name="allow_voting"
-                                       class="form-check-input" checked>
-                                    <label for="allow_voting">Allow Voting</label>
+                                    <div class="row">
+                                       <div class="col-12">
+                                          <input id="allow_voting" type="checkbox" name="allow_voting"
+                                             class="form-check-input" checked>
+                                          <label for="allow_voting" data-toggle="tooltip" data-placement="top"
+                                             title="Enable the voting proof of brain mechanism">Allow Voting</label>
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                       <div class="col-12 field-description">
+                                          <p>
+                                             The <strong>allow voting</strong> parameter toggles the Proof-of-Brain
+                                             voting
+                                             feature for the given token. When disabled, users will not be able to
+                                             receive
+                                             inflation through the Proof-of-Brain voting mechanism.
+                                          </p>
+                                       </div>
+                                    </div>
                                  </div>
                               </div>
                               <div class="col-md-6">
-                                 <div class="form-group form-check col-md-6">
-                                    <input id="allow_downvoting" type="checkbox" name="allow_downvoting"
-                                       class="form-check-input" checked>
-                                    <label for="allow_downvoting">Allow Downvotes</label>
+                                 <div class="form-group form-check">
+                                    <div class="row">
+                                       <div class="col-12">
+                                          <input id="allow_downvoting" type="checkbox" name="allow_downvoting"
+                                             class="form-check-input" checked>
+                                          <label for="allow_downvoting" data-toggle="tooltip" data-placement="top"
+                                             title="Enables the down voting proof of brain mechanism">Allow
+                                             Downvotes</label>
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                       <div class="col-12 field-description">
+                                          <p>
+                                             The <strong>allow downvoting</strong> parameter toggles the Proof-of-Brain
+                                             downvoting feature for the given token. When disabled, users will not be
+                                             able to
+                                             downvote posts.
+                                          </p>
+                                       </div>
+                                    </div>
                                  </div>
                               </div>
                            </div>
@@ -255,24 +439,59 @@
                            <!-- Windows -->
                            <div class="row">
                               <div class="form-group col-md-6">
-                                 <label for="cashout_window_seconds">Cashout Window</label>
-                                 <div class="input-group mb-3">
-                                    <input id="cashout_window_seconds" type="number" name="cashout_window_seconds"
-                                       class="form-control" min="43201" max="4294967295" value="604800">
-                                    <div class="input-group-append">
-                                       <span class="input-group-text">Seconds</span>
+                                 <div class="row">
+                                    <div class="col-12">
+                                       <label for="cashout_window_seconds" data-toggle="tooltip" data-placement="top"
+                                          title="The amount of time it takes for a post or comment to be rewarded">Cashout
+                                          Window</label>
+                                       <div class="input-group mb-2">
+                                          <input id="cashout_window_seconds" type="number" name="cashout_window_seconds"
+                                             class="form-control" min="43201" max="4294967295" value="604800">
+                                          <div class="input-group-append">
+                                             <span class="input-group-text">Seconds</span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-12 field-description">
+                                       <p>
+                                          The <strong>cashout window</strong> changes how long it
+                                          takes for a user to receive their payout. Steem has a one week cashout
+                                          window,
+                                          after a user has voted and a week has passed the user is then able to claim
+                                          their rewards.
+                                       </p>
                                     </div>
                                  </div>
                               </div>
 
                               <div class="form-group col-md-6">
-                                 <label for="reverse_auction_window_seconds">Reverse Auction Window</label>
-                                 <div class="input-group mb-3">
-                                    <input id="reverse_auction_window_seconds" type="number"
-                                       name="reverse_auction_window_seconds" class="form-control" min="0"
-                                       max="4294967295" value="300">
-                                    <div class="input-group-append">
-                                       <span class="input-group-text">Seconds</span>
+                                 <div class="row">
+                                    <div class="col-12">
+                                       <label for="reverse_auction_window_seconds" data-toggle="tooltip"
+                                          data-placement="top"
+                                          title="The amount of time the user is penalized for casting a vote too early">Reverse
+                                          Auction Window</label>
+                                       <div class="input-group mb-2">
+                                          <input id="reverse_auction_window_seconds" type="number"
+                                             name="reverse_auction_window_seconds" class="form-control" min="0"
+                                             max="4294967295" value="300">
+                                          <div class="input-group-append">
+                                             <span class="input-group-text">Seconds</span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-12 field-description">
+                                       <p>
+                                          The <strong>reverse auction window</strong> changes the window of time after a
+                                          post is created where is user is penalized for voting too early. This is
+                                          usually
+                                          used as a counter measure to automated voting bots and other such similar
+                                          services.
+                                       </p>
                                     </div>
                                  </div>
                               </div>
@@ -281,25 +500,59 @@
                            <!-- Vote regeneration period -->
                            <div class="row">
                               <div class="form-group col-md-6">
-                                 <label for="vote_regeneration_period_seconds">Vote Regeneration Period</label>
-                                 <div class="input-group mb-3">
-                                    <input id="vote_regeneration_period_seconds" type="number"
-                                       name="vote_regeneration_period_seconds" class="form-control" min="0"
-                                       max="4294967295" value="432000">
-                                    <div class="input-group-append">
-                                       <span class="input-group-text">Seconds</span>
+                                 <div class="row">
+                                    <div class="col-12">
+                                       <label for="vote_regeneration_period_seconds" data-toggle="tooltip"
+                                          data-placement="top"
+                                          title="The period of time in which users regenerate their voting power">Vote
+                                          Regeneration Period</label>
+                                       <div class="input-group mb-2">
+                                          <input id="vote_regeneration_period_seconds" type="number"
+                                             name="vote_regeneration_period_seconds" class="form-control" min="0"
+                                             max="4294967295" value="432000">
+                                          <div class="input-group-append">
+                                             <span class="input-group-text">Seconds</span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-12 field-description">
+                                       <p>
+                                          The <strong>vote regeneration period</strong> sets the amount of time
+                                          used in the calculation of the user vote regeneration. When combined
+                                          with the votes per period, this can be used to determine how quickly a
+                                          users votes regenerate or how often users can cast a vote.
+                                       </p>
                                     </div>
                                  </div>
                               </div>
 
                               <div class="form-group col-md-6">
-                                 <label for="votes_per_regeneration_period">Votes per Regeneration Period</label>
-                                 <div class="input-group mb-3">
-                                    <input id="votes_per_regeneration_period" type="number"
-                                       name="votes_per_regeneration_period" class="form-control" min="0"
-                                       max="4294967295" value="600">
-                                    <div class="input-group-append">
-                                       <span class="input-group-text">Votes</span>
+                                 <div class="row">
+                                    <div class="col-12">
+                                       <label for="votes_per_regeneration_period" data-toggle="tooltip"
+                                          data-placement="top"
+                                          title="The number of votes a user may cast within the given voting regeneration period">Votes
+                                          per Regeneration Period</label>
+                                       <div class="input-group mb-2">
+                                          <input id="votes_per_regeneration_period" type="number"
+                                             name="votes_per_regeneration_period" class="form-control" min="0"
+                                             max="4294967295" value="600">
+                                          <div class="input-group-append">
+                                             <span class="input-group-text">Votes</span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-12 field-description">
+                                       <p>
+                                          The <strong>votes per regeneration period</strong> sets the amount of votes
+                                          a user will regenerate within the regeneration period. When combined with the
+                                          votes per regeneration period, this can be used to determine how quickly a
+                                          users votes regenerate or how often users can cast a vote.
+                                       </p>
                                     </div>
                                  </div>
                               </div>
@@ -308,18 +561,50 @@
                            <!-- Rewards -->
                            <div class="row">
                               <div class="form-group col-md-6">
-                                 <label for="content_constant">Content Constant</label>
-                                 <input id="content_constant" type="number" name="content_constant" class="form-control"
-                                    min="0" max="170141183460469231731687303715884105727" value="2000000000000">
+                                 <div class="row">
+                                    <div class="col-12">
+                                       <label for="content_constant" data-toggle="tooltip" data-placement="top"
+                                          title="A numerical constant for use in reward curve formulae">Content
+                                          Constant</label>
+                                       <input id="content_constant" type="number" name="content_constant"
+                                          class="form-control mb-2" min="0"
+                                          max="170141183460469231731687303715884105727" value="2000000000000">
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-12 field-description">
+                                       <p>
+                                          The <strong>content constant</strong> is essentially an arbitrary number
+                                          which is used during a reward curve calculation. Depending on the chosen
+                                          reward curve this number can have a variety of effects.
+                                       </p>
+                                    </div>
+                                 </div>
                               </div>
 
                               <div class="form-group col-md-6">
-                                 <label for="percent_curation_rewards">Percent Curation Rewards</label>
-                                 <div class="input-group mb-3">
-                                    <input id="percent_curation_rewards" type="number" name="percent_curation_rewards"
-                                       class="form-control" min="0" max="100" value="50.00" step="0.01">
-                                    <div class="input-group-append">
-                                       <span class="input-group-text">%</span>
+                                 <div class="row">
+                                    <div class="col-12">
+                                       <label for="percent_curation_rewards" data-toggle="tooltip" data-placement="top"
+                                          title="The percentage of the reward pool that is given to curators">Percent
+                                          Curation Rewards</label>
+                                       <div class="input-group mb-2">
+                                          <input id="percent_curation_rewards" type="number"
+                                             name="percent_curation_rewards" class="form-control" min="0" max="100"
+                                             value="50.00" step="0.01">
+                                          <div class="input-group-append">
+                                             <span class="input-group-text">%</span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-12 field-description">
+                                       <p>
+                                          The <strong>percent curation rewards</strong> determines how much inflation is used
+                                          to reward curators rather than content creators. If you have a 25% percent
+                                          curation rewards then the content creator reward will be 75%.
+                                       </p>
                                     </div>
                                  </div>
                               </div>
@@ -327,26 +612,63 @@
 
                            <div class="row">
                               <div class="form-group col-md-6">
-                                 <label for="author_reward_curve">Author Reward Curve</label>
-                                 <select class="selectpicker" name="author_reward_curve" id="author_reward_curve">
-                                    <option value="0">Quadratic</option>
-                                    <option value="1">Bounded</option>
-                                    <option value="2">Linear</option>
-                                    <option value="3">Square root</option>
-                                    <option value="4" selected="selected">Convergent linear</option>
-                                    <option value="5">Convergent square root</option>
-                                 </select>
+                                 <div class="row">
+                                    <div class="col-12">
+                                       <label for="author_reward_curve" data-toggle="tooltip" data-placement="top"
+                                          title="The curve used when calculating rewards for authors">Author Reward
+                                          Curve</label>
+                                       <select class="selectpicker mb-2" name="author_reward_curve"
+                                          id="author_reward_curve">
+                                          <option value="0">Quadratic</option>
+                                          <option value="1">Bounded</option>
+                                          <option value="2">Linear</option>
+                                          <option value="3">Square root</option>
+                                          <option value="4" selected="selected">Convergent linear</option>
+                                          <option value="5">Convergent square root</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-12 field-description">
+                                       <p>
+                                          The <strong>author reward curve</strong> determines which curve will be used
+                                          to
+                                          calculate author rewards. The author reward curve used in combination with the
+                                          content constant can be used to determine the amount of rewards a voter is
+                                          eligible for.
+                                       </p>
+                                    </div>
+                                 </div>
                               </div>
                               <div class="form-group col-md-6">
-                                 <label for="curation_reward_curve">Curation Reward Curve</label>
-                                 <select class="selectpicker" name="curation_reward_curve" id="curation_reward_curve">
-                                    <option value="0">Quadratic</option>
-                                    <option value="1">Bounded</option>
-                                    <option value="2">Linear</option>
-                                    <option value="3">Square root</option>
-                                    <option value="4">Convergent linear</option>
-                                    <option value="5" selected="selected">Convergent square root</option>
-                                 </select>
+                                 <div class="row">
+                                    <div class="col-12">
+                                       <label for="curation_reward_curve" data-toggle="tooltip" data-placement="top"
+                                          title="The curve used when calculating rewards for curators">Curation Reward
+                                          Curve</label>
+                                       <select class="selectpicker mb-2" name="curation_reward_curve"
+                                          id="curation_reward_curve">
+                                          <option value="0">Quadratic</option>
+                                          <option value="1">Bounded</option>
+                                          <option value="2">Linear</option>
+                                          <option value="3">Square root</option>
+                                          <option value="4">Convergent linear</option>
+                                          <option value="5" selected="selected">Convergent square root</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-12 field-description">
+                                       <p>
+                                          The <strong>curation reward curve</strong> determines which curve will be used
+                                          to
+                                          calculate curation rewards. The curation reward curve used in combination with
+                                          the
+                                          content constant can be used to determine the amount of rewards a voter is
+                                          eligible for.
+                                       </p>
+                                    </div>
+                                 </div>
                               </div>
                            </div>
                         </div>
@@ -366,6 +688,7 @@
                            </div>
                         </div>
                      </div>
+
 
                   </fieldset>
                </div>
@@ -410,12 +733,27 @@
       <h4 class="heading">Tier</h4>
       <div class="row">
          <div class="form-group col-md-6">
-            <label for="steem_units_cap">Steem Cap</label>
-            <div class="input-group mb-3">
-               <input id="steem_units_cap" name="steem_units_cap" class="form-control" type="number" min="0"
-                  max="9223372036854775807" placeholder="0.000" step="0.001" required>
-               <div class="input-group-append">
-                  <span class="input-group-text">STEEM</span>
+            <div class="row">
+               <div class="col-12">
+                  <label for="steem_units_cap" data-toggle="tooltip" data-placement="top"
+                     title="The upper bound in STEEM units the ICO tier is effective">Steem Cap</label>
+                  <div class="input-group mb-2">
+                     <input id="steem_units_cap" name="steem_units_cap" class="form-control" type="number" min="0"
+                        max="9223372036854775807" placeholder="0.000" step="0.001" required>
+                     <div class="input-group-append">
+                        <span class="input-group-text">STEEM</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-12 field-description">
+                  <p>
+                     The <strong>STEEM cap</strong> is the STEEM value ceiling that this particular ICO tier is
+                     applicable. When the cap is exceeded, the next ICO tier goes in to effect.
+                     The last ICO tiers Steem unit cap is effectively a cap on the entire ICO process. No more
+                     contributions will be accepted when it is reached.
+                  </p>
                </div>
             </div>
          </div>
@@ -424,13 +762,44 @@
          <div class="form-group col-md-12">
             <div class="row">
                <div class="form-group col-md-6">
-                  <label for="steem_unit">Steem Units</label>
-                  <table id="steem_unit"></table>
+                  <div class="row">
+                     <div class="col-12">
+                        <label for="steem_unit" data-toggle="tooltip" data-placement="top"
+                           title="The STEEM unit distribution map effective during the ICO tier">Steem Units</label>
+                        <table id="steem_unit"></table>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12 field-description">
+                        <p>
+                           The <strong>Steem unit</strong> map defines the destination of STEEM units during the ICO
+                           phase.
+                           For example, if the total number of STEEM units is 3 split evenly among 3 founders, then each
+                           of the
+                           founders would receive &#8531 of the total STEEM contributors during this particular tier of
+                           the ICO.
+                        </p>
+                     </div>
+                  </div>
                </div>
 
                <div class="form-group col-md-6">
-                  <label for="token_unit">Token Units</label>
-                  <table id="token_unit"></table>
+                  <div class="row">
+                     <div class="col-12">
+                        <label for="token_unit" data-toggle="tooltip" data-placement="top"
+                           title="The token unit distribution map effective during the ICO tier">Token Units</label>
+                        <table id="token_unit"></table>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12 field-description">
+                        <p>
+                           The <strong>Token unit</strong> map defines the destination of token units during the ICO
+                           phase. For each STEEM unit during the ICO contribution phase, the total number of token units
+                           will be created and dispersed among each destination.
+                        </p>
+                     </div>
+                  </div>
                </div>
             </div>
          </div>
@@ -439,40 +808,82 @@
 
    <!-- Token emissions template -->
    <fieldset id="token_emission_template" class="token-emission">
-      <h4 class="heading">Token Emission</h4>
+      <h4 class="heading">Token Emission Schedule</h4>
 
       <div class="row">
          <div class="col-md-9">
             <div class="row">
                <div class="form-group col-md-4">
-                  <label for="schedule_time">Schedule Time</label>
-                  <div class="input-group date" id="schedule_time" data-target-input="nearest"
-                     data-date-format="YYYY-MM-DD\\THH:mm">
-                     <input type="text" name="schedule_time" class="form-control datetimepicker-input" required />
-                     <div class="input-group-append" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  <div class="row">
+                     <div class="col-12">
+                        <label for="schedule_time" data-toggle="tooltip" data-placement="top"
+                           title="The date and time of the beginning of the token emission schedule">Schedule
+                           Time</label>
+                        <div class="input-group date mb-2" id="schedule_time" data-target-input="nearest"
+                           data-date-format="YYYY-MM-DD\\THH:mm">
+                           <input type="text" name="schedule_time" class="form-control datetimepicker-input" required />
+                           <div class="input-group-append" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12 field-description">
+                        <p>
+                           The <strong>schedule time</strong> determines the beginning of the token emission schedule.
+                           This is the date and time of the first token emission within the token emission schedule.
+                        </p>
                      </div>
                   </div>
                </div>
 
                <div class="form-group col-md-4">
-                  <label for="lep_time">Left Endpoint Time</label>
-                  <div class="input-group date" id="lep_time" data-target-input="nearest"
-                     data-date-format="YYYY-MM-DD\\THH:mm">
-                     <input type="text" name="lep_time" class="form-control datetimepicker-input" required />
-                     <div class="input-group-append" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  <div class="row">
+                     <div class="col-12">
+                        <label for="lep_time" data-toggle="tooltip" data-placement="top"
+                           title="The date and time of the left endpoint">Left Endpoint Time</label>
+                        <div class="input-group date mb-2" id="lep_time" data-target-input="nearest"
+                           data-date-format="YYYY-MM-DD\\THH:mm">
+                           <input type="text" name="lep_time" class="form-control datetimepicker-input" required />
+                           <div class="input-group-append" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12 field-description">
+                        <p>
+                           The <strong>left endpoint time</strong> specifies the left most data point of the token
+                           emission schedule slope. The left endpoint must be on or after the schedule time
+                           and on or before the right endpoint.
+                        </p>
                      </div>
                   </div>
                </div>
 
                <div class="form-group col-md-4">
-                  <label for="rep_time">Right Endpoint Time</label>
-                  <div class="input-group date" id="rep_time" data-target-input="nearest"
-                     data-date-format="YYYY-MM-DD\\THH:mm">
-                     <input type="text" name="rep_time" class="form-control datetimepicker-input" required />
-                     <div class="input-group-append" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  <div class="row">
+                     <div class="col-12">
+                        <label for="rep_time" data-toggle="tooltip" data-placement="top"
+                           title="The date and time of the right endpoint">Right Endpoint Time</label>
+                        <div class="input-group date mb-2" id="rep_time" data-target-input="nearest"
+                           data-date-format="YYYY-MM-DD\\THH:mm">
+                           <input type="text" name="rep_time" class="form-control datetimepicker-input" required />
+                           <div class="input-group-append" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12 field-description">
+                        <p>
+                           The <strong>right endpoint time</strong> specifies the right end of the token
+                           emission schedule slope. The right endpoint must be on or after the left endpoint
+                           and on or before schedule end time.
+                        </p>
                      </div>
                   </div>
                </div>
@@ -480,28 +891,72 @@
 
             <div class="row">
                <div class="form-group col-md-4">
-                  <label for="interval_seconds">Interval Seconds</label>
-                  <div class="input-group mb-3">
-                     <input id="interval_seconds" name="interval_seconds" class="form-control" type="number" min="21600"
-                        max="4294967295" value="21600" required>
-                     <div class="input-group-append">
-                        <span class="input-group-text">Seconds</span>
+                  <div class="row">
+                     <div class="col-12">
+                        <label for="interval_seconds" data-toggle="tooltip" data-placement="top"
+                           title="The amount of seconds between each token emission in the schedule">Interval
+                           Seconds</label>
+                        <div class="input-group mb-2">
+                           <input id="interval_seconds" name="interval_seconds" class="form-control" type="number"
+                              min="21600" max="4294967295" value="21600" required>
+                           <div class="input-group-append">
+                              <span class="input-group-text">Seconds</span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12 field-description">
+                        <p>
+                           The <strong>interval seconds</strong> specifies the number of seconds between
+                           token emissions. The interval seconds must be greater than 21600 (6 Hours).
+                        </p>
                      </div>
                   </div>
                </div>
 
                <div class="form-group col-md-4">
-                  <label for="interval_count">Interval Count</label>
-                  <input id="interval_count" name="interval_count" class="form-control" type="number" min="0"
-                     max="4294967295" value="0" required>
+                  <div class="row">
+                     <div class="col-12">
+                        <label for="emission_count" data-toggle="tooltip" data-placement="top"
+                           title="The number of token emission in the schedule">Emission Count</label>
+                        <input id="emission_count" name="emission_count" class="form-control mb-2" type="number" min="1"
+                           max="4294967295" value="1" required>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12 field-description">
+                        <p>
+                           The <strong>emission count</strong> specifies the number of emissions within a
+                           token emission schedule. The first emission is on the schedule time, each subsequent
+                           emission is the last emission plus the interval seconds.
+                        </p>
+                     </div>
+                  </div>
                </div>
+
                <div class="form-group col-md-4">
-                  <label for="rel_amount_denom_bits">Relative denominator</label>
-                  <div class="input-group mb-3">
-                     <input id="rel_amount_denom_bits" name="rel_amount_denom_bits" class="form-control" type="number"
-                        min="0" max="255" required>
-                     <div class="input-group-append">
-                        <span class="input-group-text">Bits</span>
+                  <div class="row">
+                     <div class="col-12">
+                        <label for="rel_amount_denom_bits" data-toggle="tooltip" data-placement="top"
+                           title="The number of left bit shifts used as the denominator when calculating relative inflation">Relative
+                           denominator</label>
+                        <div class="input-group mb-2">
+                           <input id="rel_amount_denom_bits" name="rel_amount_denom_bits" class="form-control"
+                              type="number" min="0" max="255" required>
+                           <div class="input-group-append">
+                              <span class="input-group-text">Bits</span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12 field-description">
+                        <p>
+                           The <strong>relative denominator</strong> is the number of left bit shifts to use as
+                           the denominator for relative inflation. We use a bitshift operation to avoid any
+                           floating point operation or precision loss on the blockchain.
+                        </p>
                      </div>
                   </div>
                </div>
@@ -509,41 +964,137 @@
 
             <div class="row">
                <div class="form-group col-md-3">
-                  <label for="lep_abs_amount">Left Endpoint Amount</label>
-                  <input id="lep_abs_amount" name="lep_abs_amount" class="form-control" type="number" min="0"
-                     max="9223372036854775807" required>
+                  <div class="row">
+                     <div class="col-12">
+                        <label for="lep_abs_amount" data-toggle="tooltip" data-placement="top"
+                           title="The amount of absolute token unit inflation at the left endpoint">Left Endpoint
+                           Amount</label>
+                        <input id="lep_abs_amount" name="lep_abs_amount" class="form-control mb-2" type="number" min="0"
+                           max="9223372036854775807" required>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12 field-description">
+                        <p>
+                           The <strong>left endpoint amount</strong> defines the absolute value of inflation
+                           on the left endpoint. Depending on the floor emissions setting, if an emission lands
+                           precisely on the left endpoint this is the amount of tokens created in the emission.
+                        </p>
+                     </div>
+                  </div>
                </div>
 
                <div class="form-group col-md-3">
-                  <label for="rep_abs_amount">Right Endpoint Amount</label>
-                  <input id="rep_abs_amount" name="rep_abs_amount" class="form-control" type="number" min="0"
-                     max="9223372036854775807" required>
+                  <div class="row">
+                     <div class="col-12">
+                        <label for="rep_abs_amount" data-toggle="tooltip" data-placement="top"
+                           title="The amount of absolute token unit inflation at the right endpoint">Right Endpoint
+                           Amount</label>
+                        <input id="rep_abs_amount" name="rep_abs_amount" class="form-control mb-2" type="number" min="0"
+                           max="9223372036854775807" required>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12 field-description">
+                        <p>
+                           The <strong>right endpoint amount</strong> defines the absolute value of inflation
+                           on the right endpoint. Depending on the floor emissions setting, if an emission lands
+                           precisely on the right endpoint this is the amount of tokens created in the emission.
+                        </p>
+                     </div>
+                  </div>
                </div>
 
                <div class="form-group col-md-3">
-                  <label for="lep_rel_numerator">Left Endpoint Numerator</label>
-                  <input id="lep_rel_numerator" name="lep_rel_numerator" class="form-control" type="number" min="0"
-                     max="4294967295" required>
+                  <div class="row">
+                     <div class="col-12">
+                        <label for="lep_rel_numerator" data-toggle="tooltip" data-placement="top"
+                           title="The numerator used when calculating relative inflation at the left endpoint">Left
+                           Endpoint
+                           Numerator</label>
+                        <input id="lep_rel_numerator" name="lep_rel_numerator" class="form-control mb-2" type="number"
+                           min="0" max="4294967295" required>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12 field-description">
+                        <p>
+                           The <strong>left endpoint numerator</strong> defines the relative value of inflation
+                           on the left endpoint. Used in conjunction with the relative denominator bits and the
+                           current token supply, this determines the inflation at the left endpoint.
+                        </p>
+                     </div>
+                  </div>
                </div>
 
                <div class="form-group col-md-3">
-                  <label for="rep_rel_numerator">Right Endpoint Numerator</label>
-                  <input id="rep_rel_numerator" name="rep_rel_numerator" class="form-control" type="number" min="0"
-                     max="4294967295" required>
+                  <div class="row">
+                     <div class="col-12">
+                        <label for="rep_rel_numerator" data-toggle="tooltip" data-placement="top"
+                           title="The numerator used when calculating relative inflation at the right endpoint">Right
+                           Endpoint
+                           Numerator</label>
+                        <input id="rep_rel_numerator" name="rep_rel_numerator" class="form-control mb-2" type="number"
+                           min="0" max="4294967295" required>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12 field-description">
+                        <p>
+                           The <strong>right endpoint numerator</strong> defines the relative value of inflation
+                           on the right endpoint. Used in conjunction with the relative denominator bits and the
+                           current token supply, this determines the inflation at the right endpoint.
+                        </p>
+                     </div>
+                  </div>
                </div>
             </div>
          </div>
          <div class="col-md-3 token-emissions-img"></div>
       </div>
 
-      <div class="form-group form-check">
-         <input id="floor_emissions" name="floor_emissions" class="form-check-input" type="checkbox">
-         <label for="floor_emissions">Floor Emissions</label>
+      <div class="row">
+         <div class="col-4">
+            <div class="form-group form-check">
+               <div class="row">
+                  <div class="col-12">
+                     <input id="floor_emissions" name="floor_emissions" class="form-check-input mb-2" type="checkbox">
+                     <label for="floor_emissions" data-toggle="tooltip" data-placement="top"
+                        title="When true, use the lower value between relative and absolute inflations">Floor
+                        Emissions</label>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-12 field-description">
+                     <p>
+                        The <strong>floor emissions</strong> parameter will determine whether the absolute inflation
+                        or relative inflation values will be used. If this parameter is enabled then the blockchain
+                        will use whatever value is lower.
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
 
       <div class="form-group">
-         <label for="emissions_unit">Emissions Unit</label>
-         <table id="emissions_unit"></table>
+         <div class="row">
+            <div class="col-12">
+               <label for="emissions_unit" data-toggle="tooltip" data-placement="top"
+                  title="The token unit distribution map effective during the token emission schedule">Emissions
+                  Unit</label>
+               <table id="emissions_unit"></table>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-12 field-description">
+               <p>
+                  The <strong>emission unit map</strong> determines where newly minted tokens will be sent to. This
+                  can be a specific users account as well as a handful of special destinations that are available in the
+                  drop down menu.
+               </p>
+            </div>
+         </div>
       </div>
    </fieldset>
 
